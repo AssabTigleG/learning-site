@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | Flutter Learning Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style type="text/tailwindcss">
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; }
+        .font-code { font-family: 'JetBrains Mono', monospace; }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200 antialiased flex flex-col min-h-full">
+
+    <!-- Header -->
+    <header class="bg-gray-900/80 backdrop-blur-sm sticky top-0 z-50 border-b border-gray-700/50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-xl font-bold text-white hover:text-sky-400 transition-colors">
+                Flutter Learning Hub
+            </a>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="setup.html" class="text-gray-300 hover:text-sky-400 transition-colors">Setup & Foundations</a>
+                <a href="projects.html" class="text-sky-400 font-semibold">Projects</a>
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-gray-300 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="setup.html" class="block py-2 px-6 text-sm text-gray-300 hover:bg-gray-800">Setup & Foundations</a>
+            <a href="projects.html" class="block py-2 px-6 text-sm text-gray-300 bg-gray-800">Projects</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-6 py-12">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-white">Project Library</h1>
+            <p class="mt-2 text-lg text-gray-400">Select a project to start building.</p>
+        </header>
+
+        <!-- Projects Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <!-- Project Card 1: Habit Tracker -->
+            <div class="bg-gray-800 rounded-xl border border-gray-700 overflow-hidden flex flex-col group">
+                <img src="https://placehold.co/600x400/111827/38BDF8?text=Habit+Tracker+App" alt="Habit Tracker App Mockup" class="w-full h-48 object-cover">
+                <div class="p-6 flex-grow flex flex-col">
+                    <h3 class="text-xl font-bold text-white">Simple Goal & Habit Tracker</h3>
+                    <p class="mt-2 text-gray-400 text-sm flex-grow">A minimalist app to help users build positive habits and track their progress with streaks.</p>
+                    <div class="mt-4 flex flex-wrap gap-2">
+                        <span class="text-xs font-semibold font-code text-emerald-300 bg-emerald-900/50 px-2 py-1 rounded-full">Beginner</span>
+                        <span class="text-xs font-semibold font-code text-sky-300 bg-sky-900/50 px-2 py-1 rounded-full">State Management</span>
+                        <span class="text-xs font-semibold font-code text-violet-300 bg-violet-900/50 px-2 py-1 rounded-full">UI/UX</span>
+                    </div>
+                    <a href="habit-tracker.html" class="mt-6 block w-full text-center bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg group-hover:bg-sky-500 transition-colors">
+                        Start Building
+                    </a>
+                </div>
+            </div>
+
+            <!-- Future Project Card (Template) -->
+            <div class="bg-gray-800 rounded-xl border-2 border-dashed border-gray-700 flex flex-col items-center justify-center p-6 text-center">
+                <h3 class="text-xl font-bold text-gray-500">New Project Coming Soon</h3>
+                <p class="mt-2 text-gray-600 text-sm">Check back later for more exciting projects to build!</p>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 border-t border-gray-700">
+        <div class="container mx-auto px-6 py-4 text-center text-gray-500">
+            <p>© 2024 Flutter Learning Hub. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>

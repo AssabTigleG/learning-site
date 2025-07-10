@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" class="h-screen">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Tracker Project | Flutter Learning Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style type="text/tailwindcss">
+        body { font-family: 'Inter', sans-serif; }
+        .font-code { font-family: 'JetBrains Mono', monospace; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1F2937; }
+        ::-webkit-scrollbar-thumb { background: #4B5563; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #6B7280; }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 antialiased h-screen overflow-hidden">
+
+    <div class="flex flex-col h-full">
+        <!-- Header -->
+        <header class="bg-gray-900/80 backdrop-blur-sm z-50 border-b border-gray-700/50 w-full">
+            <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+                <a href="index.html" class="text-xl font-bold text-white hover:text-sky-400 transition-colors">
+                    Flutter Learning Hub
+                </a>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="setup.html" class="text-gray-300 hover:text-sky-400 transition-colors">Setup & Foundations</a>
+                    <a href="projects.html" class="text-gray-300 hover:text-sky-400 transition-colors">Projects</a>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-gray-300 focus:outline-none">
+                       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </nav>
+             <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden">
+                <a href="setup.html" class="block py-2 px-6 text-sm text-gray-300 hover:bg-gray-800">Setup & Foundations</a>
+                <a href="projects.html" class="block py-2 px-6 text-sm text-gray-300 hover:bg-gray-800">Projects</a>
+            </div>
+        </header>
+
+        <!-- Dual Pane Content -->
+        <div id="app" class="flex flex-1 overflow-hidden">
+            <!-- Left Pane: The Tutorial -->
+            <aside class="w-full md:w-1/2 flex flex-col bg-gray-800 border-r border-gray-700">
+                <div class="p-4 border-b border-gray-700 bg-gray-900/50">
+                    <h1 class="text-xl font-bold text-white">Project: Simple Habit Tracker</h1>
+                    <p class="text-sm text-gray-400">Module 1: Building the Main Screen</p>
+                </div>
+
+                <div class="flex-1 overflow-y-auto p-6 space-y-8">
+                    <!-- Step 1 -->
+                    <article class="space-y-4">
+                        <header>
+                            <h2 class="text-lg font-semibold text-sky-400">Step 1.1: Create the Habit Model</h2>
+                            <p class="text-gray-400 text-sm">Define the data structure for a single habit.</p>
+                        </header>
+                        <p>First, we need to create a simple Dart class in `lib/models/habit.dart` that will hold the information for each habit, such as its name and whether it's completed.</p>
+                        <div class="font-code text-sm bg-black/30 backdrop-blur-sm border border-gray-700 rounded-lg p-4 overflow-x-auto">
+                            <pre><code>class Habit {
+  final String name;
+  bool isCompleted;
+
+  Habit({required this.name, this.isCompleted = false});
+}</code></pre>
+                        </div>
+                    </article>
+
+                    <!-- Step 2 -->
+                    <article class="space-y-4">
+                        <header>
+                            <h2 class="text-lg font-semibold text-sky-400">Step 1.2: Build the Static List View</h2>
+                            <p class="text-gray-400 text-sm">Layout the main screen with placeholder data.</p>
+                        </header>
+                        <p>Now, let's modify `lib/screens/main_screen.dart`. We will use a `ListView.builder` to display a static list of habits using our new `Habit` model.</p>
+                        <div class="font-code text-sm bg-black/30 backdrop-blur-sm border border-gray-700 rounded-lg p-4 overflow-x-auto">
+                            <pre><code>// ... inside your StatefulWidget's build method
+ListView.builder(
+  itemCount: 3, // Placeholder count
+  itemBuilder: (context, index) {
+    return ListTile(
+      title: Text('Habit placeholder $index'),
+      trailing: Checkbox(value: false, onChanged: (val) {}),
+    );
+  },
+);</code></pre>
+                        </div>
+                    </article>
+
+                    <!-- Key Concept Callout -->
+                    <div class="bg-sky-900/50 border border-sky-700 rounded-lg p-4">
+                        <h3 class="font-semibold text-sky-300">Why use `ListView.builder`?</h3>
+                        <p class="text-sm text-sky-200 mt-2">The `.builder` constructor is highly performant because it only builds the list items that are currently visible on screen, recycling them as the user scrolls. This is essential for long lists.</p>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Right Pane: The Visual Preview -->
+            <main class="hidden md:flex w-1/2 items-center justify-center p-8 bg-gray-900">
+                <div class="w-full max-w-sm mx-auto">
+                    <div class="relative">
+                        <!-- Phone Mockup Frame -->
+                        <div class="absolute inset-0 rounded-[48px] border-8 border-gray-700 shadow-2xl shadow-sky-900/30"></div>
+                        
+                        <!-- Phone Screen Content -->
+                        <div class="relative h-[680px] bg-gray-900 rounded-[40px] flex flex-col p-4">
+                            <img src="https://placehold.co/320x600/1F2937/F9FAFB?text=Live+Preview\n(Your+GIF/Image+Here)" alt="App preview of the current step" class="w-full h-full object-cover rounded-[32px]"/>
+                        </div>
+                    </div>
+                    <p class="text-center text-gray-500 mt-4 text-sm font-code">main_screen.dart</p>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html>

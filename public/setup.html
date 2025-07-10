@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup & Foundations | Flutter Learning Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style type="text/tailwindcss">
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; }
+        .font-code { font-family: 'JetBrains Mono', monospace; }
+        /* NOTE: Custom prose classes removed to prevent editor linting errors with @apply. */
+        /* Styles are now applied directly to HTML elements. */
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200 antialiased flex flex-col min-h-full">
+
+    <!-- Header -->
+    <header class="bg-gray-900/80 backdrop-blur-sm sticky top-0 z-50 border-b border-gray-700/50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-xl font-bold text-white hover:text-sky-400 transition-colors">
+                Flutter Learning Hub
+            </a>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="setup.html" class="text-sky-400 font-semibold">Setup & Foundations</a>
+                <a href="projects.html" class="text-gray-300 hover:text-sky-400 transition-colors">Projects</a>
+            </div>
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-gray-300 focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+            </div>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden">
+            <a href="setup.html" class="block py-2 px-6 text-sm text-gray-300 bg-gray-800">Setup & Foundations</a>
+            <a href="projects.html" class="block py-2 px-6 text-sm text-gray-300 hover:bg-gray-800">Projects</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-6 py-12">
+        <article class="max-w-4xl mx-auto text-gray-300">
+            <h1 class="text-4xl font-bold text-white mb-4">Setup & Foundations</h1>
+            <p class="leading-relaxed mb-4">Welcome to the first step in your Flutter journey! This guide will walk you through installing the Flutter SDK, setting up your editor, and running your first app. Follow these steps carefully to ensure a smooth development experience.</p>
+
+            <h2 class="text-2xl font-bold text-sky-400 mt-12 mb-4 border-b border-gray-700 pb-2">Installing the Flutter SDK</h2>
+            <p class="leading-relaxed mb-4">The first step is to get the Flutter Software Development Kit (SDK) onto your machine. The official Flutter documentation is the best source for this, but here's a summary.</p>
+            
+            <h3 class="text-xl font-semibold text-white mt-8 mb-3">For Windows:</h3>
+            <ol class="list-decimal list-inside space-y-2 mb-4">
+                <li>Download the latest stable release of the Flutter SDK from the <a href="https://docs.flutter.dev/get-started/install/windows" target="_blank" class="text-sky-400 hover:underline">official Flutter website</a>.</li>
+                <li>Extract the zip file and place the contained <code class="font-code bg-gray-800 text-emerald-300 rounded-md px-2 py-1 text-sm">flutter</code> folder in a permanent location (e.g., <code class="font-code bg-gray-800 text-emerald-300 rounded-md px-2 py-1 text-sm">C:\flutter</code>). Do not install it in a directory that requires elevated privileges like <code class="font-code bg-gray-800 text-emerald-300 rounded-md px-2 py-1 text-sm">C:\Program Files\</code>.</li>
+                <li>Update your <code class="font-code bg-gray-800 text-emerald-300 rounded-md px-2 py-1 text-sm">Path</code> environment variable to include the full path to <code class="font-code bg-gray-800 text-emerald-300 rounded-md px-2 py-1 text-sm">C:\flutter\bin</code>.</li>
+                <li>Open a new command prompt and run <code class="font-code bg-gray-800 text-emerald-300 rounded-md px-2 py-1 text-sm">flutter doctor</code>. This command checks your environment and displays a report of the status of your Flutter installation.</li>
+            </ol>
+            <img src="https://placehold.co/800x200/1F2937/9CA3AF?text=Screenshot+of+'flutter+doctor'+output" alt="Flutter Doctor command output" class="rounded-lg border border-gray-700">
+
+            <h3 class="text-xl font-semibold text-white mt-8 mb-3">For macOS:</h3>
+            <ol class="list-decimal list-inside space-y-2 mb-4">
+                <li>Download the latest stable release for macOS (select the appropriate Apple Silicon or Intel chip version) from the <a href="https://docs.flutter.dev/get-started/install/macos" target="_blank" class="text-sky-400 hover:underline">official Flutter website</a>.</li>
+                <li>Extract the file in a desired location, e.g., <code class="font-code bg-gray-800 text-emerald-300 rounded-md px-2 py-1 text-sm">~/development/flutter</code>.</li>
+                <li>Add the <code class="font-code bg-gray-800 text-emerald-300 rounded-md px-2 py-1 text-sm">flutter</code> tool to your path: <code class="font-code bg-gray-800 text-emerald-300 rounded-md px-2 py-1 text-sm">export PATH="$PATH:`pwd`/flutter/bin"</code>.</li>
+                <li>Run <code class="font-code bg-gray-800 text-emerald-300 rounded-md px-2 py-1 text-sm">flutter doctor</code> to check for any dependencies you need to install.</li>
+            </ol>
+
+            <h2 class="text-2xl font-bold text-sky-400 mt-12 mb-4 border-b border-gray-700 pb-2">Creating Your First App</h2>
+            <p class="leading-relaxed mb-4">Once <code class="font-code bg-gray-800 text-emerald-300 rounded-md px-2 py-1 text-sm">flutter doctor</code> reports no major issues, you're ready to create a new project.</p>
+            <ol class="list-decimal list-inside space-y-2 mb-4">
+                <li>Navigate to the directory where you want to create your project.</li>
+                <li>Run the following command in your terminal:</li>
+            </ol>
+            <pre class="font-code text-sm bg-black/50 backdrop-blur-sm border border-gray-700 rounded-lg p-4 overflow-x-auto"><code>flutter create my_first_app</code></pre>
+            <p class="leading-relaxed my-4">This will create a new directory called <code class="font-code bg-gray-800 text-emerald-300 rounded-md px-2 py-1 text-sm">my_first_app</code> with a simple demo application.</p>
+            
+            <h2 class="text-2xl font-bold text-sky-400 mt-12 mb-4 border-b border-gray-700 pb-2">Running the App</h2>
+            <p class="leading-relaxed mb-4">To run the app, you need an emulator, simulator, or a physical device connected.</p>
+            <ol class="list-decimal list-inside space-y-2 mb-4">
+                <li>Change into the new project directory: <code class="font-code bg-gray-800 text-emerald-300 rounded-md px-2 py-1 text-sm">cd my_first_app</code></li>
+                <li>Run the app with the following command:</li>
+            </ol>
+            <pre class="font-code text-sm bg-black/50 backdrop-blur-sm border border-gray-700 rounded-lg p-4 overflow-x-auto"><code>flutter run</code></pre>
+            <p class="leading-relaxed my-4">After a few moments, you should see the Flutter demo app launch on your selected device. Congratulations, you're now a Flutter developer!</p>
+            <img src="https://placehold.co/800x400/1F2937/9CA3AF?text=Screenshot+of+the+default+Flutter+app" alt="Default Flutter counter app" class="rounded-lg border border-gray-700 mt-4">
+
+        </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 border-t border-gray-700">
+        <div class="container mx-auto px-6 py-4 text-center text-gray-500">
+            <p>© 2024 Flutter Learning Hub. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>
