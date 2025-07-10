@@ -3,17 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Setup & Foundations | Flutter Learning Hub</title>
+    <title>Setup & Foundations | Learning Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style type="text/tailwindcss">
         html { scroll-behavior: smooth; }
         body { font-family: 'Inter', sans-serif; }
         .font-code { font-family: 'JetBrains Mono', monospace; }
-        .guide-image { @apply rounded-lg border border-gray-700 w-full h-auto max-h-[450px] object-contain object-top bg-gray-900/50; }
-        .code-inline { @apply font-code bg-gray-800 text-emerald-300 rounded-md px-2 py-1 text-sm; }
+        .code-inline { @apply font-code bg-gray-800 text-violet-300 rounded-md px-2 py-1 text-sm; }
+        
+        /* New ApexUI Styles */
+        .step-heading { @apply flex items-baseline gap-4 border-b border-sky-900/50 pb-4; }
+        .step-number { @apply text-4xl font-extrabold text-sky-400; }
+        .step-title { @apply text-3xl font-bold text-white; }
+        
+        .step-card { @apply bg-gray-800/50 rounded-xl p-6 md:p-8 mt-6 border border-gray-700; }
+        
+        .step-item { @apply grid md:grid-cols-2 gap-8 items-start; }
+        .step-indicator { @apply h-8 w-8 flex-shrink-0 flex items-center justify-center bg-violet-500 text-white font-bold rounded-full; }
+        
+        .guide-image { @apply rounded-lg border border-gray-700 w-full h-auto max-h-[500px] object-contain object-top; }
+        
+        .warning-box { @apply mt-4 bg-amber-900/40 border border-amber-600/50 rounded-lg p-4 flex items-center gap-3; }
+        .warning-box-text { @apply text-amber-200 text-sm; }
+
+        .external-link { @apply text-sky-400 hover:text-sky-300 transition-colors inline-flex items-center gap-2; }
     </style>
 </head>
 <body class="bg-gray-900 text-gray-200 antialiased flex flex-col min-h-full">
@@ -22,7 +38,7 @@
     <header class="bg-gray-900/80 backdrop-blur-sm sticky top-0 z-50 border-b border-gray-700/50">
         <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="index.html" class="text-xl font-bold text-white hover:text-sky-400 transition-colors">
-                Flutter Learning Hub
+                Learning Hub
             </a>
             <div class="hidden md:flex items-center space-x-6">
                 <a href="setup.html" class="text-sky-400 font-semibold">Setup & Foundations</a>
@@ -43,106 +59,174 @@
 
     <!-- Main Content -->
     <main class="flex-grow container mx-auto px-6 py-12">
-        <article class="max-w-4xl mx-auto text-gray-300">
-            <h1 class="text-4xl font-bold text-white mb-4">Windows Setup Guide</h1>
-            <p class="leading-relaxed mb-4 text-lg text-gray-400">This comprehensive guide will walk you through every step of setting up your Windows machine for Flutter development.</p>
-
-            <h2 class="text-3xl font-bold text-sky-400 mt-16 mb-6 border-b border-gray-700 pb-3">Step 1: Install Prerequisites</h2>
+        <article class="max-w-5xl mx-auto text-gray-300 space-y-20">
+            <header>
+                <h1 class="text-4xl md:text-5xl font-bold text-white mb-2 text-center">Windows Setup Guide</h1>
+                <p class="text-lg text-gray-400 text-center">A comprehensive guide to setting up your Windows machine for Flutter development.</p>
+            </header>
             
-            <div class="mt-8 grid md:grid-cols-2 gap-8 items-center">
-                <div>
-                    <h3 class="text-xl font-semibold text-white mb-3">A. Install Git for Windows</h3>
-                    <p>Git is required by Flutter to manage its dependencies. <a href="https://gitforwindows.org/" target="_blank" rel="noopener noreferrer" class="text-sky-400 hover:underline">Download it from the official site</a>.</p>
+            <!-- Step 1 Section -->
+            <section>
+                <div class="step-heading">
+                    <span class="step-number">01.</span>
+                    <h2 class="step-title">Install Prerequisites</h2>
                 </div>
-                <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752144592/3_ul8gcb.png" alt="Git for Windows download page" class="guide-image">
-            </div>
+                <div class="step-card">
+                    <div class="space-y-12">
+                        <!-- Git Installation -->
+                        <div class="step-item">
+                            <div>
+                                <div class="flex items-center gap-4 mb-3">
+                                    <span class="step-indicator">A</span>
+                                    <h3 class="text-xl font-semibold text-white">Install Git for Windows</h3>
+                                </div>
+                                <p>Git is a version control system required by Flutter. Download it from the official site.</p>
+                                <a href="https://gitforwindows.org/" target="_blank" rel="noopener noreferrer" class="external-link mt-4 font-semibold">
+                                    <span>Download Git</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                                </a>
+                            </div>
+                            <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752144592/3_ul8gcb.png" alt="Git for Windows download page" class="guide-image">
+                        </div>
+                        
+                        <!-- Android Studio Installation -->
+                        <div class="step-item">
+                            <div class="md:order-last">
+                                <div class="flex items-center gap-4 mb-3">
+                                    <span class="step-indicator">B</span>
+                                    <h3 class="text-xl font-semibold text-white">Install Android Studio</h3>
+                                </div>
+                                <p>Android Studio provides the Android SDK, emulator, and other essential tools.</p>
+                                <a href="https://developer.android.com/studio" target="_blank" rel="noopener noreferrer" class="external-link mt-4 font-semibold">
+                                    <span>Download Android Studio</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                                </a>
+                            </div>
+                            <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752144593/4_dis4jn.png" alt="Android Studio download page" class="guide-image">
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-            <div class="mt-12">
-                <h3 class="text-xl font-semibold text-white mb-3">B. Install Android Studio</h3>
-                <p class="mb-4">Android Studio provides the Android SDK, emulator, and other essential command-line tools.</p>
-                
-                <div class="mt-8 grid md:grid-cols-2 gap-8 items-center">
-                     <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752144593/4_dis4jn.png" alt="Android Studio download page" class="guide-image">
-                    <div><p>1. <a href="https://developer.android.com/studio" target="_blank" rel="noopener noreferrer" class="text-sky-400 hover:underline">Download from the official Android developer website</a>.</p></div>
+            <!-- Step 2 Section -->
+            <section>
+                <div class="step-heading">
+                    <span class="step-number">02.</span>
+                    <h2 class="step-title">Install Flutter SDK</h2>
                 </div>
+                <div class="step-card">
+                     <div class="space-y-12">
+                        <!-- Download SDK -->
+                        <div class="step-item">
+                            <div>
+                                <div class="flex items-center gap-4 mb-3">
+                                    <span class="step-indicator">①</span>
+                                    <h3 class="text-xl font-semibold text-white">Download the SDK</h3>
+                                </div>
+                                <p>Get the latest Flutter SDK stable release from the official documentation website.</p>
+                                <a href="https://docs.flutter.dev/get-started/install/windows" target="_blank" rel="noopener noreferrer" class="external-link mt-4 font-semibold">
+                                    <span>Flutter Install Docs</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                                </a>
+                            </div>
+                            <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752144596/7_cojtr6.png" alt="Flutter SDK download link" class="guide-image">
+                        </div>
 
-                <div class="mt-8 grid md:grid-cols-2 gap-8 items-center">
-                    <div class="md:order-last"><p>2. During installation, choose the <span class="code-inline">Standard</span> install type.</p></div>
-                    <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752144628/11_yfu4zo.png" alt="Android Studio install type selection" class="guide-image">
+                        <!-- Extract SDK -->
+                         <div class="step-item">
+                            <div class="md:order-last">
+                                <div class="flex items-center gap-4 mb-3">
+                                    <span class="step-indicator">②</span>
+                                    <h3 class="text-xl font-semibold text-white">Extract to a Permanent Location</h3>
+                                </div>
+                                <p>Extract the ZIP archive to a location like <span class="code-inline">C:\flutter</span>.</p>
+                                <div class="warning-box">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                                    <span class="warning-box-text">Avoid directories like C:\Program Files that require administrator privileges.</span>
+                                </div>
+                            </div>
+                            <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752144633/15_vr859t.png" alt="Extracted flutter folder in C drive" class="guide-image">
+                        </div>
+                     </div>
                 </div>
-
-                <div class="mt-8 grid md:grid-cols-2 gap-8 items-center">
-                    <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752144631/13_o4cdcm.png" alt="Android Studio SDK Manager" class="guide-image">
-                    <div><p>3. Once installed, open Android Studio and go to the SDK Manager.</p></div>
-                </div>
-
-                <div class="mt-8 grid md:grid-cols-2 gap-8 items-center">
-                    <div class="md:order-last"><p>4. Under the SDK Tools Tab, select the required options, and press Apply.</p></div>
-                    <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752144632/14_aoeps3.png" alt="SDK Tools Selections" class="guide-image">
-                </div>
-            </div>
+            </section>
             
-            <h2 class="text-3xl font-bold text-sky-400 mt-16 mb-6 border-b border-gray-700 pb-3">Step 2: Install the Flutter SDK</h2>
-
-            <div class="mt-8 grid md:grid-cols-2 gap-8 items-center">
-                <div class="space-y-4">
-                    <p>1. <a href="https://docs.flutter.dev/get-started/install/windows" target="_blank" rel="noopener noreferrer" class="text-sky-400 hover:underline">Download the Flutter SDK from the official website</a>. The VS Code extension page also provides a convenient link.</p>
+            <!-- Step 3 Section -->
+            <section>
+                 <div class="step-heading">
+                    <span class="step-number">03.</span>
+                    <h2 class="step-title">Configure Environment Path</h2>
                 </div>
-                 <div class="space-y-4">
-                    <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752144596/7_cojtr6.png" alt="Flutter SDK download link" class="guide-image">
-                    <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752144595/6_c3fzi1.png" alt="VS Code extension page" class="guide-image">
-                </div>
-            </div>
-            <div class="mt-8 grid md:grid-cols-2 gap-8 items-center">
-                <div class="md:order-last"><p>2. Once downloaded, extract the ZIP archive to a permanent location, for example: <span class="code-inline">C:\flutter</span>. Do not use a directory like C:\Program Files that requires administrator privileges.</p></div>
-                <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752144633/15_vr859t.png" alt="Extracted flutter folder in C drive" class="guide-image">
-            </div>
-            
-            <h2 class="text-3xl font-bold text-sky-400 mt-16 mb-6 border-b border-gray-700 pb-3">Step 3: Configure Environment Path</h2>
-            <p class="mb-4">You must add the Flutter tool to your system's path to run Flutter commands from any terminal.</p>
-            
-            <div class="mt-8 grid md:grid-cols-2 gap-8 items-center">
-                <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752144635/16_xbllzl.png" alt="Searching for environment variables" class="guide-image">
-                <div><p>1. In the Windows Start Menu, search for "env" and select "Edit the system environment variables".</p></div>
-            </div>
-            <div class="mt-8 grid md:grid-cols-2 gap-8 items-center">
-                <div class="md:order-last"><p>2. In the System Properties window, click the "Environment Variables..." button.</p></div>
-                <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752144636/17_smwarf.png" alt="System Properties window with Environment Variables button" class="guide-image">
-            </div>
-             <div class="mt-8 grid md:grid-cols-2 gap-8 items-center">
-                <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752144637/18_kq6fz9.png" alt="Final Path variable with flutter bin directory added" class="guide-image">
-                <div>
-                    <p>3. Under "User variables" (or "System variables"), find "Path", select it, and click "Edit...".</p>
-                    <p class="mt-4">4. In the "Edit" window, click "New", add <span class="code-inline">C:\flutter\bin</span>, and click OK.</p>
-                </div>
-            </div>
+                <div class="step-card">
+                    <div class="space-y-12">
+                        <div class="step-item">
+                             <div>
+                                <div class="flex items-center gap-4 mb-3">
+                                    <span class="step-indicator">①</span>
+                                    <h3 class="text-xl font-semibold text-white">Open Environment Variables</h3>
+                                </div>
+                                <p>In the Start Menu, search for "env" and select "Edit the system environment variables".</p>
+                            </div>
+                            <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752144635/16_xbllzl.png" alt="Searching for environment variables" class="guide-image">
+                        </div>
 
-            <h2 class="text-3xl font-bold text-sky-400 mt-16 mb-6 border-b border-gray-700 pb-3">Step 4: Final Setup & Verification</h2>
-
-            <div class="mt-8 grid md:grid-cols-2 gap-8 items-center">
-                <div class="md:order-last">
-                     <p>1. Open a **new** Command Prompt window.</p>
-                     <p class="mt-4">2. Run <span class="code-inline">flutter doctor</span>. This command checks your setup and reports its status.</p>
+                        <div class="step-item">
+                             <div class="md:order-last">
+                                <div class="flex items-center gap-4 mb-3">
+                                    <span class="step-indicator">②</span>
+                                    <h3 class="text-xl font-semibold text-white">Update the Path Variable</h3>
+                                </div>
+                                <p>Select "Path" under User or System variables, click "Edit...", then "New", and add the full path: <span class="code-inline">C:\flutter\bin</span></p>
+                            </div>
+                            <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752144637/18_kq6fz9.png" alt="Final Path variable with flutter bin directory added" class="guide-image">
+                        </div>
+                    </div>
                 </div>
-                <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752144642/21_u6ltdf.png" alt="Running flutter doctor command" class="guide-image">
-            </div>
-             <div class="mt-8 grid md:grid-cols-2 gap-8 items-center">
-                <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752146672/22_aadvk2.png" alt="Accepting Android SDK licenses" class="guide-image">
-                 <div><p>3. As prompted, run <span class="code-inline">flutter doctor --android-licenses</span> and accept all licenses.</p></div>
-            </div>
-             <div class="mt-8 grid md:grid-cols-2 gap-8 items-center">
-                 <div class="md:order-last"><p>4. Install the Flutter extension for Visual Studio Code.</p></div>
-                <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752146783/23_soafya.png" alt="Flutter extension in VS Code" class="guide-image">
-            </div>
+            </section>
 
-            <p class="mt-16 text-center text-lg text-emerald-400 border border-emerald-500 bg-emerald-900/30 rounded-lg py-4">Once `flutter doctor` reports no issues, you are ready to start building Flutter apps! Congratulations!</p>
+             <!-- Step 4 Section -->
+            <section>
+                 <div class="step-heading">
+                    <span class="step-number">04.</span>
+                    <h2 class="step-title">Verify Setup</h2>
+                </div>
+                <div class="step-card">
+                    <div class="space-y-12">
+                         <div class="step-item">
+                             <div>
+                                <div class="flex items-center gap-4 mb-3">
+                                    <span class="step-indicator">①</span>
+                                    <h3 class="text-xl font-semibold text-white">Run Flutter Doctor</h3>
+                                </div>
+                                <p>Open a **new** terminal window and run <span class="code-inline">flutter doctor</span>. This command checks your setup and reports its status.</p>
+                            </div>
+                            <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752144642/21_u6ltdf.png" alt="Running flutter doctor command" class="guide-image">
+                        </div>
+                         <div class="step-item">
+                            <div class="md:order-last">
+                                <div class="flex items-center gap-4 mb-3">
+                                    <span class="step-indicator">②</span>
+                                    <h3 class="text-xl font-semibold text-white">Accept Android Licenses</h3>
+                                </div>
+                                <p>As prompted, run <span class="code-inline">flutter doctor --android-licenses</span> and accept all licenses by pressing 'y'.</p>
+                            </div>
+                            <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752146672/22_aadvk2.png" alt="Accepting Android SDK licenses" class="guide-image">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="mt-16 text-center text-lg text-emerald-400 border border-emerald-500 bg-emerald-900/30 rounded-lg py-6">
+                <p class="font-bold text-xl">Setup Complete!</p>
+                <p class="mt-1">Once `flutter doctor` reports no issues, you are ready to start building Flutter apps.</p>
+            </div>
         </article>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 border-t border-gray-700 mt-16">
+    <footer class="bg-gray-800 border-t border-gray-700">
         <div class="container mx-auto px-6 py-4 text-center text-gray-500">
-            <p>© 2024 Flutter Learning Hub. All Rights Reserved.</p>
+            <p>© 2025 Learning Hub. All Rights Reserved.</p>
         </div>
     </footer>
 
