@@ -12,8 +12,8 @@
         html { scroll-behavior: smooth; }
         body { font-family: 'Inter', sans-serif; }
         .font-code { font-family: 'JetBrains Mono', monospace; }
-        /* NOTE: Custom prose classes removed to prevent editor linting errors with @apply. */
-        /* Styles are now applied directly to HTML elements. */
+        .guide-image { @apply rounded-lg border border-gray-700 w-full h-auto max-h-[450px] object-contain object-top bg-gray-900/50; }
+        .code-inline { @apply font-code bg-gray-800 text-emerald-300 rounded-md px-2 py-1 text-sm; }
     </style>
 </head>
 <body class="bg-gray-900 text-gray-200 antialiased flex flex-col min-h-full">
@@ -44,53 +44,103 @@
     <!-- Main Content -->
     <main class="flex-grow container mx-auto px-6 py-12">
         <article class="max-w-4xl mx-auto text-gray-300">
-            <h1 class="text-4xl font-bold text-white mb-4">Setup & Foundations</h1>
-            <p class="leading-relaxed mb-4">Welcome to the first step in your Flutter journey! This guide will walk you through installing the Flutter SDK, setting up your editor, and running your first app. Follow these steps carefully to ensure a smooth development experience.</p>
+            <h1 class="text-4xl font-bold text-white mb-4">Windows Setup Guide</h1>
+            <p class="leading-relaxed mb-4 text-lg text-gray-400">This comprehensive guide will walk you through every step of setting up your Windows machine for Flutter development.</p>
 
-            <h2 class="text-2xl font-bold text-sky-400 mt-12 mb-4 border-b border-gray-700 pb-2">Installing the Flutter SDK</h2>
-            <p class="leading-relaxed mb-4">The first step is to get the Flutter Software Development Kit (SDK) onto your machine. The official Flutter documentation is the best source for this, but here's a summary.</p>
+            <h2 class="text-3xl font-bold text-sky-400 mt-16 mb-6 border-b border-gray-700 pb-3">Step 1: Install Prerequisites</h2>
             
-            <h3 class="text-xl font-semibold text-white mt-8 mb-3">For Windows:</h3>
-            <ol class="list-decimal list-inside space-y-2 mb-4">
-                <li>Download the latest stable release of the Flutter SDK from the <a href="https://docs.flutter.dev/get-started/install/windows" target="_blank" class="text-sky-400 hover:underline">official Flutter website</a>.</li>
-                <li>Extract the zip file and place the contained <code class="font-code bg-gray-800 text-emerald-300 rounded-md px-2 py-1 text-sm">flutter</code> folder in a permanent location (e.g., <code class="font-code bg-gray-800 text-emerald-300 rounded-md px-2 py-1 text-sm">C:\flutter</code>). Do not install it in a directory that requires elevated privileges like <code class="font-code bg-gray-800 text-emerald-300 rounded-md px-2 py-1 text-sm">C:\Program Files\</code>.</li>
-                <li>Update your <code class="font-code bg-gray-800 text-emerald-300 rounded-md px-2 py-1 text-sm">Path</code> environment variable to include the full path to <code class="font-code bg-gray-800 text-emerald-300 rounded-md px-2 py-1 text-sm">C:\flutter\bin</code>.</li>
-                <li>Open a new command prompt and run <code class="font-code bg-gray-800 text-emerald-300 rounded-md px-2 py-1 text-sm">flutter doctor</code>. This command checks your environment and displays a report of the status of your Flutter installation.</li>
-            </ol>
-            <img src="https://placehold.co/800x200/1F2937/9CA3AF?text=Screenshot+of+'flutter+doctor'+output" alt="Flutter Doctor command output" class="rounded-lg border border-gray-700">
+            <div class="mt-8 grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h3 class="text-xl font-semibold text-white mb-3">A. Install Git for Windows</h3>
+                    <p>Git is required by Flutter to manage its dependencies. Download it from the official site.</p>
+                </div>
+                <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752144592/3_ul8gcb.png" alt="Git for Windows download page" class="guide-image">
+            </div>
 
-            <h3 class="text-xl font-semibold text-white mt-8 mb-3">For macOS:</h3>
-            <ol class="list-decimal list-inside space-y-2 mb-4">
-                <li>Download the latest stable release for macOS (select the appropriate Apple Silicon or Intel chip version) from the <a href="https://docs.flutter.dev/get-started/install/macos" target="_blank" class="text-sky-400 hover:underline">official Flutter website</a>.</li>
-                <li>Extract the file in a desired location, e.g., <code class="font-code bg-gray-800 text-emerald-300 rounded-md px-2 py-1 text-sm">~/development/flutter</code>.</li>
-                <li>Add the <code class="font-code bg-gray-800 text-emerald-300 rounded-md px-2 py-1 text-sm">flutter</code> tool to your path: <code class="font-code bg-gray-800 text-emerald-300 rounded-md px-2 py-1 text-sm">export PATH="$PATH:`pwd`/flutter/bin"</code>.</li>
-                <li>Run <code class="font-code bg-gray-800 text-emerald-300 rounded-md px-2 py-1 text-sm">flutter doctor</code> to check for any dependencies you need to install.</li>
-            </ol>
+            <div class="mt-12">
+                <h3 class="text-xl font-semibold text-white mb-3">B. Install Android Studio</h3>
+                <p class="mb-4">Android Studio provides the Android SDK, emulator, and other essential command-line tools.</p>
+                
+                <div class="mt-8 grid md:grid-cols-2 gap-8 items-center">
+                     <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752144593/4_dis4jn.png" alt="Android Studio download page" class="guide-image">
+                    <div><p>1. Download from the official Android developer website.</p></div>
+                </div>
 
-            <h2 class="text-2xl font-bold text-sky-400 mt-12 mb-4 border-b border-gray-700 pb-2">Creating Your First App</h2>
-            <p class="leading-relaxed mb-4">Once <code class="font-code bg-gray-800 text-emerald-300 rounded-md px-2 py-1 text-sm">flutter doctor</code> reports no major issues, you're ready to create a new project.</p>
-            <ol class="list-decimal list-inside space-y-2 mb-4">
-                <li>Navigate to the directory where you want to create your project.</li>
-                <li>Run the following command in your terminal:</li>
-            </ol>
-            <pre class="font-code text-sm bg-black/50 backdrop-blur-sm border border-gray-700 rounded-lg p-4 overflow-x-auto"><code>flutter create my_first_app</code></pre>
-            <p class="leading-relaxed my-4">This will create a new directory called <code class="font-code bg-gray-800 text-emerald-300 rounded-md px-2 py-1 text-sm">my_first_app</code> with a simple demo application.</p>
+                <div class="mt-8 grid md:grid-cols-2 gap-8 items-center">
+                    <div class="md:order-last"><p>2. During installation, choose the <span class="code-inline">Standard</span> install type.</p></div>
+                    <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752144628/11_yfu4zo.png" alt="Android Studio install type selection" class="guide-image">
+                </div>
+
+                <div class="mt-8 grid md:grid-cols-2 gap-8 items-center">
+                    <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752144631/13_o4cdcm.png" alt="Android Studio SDK Manager" class="guide-image">
+                    <div><p>3. Once installed, open Android Studio and go to the SDK Manager.</p></div>
+                </div>
+
+                <div class="mt-8 grid md:grid-cols-2 gap-8 items-center">
+                    <div class="md:order-last"><p>4. Under the SDK Tools Tab, select the required options, and press Apply.</p></div>
+                    <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752144632/14_aoeps3.png" alt="SDK Tools Selections" class="guide-image">
+                </div>
+            </div>
             
-            <h2 class="text-2xl font-bold text-sky-400 mt-12 mb-4 border-b border-gray-700 pb-2">Running the App</h2>
-            <p class="leading-relaxed mb-4">To run the app, you need an emulator, simulator, or a physical device connected.</p>
-            <ol class="list-decimal list-inside space-y-2 mb-4">
-                <li>Change into the new project directory: <code class="font-code bg-gray-800 text-emerald-300 rounded-md px-2 py-1 text-sm">cd my_first_app</code></li>
-                <li>Run the app with the following command:</li>
-            </ol>
-            <pre class="font-code text-sm bg-black/50 backdrop-blur-sm border border-gray-700 rounded-lg p-4 overflow-x-auto"><code>flutter run</code></pre>
-            <p class="leading-relaxed my-4">After a few moments, you should see the Flutter demo app launch on your selected device. Congratulations, you're now a Flutter developer!</p>
-            <img src="https://placehold.co/800x400/1F2937/9CA3AF?text=Screenshot+of+the+default+Flutter+app" alt="Default Flutter counter app" class="rounded-lg border border-gray-700 mt-4">
+            <h2 class="text-3xl font-bold text-sky-400 mt-16 mb-6 border-b border-gray-700 pb-3">Step 2: Install the Flutter SDK</h2>
 
+            <div class="mt-8 grid md:grid-cols-2 gap-8 items-center">
+                <div class="space-y-4">
+                    <p>1. Download the Flutter SDK from the official website. The VS Code extension page provides a convenient link.</p>
+                </div>
+                 <div class="space-y-4">
+                    <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752144596/7_cojtr6.png" alt="Flutter SDK download link" class="guide-image">
+                    <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752144595/6_c3fzi1.png" alt="VS Code extension page" class="guide-image">
+                </div>
+            </div>
+            <div class="mt-8 grid md:grid-cols-2 gap-8 items-center">
+                <div class="md:order-last"><p>2. Once downloaded, extract the ZIP archive to a permanent location, for example: <span class="code-inline">C:\flutter</span>. Do not use a directory like C:\Program Files that requires administrator privileges.</p></div>
+                <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752144633/15_vr859t.png" alt="Extracted flutter folder in C drive" class="guide-image">
+            </div>
+            
+            <h2 class="text-3xl font-bold text-sky-400 mt-16 mb-6 border-b border-gray-700 pb-3">Step 3: Configure Environment Path</h2>
+            <p class="mb-4">You must add the Flutter tool to your system's path to run Flutter commands from any terminal.</p>
+            
+            <div class="mt-8 grid md:grid-cols-2 gap-8 items-center">
+                <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752144635/16_xbllzl.png" alt="Searching for environment variables" class="guide-image">
+                <div><p>1. In the Windows Start Menu, search for "env" and select "Edit the system environment variables".</p></div>
+            </div>
+            <div class="mt-8 grid md:grid-cols-2 gap-8 items-center">
+                <div class="md:order-last"><p>2. In the System Properties window, click the "Environment Variables..." button.</p></div>
+                <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752144636/17_smwarf.png" alt="System Properties window with Environment Variables button" class="guide-image">
+            </div>
+             <div class="mt-8 grid md:grid-cols-2 gap-8 items-center">
+                <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752144637/18_kq6fz9.png" alt="Final Path variable with flutter bin directory added" class="guide-image">
+                <div>
+                    <p>3. Under "User variables" (or "System variables"), find "Path", select it, and click "Edit...".</p>
+                    <p class="mt-4">4. In the "Edit" window, click "New", add <span class="code-inline">C:\flutter\bin</span>, and click OK.</p>
+                </div>
+            </div>
+
+            <h2 class="text-3xl font-bold text-sky-400 mt-16 mb-6 border-b border-gray-700 pb-3">Step 4: Final Setup & Verification</h2>
+
+            <div class="mt-8 grid md:grid-cols-2 gap-8 items-center">
+                <div class="md:order-last">
+                     <p>1. Open a **new** Command Prompt window.</p>
+                     <p class="mt-4">2. Run <span class="code-inline">flutter doctor</span>. This command checks your setup and reports its status.</p>
+                </div>
+                <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752144642/21_u6ltdf.png" alt="Running flutter doctor command" class="guide-image">
+            </div>
+             <div class="mt-8 grid md:grid-cols-2 gap-8 items-center">
+                <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752146672/22_aadvk2.png" alt="Accepting Android SDK licenses" class="guide-image">
+                 <div><p>3. As prompted, run <span class="code-inline">flutter doctor --android-licenses</span> and accept all licenses.</p></div>
+            </div>
+             <div class="mt-8 grid md:grid-cols-2 gap-8 items-center">
+                 <div class="md:order-last"><p>4. Install the Flutter extension for Visual Studio Code.</p></div>
+                <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752146783/23_soafya.png" alt="Flutter extension in VS Code" class="guide-image">
+            </div>
+
+            <p class="mt-16 text-center text-lg text-emerald-400 border border-emerald-500 bg-emerald-900/30 rounded-lg py-4">Once `flutter doctor` reports no issues, you are ready to start building Flutter apps! Congratulations!</p>
         </article>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 border-t border-gray-700">
+    <footer class="bg-gray-800 border-t border-gray-700 mt-16">
         <div class="container mx-auto px-6 py-4 text-center text-gray-500">
             <p>© 2024 Flutter Learning Hub. All Rights Reserved.</p>
         </div>

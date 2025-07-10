@@ -1,7 +1,8 @@
 /**
- * Handles the toggling of the mobile navigation menu.
+ * Handles toggling the mobile navigation menu.
  */
 document.addEventListener('DOMContentLoaded', () => {
+    // --- Mobile Menu Logic ---
     const menuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
 
