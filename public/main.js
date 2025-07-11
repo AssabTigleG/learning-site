@@ -1,17 +1,22 @@
-/**
- * Handles toggling the mobile menu, deep dive modal, and concept inspector panel.
- */
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Mobile Menu Logic ---
-    const menuButton = document.getElementById('mobile-menu-button');
-    const mobileMenu = document.getElementById('mobile-menu');
-    if (menuButton && mobileMenu) {
-        menuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-    }
+    /**
+     * Toggles the visibility of the mobile navigation menu.
+     */
+    const initializeMobileMenu = () => {
+        const menuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (menuButton && mobileMenu) {
+            menuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        }
+    };
 
-    // --- Deep Dive Modal Logic ---
-    const modal = document.getElementById('deep-dive-modal');
-    if (modal) {
+    /**
+     * Handles the functionality for the deep-dive explanation modal.
+     */
+    const initializeDeepDiveModal = () => {
+        const modal = document.getElementById('deep-dive-modal');
+        if (!modal) return;
+
         const modalContent = document.getElementById('modal-content');
         const modalTitle = document.getElementById('modal-title');
         const modalBody = document.getElementById('modal-body');
@@ -19,11 +24,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const deepDiveTriggers = document.querySelectorAll('.deep-dive-trigger');
 
         const openModal = (title, contentHTML) => {
-            if (!modal || !modalContent || !modalTitle || !modalBody) return;
+            if (!modalContent || !modalTitle || !modalBody) return;
             modalTitle.textContent = title;
             modalBody.innerHTML = contentHTML;
-            modal.classList.remove('hidden'); // Fix: Remove hidden class
-            setTimeout(() => { // Allow display property to apply before starting transition
+            modal.classList.remove('hidden');
+            setTimeout(() => {
                 modal.classList.remove('opacity-0');
                 modalContent.classList.remove('scale-95');
             }, 10);
@@ -33,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!modal || !modalContent) return;
             modalContent.classList.add('scale-95');
             modal.classList.add('opacity-0');
-            setTimeout(() => modal.classList.add('hidden'), 300); // Match Tailwind's duration-300
+            setTimeout(() => modal.classList.add('hidden'), 300);
         };
 
         deepDiveTriggers.forEach(trigger => {
@@ -50,11 +55,15 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.addEventListener('click', (event) => {
             if (event.target === modal) closeModal();
         });
-    }
+    };
 
-    // --- Concept Inspector Logic ---
-    const inspectorPanel = document.getElementById('inspector-panel');
-    if (inspectorPanel) {
+    /**
+     * Manages the slide-in concept inspector panel.
+     */
+    const initializeInspectorPanel = () => {
+        const inspectorPanel = document.getElementById('inspector-panel');
+        if (!inspectorPanel) return;
+
         const inspectorTitle = document.getElementById('inspector-title');
         const inspectorBody = document.getElementById('inspector-body');
         const inspectorCloseButton = document.getElementById('inspector-close-button');
@@ -65,19 +74,16 @@ document.addEventListener('DOMContentLoaded', () => {
             const contentEl = document.getElementById(topicId);
             if (!contentEl || !inspectorTitle || !inspectorBody) return;
 
-            // Use the data-inspector-title if it exists, otherwise create one from the trigger text.
-            inspectorTitle.textContent = contentEl.dataset.inspectorTitle || trigger.textContent;
+            inspectorTitle.textContent = contentEl.dataset.inspectorTitle || 'Details';
             inspectorBody.innerHTML = contentEl.innerHTML;
 
             inspectorPanel.classList.remove('translate-x-full');
-            mainContent.classList.add('md:w-2/3');
-            mainContent.classList.add('md:mr-[33.333333%]'); // Push main content to the left
+            mainContent.classList.add('md:w-2/3', 'md:mr-[33.333333%]');
         };
-        
+
         const closeInspector = () => {
             inspectorPanel.classList.add('translate-x-full');
-            mainContent.classList.remove('md:w-2/3');
-            mainContent.classList.remove('md:mr-[33.333333%]');
+            mainContent.classList.remove('md:w-2/3', 'md:mr-[33.333333%]');
         };
 
         inspectorTriggers.forEach(trigger => {
@@ -89,5 +95,157 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         if (inspectorCloseButton) inspectorCloseButton.addEventListener('click', closeInspector);
-    }
+    };
+
+    /**
+     * Powers the interactive progress navigator sidebar on project pages.
+     */
+    const initializeProgressNavigator = () => {
+        const navigator = document.getElementById('progress-navigator');
+        if (!navigator) return;
+
+        const PROJECT_ID = 'habit_tracker_progress';
+        const allLessonItems = Array.from(navigator.querySelectorAll('.lesson-item'));
+        const allLessonIds = allLessonItems.map(item => item.dataset.lessonId);
+        
+        const chapterItems = navigator.querySelectorAll('.chapter-item');
+        const overallProgressBar = document.getElementById('overall-progress-bar');
+        const resetButton = document.getElementById('reset-progress-button');
+        
+        // --- Icon Definitions ---
+        const statusIcons = {
+            completed: `<path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="1.5" stroke="currentColor"/>`,
+            active: `<path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="1.5" stroke="currentColor" />`,
+            upcoming: `<path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="1.5" stroke="currentColor"/>`
+        };
+
+        // --- Local Storage Management ---
+        const getCompletedLessons = () => {
+            const data = localStorage.getItem(PROJECT_ID);
+            return data ? new Set(JSON.parse(data)) : new Set();
+        };
+
+        const setCompletedLessons = (completedSet) => {
+            localStorage.setItem(PROJECT_ID, JSON.stringify(Array.from(completedSet)));
+        };
+
+        // --- Core UI Update Function ---
+        const updateProgress = () => {
+            const completedLessons = getCompletedLessons();
+            const activeLessonId = window.location.hash.substring(1);
+            let totalCompletedCount = 0;
+
+            chapterItems.forEach(chapter => {
+                const lessonsInChapter = chapter.querySelectorAll('.lesson-item');
+                let completedInChapter = 0;
+                
+                lessonsInChapter.forEach(lessonItem => {
+                    const lessonId = lessonItem.dataset.lessonId;
+                    lessonItem.classList.remove('is-active', 'is-completed', 'is-upcoming');
+                    const iconSvg = lessonItem.querySelector('.lesson-status-icon');
+
+                    if (lessonId === activeLessonId) {
+                        lessonItem.classList.add('is-active');
+                        if (!chapter.classList.contains('is-expanded')) {
+                           chapter.classList.add('is-expanded');
+                        }
+                        iconSvg.innerHTML = statusIcons.active;
+                    } else if (completedLessons.has(lessonId)) {
+                        lessonItem.classList.add('is-completed');
+                        completedInChapter++;
+                        iconSvg.innerHTML = statusIcons.completed;
+                    } else {
+                        lessonItem.classList.add('is-upcoming');
+                        iconSvg.innerHTML = statusIcons.upcoming;
+                    }
+                });
+
+                totalCompletedCount += completedInChapter;
+
+                const progressRing = chapter.querySelector('.progress-ring-fg');
+                const circumference = progressRing.r.baseVal.value * 2 * Math.PI;
+                const percentage = lessonsInChapter.length > 0 ? (completedInChapter / lessonsInChapter.length) : 0;
+                const offset = circumference - percentage * circumference;
+                progressRing.style.strokeDashoffset = offset;
+            });
+
+            const overallPercentage = allLessonIds.length > 0 ? (totalCompletedCount / allLessonIds.length) * 100 : 0;
+            if(overallProgressBar) overallProgressBar.style.width = `${overallPercentage}%`;
+        };
+        
+        // --- Event Handlers & Observers ---
+        const handleLessonClick = (event) => {
+            const lessonLink = event.target.closest('a');
+            if (!lessonLink) return;
+
+            const lessonId = lessonLink.parentElement.dataset.lessonId;
+            const completedLessons = getCompletedLessons();
+            completedLessons.add(lessonId);
+            setCompletedLessons(completedLessons);
+            
+            setTimeout(updateProgress, 50);
+        };
+        
+        const handleResetClick = () => {
+            const isConfirmed = window.confirm("Are you sure you want to reset all your progress for this project? This cannot be undone.");
+            if (isConfirmed) {
+                localStorage.removeItem(PROJECT_ID);
+                window.location.hash = ''; // Go to top of page
+                // We don't need to call updateProgress() here because the hashchange event will fire and call it.
+                // If the hash is already empty, we call it manually.
+                if (window.location.hash === '') {
+                    updateProgress();
+                }
+            }
+        };
+
+        const intersectionCallback = (entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const lessonId = entry.target.id;
+                    const lessonIndex = allLessonIds.indexOf(lessonId);
+                    if (lessonIndex === -1) return;
+
+                    const completedLessons = getCompletedLessons();
+                    for (let i = 0; i <= lessonIndex; i++) {
+                        completedLessons.add(allLessonIds[i]);
+                    }
+                    setCompletedLessons(completedLessons);
+                    
+                    history.replaceState(null, '', `#${lessonId}`);
+                    updateProgress();
+                }
+            });
+        };
+
+        const observer = new IntersectionObserver(intersectionCallback, {
+            rootMargin: '-45% 0px -45% 0px',
+            threshold: 0
+        });
+
+        document.querySelectorAll('main .lesson-heading').forEach(heading => {
+            observer.observe(heading);
+        });
+
+        navigator.addEventListener('click', handleLessonClick);
+        if (resetButton) resetButton.addEventListener('click', handleResetClick);
+        
+        chapterItems.forEach(chapter => {
+            const header = chapter.querySelector('.chapter-header');
+            header.addEventListener('click', () => {
+                chapter.classList.toggle('is-expanded');
+            });
+        });
+        
+        window.addEventListener('hashchange', updateProgress);
+        
+        // Initial load
+        updateProgress();
+    };
+
+    // Initialize all components
+    initializeMobileMenu();
+    initializeDeepDiveModal();
+    initializeInspectorPanel();
+    initializeProgressNavigator();
 });

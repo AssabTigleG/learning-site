@@ -25,35 +25,54 @@
         .file-path { @apply font-code text-sm text-gray-500 bg-gray-800 px-3 py-1 rounded-md border border-gray-700 my-2 inline-block; }
         .milestone-box { @apply mt-8 bg-emerald-900/30 border border-emerald-600/50 text-emerald-300 rounded-lg p-4; }
         .lesson-divider { @apply border-t-2 border-dashed border-gray-800 my-8; }
-        
-        /* Rationale Box */
         .rationale-box { @apply bg-amber-900/20 border-l-4 border-amber-500 p-4 my-4 rounded-r-lg flex gap-4; }
         .rationale-box .icon { @apply flex-shrink-0 w-6 h-6 text-amber-400; }
         .rationale-box .title { @apply font-bold text-amber-300; }
         .rationale-box .text { @apply text-amber-200; }
-
-        /* Deep Dive Trigger Style */
         .deep-dive-trigger { @apply text-violet-300 font-semibold border-b border-dotted border-violet-400/50 cursor-pointer transition-colors hover:text-violet-200; }
-        
-        /* Concept Inspector Styles */
         .inspector-trigger { @apply text-emerald-300 border-b border-dotted border-emerald-400/50 cursor-pointer transition-colors hover:text-emerald-200; }
-
-        /* -- NEW -- Improved Inspector Panel Styles */
         .inspector-summary { @apply bg-gray-700/50 border border-gray-600 rounded-lg p-4 mb-6 text-gray-200 text-base leading-relaxed; }
         .inspector-summary strong { @apply text-sky-300; }
         .inspector-section-heading { @apply text-lg font-semibold text-sky-300 mt-6 mb-3 border-b-2 border-sky-800/50 pb-2; }
         .inspector-list { @apply list-none space-y-3 text-gray-300 pl-1; }
         .inspector-list li { @apply flex items-start; }
-        .inspector-list li::before { 
-            content: '✓';
-            @apply text-sky-400 mr-3 mt-1 text-sm font-bold flex-shrink-0;
-        }
+        .inspector-list li::before { content: '✓'; @apply text-sky-400 mr-3 mt-1 text-sm font-bold flex-shrink-0; }
         .inspector-list strong { @apply text-white font-semibold; }
+
+        /* --- ApexUI Interactive Progress Navigator Styles --- */
+        .navigator-container { @apply bg-gray-800 border-r border-gray-700 flex flex-col; }
+        .navigator-header { @apply p-6 border-b border-gray-700; }
+        .navigator-title { @apply text-lg font-bold text-white; }
+        .overall-progress-bar-bg { @apply bg-gray-700 rounded-full h-1.5 mt-3; }
+        .overall-progress-bar-fg { @apply bg-sky-500 h-1.5 rounded-full transition-all duration-500; }
+        .chapter-list { @apply flex-grow overflow-y-auto p-4 space-y-1; }
+        .chapter-header { @apply flex items-center w-full text-left p-2 rounded-lg transition-colors hover:bg-gray-700/50 cursor-pointer; }
+        .chapter-icon-wrapper { @apply relative flex-shrink-0 w-8 h-8 flex items-center justify-center mr-3; }
+        .chapter-icon { @apply w-5 h-5 text-sky-400; }
+        .chapter-title { @apply font-semibold text-sky-400 flex-grow; }
+        .chapter-chevron { @apply w-5 h-5 text-gray-500 transition-transform duration-300; }
+        .chapter-item.is-expanded .chapter-chevron { @apply rotate-90; }
+        .progress-ring { @apply w-8 h-8 absolute top-0 left-0; }
+        .progress-ring-bg { @apply stroke-gray-700; }
+        .progress-ring-fg { @apply stroke-sky-500 transition-all duration-500; transform: rotate(-90deg); transform-origin: 50% 50%; }
+        .lesson-list { @apply pl-6 border-l border-gray-700 ml-[15px] mt-2 mb-1 space-y-1 overflow-hidden transition-all duration-300 max-h-0; }
+        .chapter-item.is-expanded .lesson-list { @apply max-h-screen; } /* Use a large max-height for expansion */
+        .lesson-item a { @apply flex items-center gap-3 py-1.5 px-2 rounded-md transition-colors hover:bg-gray-700/50; }
+        .lesson-status-icon { @apply w-4 h-4 transition-colors; }
+        .lesson-title { @apply text-gray-400 transition-colors; }
+        .lesson-item a:hover .lesson-title { @apply text-white; }
+        
+        /* Lesson States */
+        .lesson-item.is-completed .lesson-status-icon { @apply text-emerald-400; }
+        .lesson-item.is-completed .lesson-title { @apply text-gray-500 line-through; }
+        .lesson-item.is-active a { @apply bg-sky-900/40; }
+        .lesson-item.is-active .lesson-title { @apply text-sky-300 font-medium; }
+        .lesson-item.is-active .lesson-status-icon { @apply text-sky-400; }
+        .lesson-item.is-upcoming .lesson-status-icon { @apply text-gray-600; }
     </style>
 </head>
 <body class="bg-gray-900 text-gray-100 antialiased h-screen overflow-hidden">
 
-    <!-- The main page structure remains the same -->
     <div class="flex flex-col h-full">
         <!-- Header -->
         <header class="bg-gray-900/80 backdrop-blur-sm z-50 border-b border-gray-700/50 w-full flex-shrink-0">
@@ -66,52 +85,103 @@
         </header>
 
         <div id="app" class="flex flex-1 overflow-hidden relative">
-            <!-- Left Pane: Module Navigator -->
-            <aside class="hidden md:block w-1/4 flex-shrink-0 bg-gray-800 border-r border-gray-700 p-6 overflow-y-auto">
-                <h2 class="text-lg font-bold text-white mb-4">Project Modules</h2>
-                <nav class="space-y-4">
-                    <div>
-                        <h3 class="font-semibold text-sky-400 mb-2">Chapter 00: Kickstart</h3>
-                        <ul class="space-y-2 border-l-2 border-gray-600 pl-4">
-                            <li><a href="#c0_1" class="text-gray-300 hover:text-white">0.1: Final Product</a></li>
-                            <li><a href="#c0_2" class="text-gray-300 hover:text-white">0.2: What You Will Learn</a></li>
-                            <li><a href="#c0_3" class="text-gray-300 hover:text-white">0.3: Project Creation</a></li>
-                        </ul>
+            <!-- Left Pane: ApexUI Interactive Progress Navigator -->
+            <aside id="progress-navigator" class="hidden md:block w-1/4 max-w-sm flex-shrink-0 navigator-container">
+                <div class="navigator-header">
+                    <h2 class="navigator-title">Project Progress</h2>
+                    <div class="overall-progress-bar-bg">
+                        <div id="overall-progress-bar" class="overall-progress-bar-fg" style="width: 0%;"></div>
                     </div>
-                    <div>
-                        <h3 class="font-semibold text-sky-400 mb-2">Chapter 01: Main Screen</h3>
-                        <ul class="space-y-2 border-l-2 border-gray-600 pl-4">
-                            <li><a href="#c1_1" class="text-gray-300 hover:text-white">1.1: Add GetX Package</a></li>
-                            <li><a href="#c1_2" class="text-gray-300 hover:text-white">1.2: The Habit Model</a></li>
-                            <li><a href="#c1_3" class="text-gray-300 hover:text-white">1.3: HabitListItem Widget</a></li>
-                            <li><a href="#c1_4" class="text-gray-300 hover:text-white">1.4: Assembling the Screen</a></li>
-                            <li><a href="#c1_5" class="text-gray-300 hover:text-white">1.5: Update main.dart</a></li>
-                        </ul>
+                    <div class="mt-3 text-right">
+                        <button id="reset-progress-button" class="inline-flex items-center gap-1.5 text-xs text-gray-500 hover:text-sky-400 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3.5 h-3.5"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0011.664 0l3.181-3.183m-11.664 0l4.992-4.993m-4.993 0l3.181-3.183a8.25 8.25 0 0111.664 0l3.181 3.183" /></svg>
+                            <span>Reset Progress</span>
+                        </button>
                     </div>
-                    <div>
-                        <h3 class="font-semibold text-sky-400 mb-2">Chapter 02: Reactive State</h3>
-                        <ul class="space-y-2 border-l-2 border-gray-600 pl-4">
-                            <li><a href="#c2_1" class="text-gray-300 hover:text-white">2.1: HabitController</a></li>
-                            <li><a href="#c2_2" class="text-gray-300 hover:text-white">2.2: Refactor Main Screen</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 class="font-semibold text-sky-400 mb-2">Chapter 03: Forms & Navigation</h3>
-                        <ul class="space-y-2 border-l-2 border-gray-600 pl-4">
-                            <li><a href="#c3_1" class="text-gray-300 hover:text-white">3.1: The Add/Edit Screen UI</a></li>
-                            <li><a href="#c3_2" class="text-gray-300 hover:text-white">3.2: Navigation with GetX</a></li>
-                            <li><a href="#c3_3" class="text-gray-300 hover:text-white">3.3: Capturing User Input</a></li>
-                            <li><a href="#c3_4" class="text-gray-300 hover:text-white">3.4: Adding a New Habit</a></li>
-                        </ul>
-                    </div>
-                     <div>
-                        <h3 class="font-semibold text-sky-400 mb-2">Chapter 04: Persistence</h3>
-                        <ul class="space-y-2 border-l-2 border-gray-600 pl-4">
-                            <li><a href="#c4_1" class="text-gray-300 hover:text-white">4.1: Add GetStorage</a></li>
-                            <li><a href="#c4_2" class="text-gray-300 hover:text-white">4.2: Prepare the Model</a></li>
-                            <li><a href="#c4_3" class="text-gray-300 hover:text-white">4.3: Update Controller</a></li>
-                        </ul>
-                    </div>
+                </div>
+                <nav class="chapter-list">
+                    <ul class="space-y-1">
+                        <!-- Chapter 00 -->
+                        <li class="chapter-item" data-chapter-id="0">
+                            <button class="chapter-header">
+                                <div class="chapter-icon-wrapper">
+                                    <svg class="progress-ring" viewBox="0 0 36 36"><circle class="progress-ring-bg" stroke-width="2" fill="none" cx="18" cy="18" r="16"></circle><circle class="progress-ring-fg" stroke-width="2" fill="none" cx="18" cy="18" r="16" stroke-dasharray="100.53" stroke-dashoffset="100.53"></circle></svg>
+                                    <svg class="chapter-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.63 2.18a14.98 14.98 0 00-12.12 6.16.983.983 0 00.983 1.293h3.914c.413 0 .79-.255.933-.635a3.602 3.602 0 015.84-2.58A3.602 3.602 0 0113.8 9.63c0 .874-.356 1.683-.933 2.268a.983.983 0 00-.983 1.293v3.914c0 .413.255.79.635.933a6 6 0 017.38-5.84z" /></svg>
+                                </div>
+                                <h3 class="chapter-title">00: Kickstart</h3>
+                                <svg class="chapter-chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+                            </button>
+                            <ul class="lesson-list">
+                                <li class="lesson-item" data-lesson-id="c0_3"><a href="#c0_3"><svg class="lesson-status-icon" fill="none" viewBox="0 0 24 24"></svg><span class="lesson-title">0.3: Project Creation</span></a></li>
+                            </ul>
+                        </li>
+                        <!-- Chapter 01 -->
+                        <li class="chapter-item" data-chapter-id="1">
+                            <button class="chapter-header">
+                                <div class="chapter-icon-wrapper">
+                                    <svg class="progress-ring" viewBox="0 0 36 36"><circle class="progress-ring-bg" stroke-width="2" fill="none" cx="18" cy="18" r="16"></circle><circle class="progress-ring-fg" stroke-width="2" fill="none" cx="18" cy="18" r="16" stroke-dasharray="100.53" stroke-dashoffset="100.53"></circle></svg>
+                                    <svg class="chapter-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 6.75h4.5m-4.5 6h4.5m-4.5 6h4.5m3-18l-3 18m0 0l-3-18m3 18h6M6 21h6m6-18h6M12 3h6" /></svg>
+                                </div>
+                                <h3 class="chapter-title">01: Main Screen</h3>
+                                <svg class="chapter-chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+                            </button>
+                            <ul class="lesson-list">
+                                <li class="lesson-item" data-lesson-id="c1_1"><a href="#c1_1"><svg class="lesson-status-icon" fill="none" viewBox="0 0 24 24"></svg><span class="lesson-title">1.1: Add GetX Package</span></a></li>
+                                <li class="lesson-item" data-lesson-id="c1_2"><a href="#c1_2"><svg class="lesson-status-icon" fill="none" viewBox="0 0 24 24"></svg><span class="lesson-title">1.2: The Habit Model</span></a></li>
+                                <li class="lesson-item" data-lesson-id="c1_3"><a href="#c1_3"><svg class="lesson-status-icon" fill="none" viewBox="0 0 24 24"></svg><span class="lesson-title">1.3: HabitListItem Widget</span></a></li>
+                                <li class="lesson-item" data-lesson-id="c1_4"><a href="#c1_4"><svg class="lesson-status-icon" fill="none" viewBox="0 0 24 24"></svg><span class="lesson-title">1.4: Assembling the Screen</span></a></li>
+                                <li class="lesson-item" data-lesson-id="c1_5"><a href="#c1_5"><svg class="lesson-status-icon" fill="none" viewBox="0 0 24 24"></svg><span class="lesson-title">1.5: Update main.dart</span></a></li>
+                            </ul>
+                        </li>
+                        <!-- Chapter 02 -->
+                        <li class="chapter-item" data-chapter-id="2">
+                           <button class="chapter-header">
+                                <div class="chapter-icon-wrapper">
+                                    <svg class="progress-ring" viewBox="0 0 36 36"><circle class="progress-ring-bg" stroke-width="2" fill="none" cx="18" cy="18" r="16"></circle><circle class="progress-ring-fg" stroke-width="2" fill="none" cx="18" cy="18" r="16" stroke-dasharray="100.53" stroke-dashoffset="100.53"></circle></svg>
+                                    <svg class="chapter-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>
+                                </div>
+                                <h3 class="chapter-title">02: Reactive State</h3>
+                                <svg class="chapter-chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+                            </button>
+                            <ul class="lesson-list">
+                                <li class="lesson-item" data-lesson-id="c2_1"><a href="#c2_1"><svg class="lesson-status-icon" fill="none" viewBox="0 0 24 24"></svg><span class="lesson-title">2.1: HabitController</span></a></li>
+                                <li class="lesson-item" data-lesson-id="c2_2"><a href="#c2_2"><svg class="lesson-status-icon" fill="none" viewBox="0 0 24 24"></svg><span class="lesson-title">2.2: Refactor Main Screen</span></a></li>
+                            </ul>
+                        </li>
+                        <!-- Chapter 03 -->
+                        <li class="chapter-item" data-chapter-id="3">
+                            <button class="chapter-header">
+                                <div class="chapter-icon-wrapper">
+                                    <svg class="progress-ring" viewBox="0 0 36 36"><circle class="progress-ring-bg" stroke-width="2" fill="none" cx="18" cy="18" r="16"></circle><circle class="progress-ring-fg" stroke-width="2" fill="none" cx="18" cy="18" r="16" stroke-dasharray="100.53" stroke-dashoffset="100.53"></circle></svg>
+                                    <svg class="chapter-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" /></svg>
+                                </div>
+                                <h3 class="chapter-title">03: Forms & Navigation</h3>
+                                <svg class="chapter-chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+                            </button>
+                            <ul class="lesson-list">
+                                <li class="lesson-item" data-lesson-id="c3_1"><a href="#c3_1"><svg class="lesson-status-icon" fill="none" viewBox="0 0 24 24"></svg><span class="lesson-title">3.1: The Add/Edit Screen UI</span></a></li>
+                                <li class="lesson-item" data-lesson-id="c3_2"><a href="#c3_2"><svg class="lesson-status-icon" fill="none" viewBox="0 0 24 24"></svg><span class="lesson-title">3.2: Navigation with GetX</span></a></li>
+                                <li class="lesson-item" data-lesson-id="c3_3"><a href="#c3_3"><svg class="lesson-status-icon" fill="none" viewBox="0 0 24 24"></svg><span class="lesson-title">3.3: Capturing User Input</span></a></li>
+                                <li class="lesson-item" data-lesson-id="c3_4"><a href="#c3_4"><svg class="lesson-status-icon" fill="none" viewBox="0 0 24 24"></svg><span class="lesson-title">3.4: Adding a New Habit</span></a></li>
+                            </ul>
+                        </li>
+                        <!-- Chapter 04 -->
+                        <li class="chapter-item" data-chapter-id="4">
+                            <button class="chapter-header">
+                                <div class="chapter-icon-wrapper">
+                                    <svg class="progress-ring" viewBox="0 0 36 36"><circle class="progress-ring-bg" stroke-width="2" fill="none" cx="18" cy="18" r="16"></circle><circle class="progress-ring-fg" stroke-width="2" fill="none" cx="18" cy="18" r="16" stroke-dasharray="100.53" stroke-dashoffset="100.53"></circle></svg>
+                                    <svg class="chapter-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375" /></svg>
+                                </div>
+                                <h3 class="chapter-title">04: Persistence</h3>
+                                <svg class="chapter-chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+                            </button>
+                            <ul class="lesson-list">
+                                <li class="lesson-item" data-lesson-id="c4_1"><a href="#c4_1"><svg class="lesson-status-icon" fill="none" viewBox="0 0 24 24"></svg><span class="lesson-title">4.1: Add GetStorage</span></a></li>
+                                <li class="lesson-item" data-lesson-id="c4_2"><a href="#c4_2"><svg class="lesson-status-icon" fill="none" viewBox="0 0 24 24"></svg><span class="lesson-title">4.2: Prepare the Model</span></a></li>
+                                <li class="lesson-item" data-lesson-id="c4_3"><a href="#c4_3"><svg class="lesson-status-icon" fill="none" viewBox="0 0 24 24"></svg><span class="lesson-title">4.3: Update Controller</span></a></li>
+                            </ul>
+                        </li>
+                    </ul>
                 </nav>
             </aside>
 
@@ -348,7 +418,6 @@ class MainScreen extends StatelessWidget {
   }
 }</code></pre></div>
                                 <div class="milestone-box"><p class="font-bold">Milestone Reached!</p><p>Run the app. The UI now loads its data from the controller and updates instantly when you tap a checkbox! This is the power of reactive programming!</p></div>
-                                <!-- Downloadable Resource Card -->
                                 <div class="mt-8 flex flex-col md:flex-row items-center gap-6 bg-violet-900/20 border border-violet-700/50 rounded-lg p-6">
                                     <div class="flex-shrink-0 text-violet-400">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
@@ -610,7 +679,7 @@ class AddEditHabitScreen extends StatelessWidget {
                             </div>
                          </div>
                     </section>
-
+                    
                     <hr class="border-t-4 border-dashed border-gray-800 my-16">
 
                     <!-- Chapter 04 -->
@@ -872,7 +941,6 @@ reactiveCount++;</code></pre></div></div>
         <div id="getfind" data-inspector-title="Get.find()"><div class="inspector-summary"><p><strong>Get.find()</strong> is the GetX method used to find an already-created instance of a controller that was previously registered with <code>Get.put()</code>. It allows any widget, anywhere in the widget tree, to get access to the same controller instance without needing it to be passed down manually.</p></div></div>
         <div id="fab" data-inspector-title="FloatingActionButton"><div class="inspector-summary"><p>A <strong>FloatingActionButton (FAB)</strong> is a circular icon button that "floats" above the UI, typically in the bottom-right corner. It's used for a primary, promoted action on a screen, such as adding a new item.</p></div></div>
         
-        <!-- NEW Inspector Content for Chapter 4 -->
         <div id="getstorage" data-inspector-title="GetStorage">
             <div class="inspector-summary">
                 <p><strong>GetStorage</strong> is a fast, extra-light, and synchronous key-value storage library. It's written entirely in Dart and integrates perfectly with the GetX ecosystem.</p>
