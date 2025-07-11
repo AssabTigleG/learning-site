@@ -104,13 +104,20 @@
                             <li><a href="#c3_4" class="text-gray-300 hover:text-white">3.4: Adding a New Habit</a></li>
                         </ul>
                     </div>
+                     <div>
+                        <h3 class="font-semibold text-sky-400 mb-2">Chapter 04: Persistence</h3>
+                        <ul class="space-y-2 border-l-2 border-gray-600 pl-4">
+                            <li><a href="#c4_1" class="text-gray-300 hover:text-white">4.1: Add GetStorage</a></li>
+                            <li><a href="#c4_2" class="text-gray-300 hover:text-white">4.2: Prepare the Model</a></li>
+                            <li><a href="#c4_3" class="text-gray-300 hover:text-white">4.3: Update Controller</a></li>
+                        </ul>
+                    </div>
                 </nav>
             </aside>
 
             <!-- Center Pane: Instructional Canvas -->
             <main id="main-content" class="flex-1 overflow-y-auto p-8 md:p-12 bg-gray-900 transition-all duration-300">
                 <div class="max-w-4xl mx-auto">
-                    <!-- Chapter content from previous step remains here... -->
                     <!-- Chapter 00 -->
                     <section>
                         <h2 class="chapter-heading">Chapter 00: Project Kickstart & Vision</h2>
@@ -569,6 +576,175 @@ class AddEditHabitScreen extends StatelessWidget {
                                     <p class="font-bold">Full Loop Complete!</p>
                                     <p>Run the app. You can now tap the '+' button, navigate to the new screen, enter a habit name and description, save it, and see it instantly appear on your main list. Congratulations!</p>
                                 </div>
+                                <div class="mt-8 grid md:grid-cols-2 gap-8 items-center bg-gray-800/40 rounded-xl p-8 border border-gray-700">
+                                    <div>
+                                        <h4 class="text-lg font-bold text-emerald-400">Visual Checkpoint: App in Action!</h4>
+                                        <p class="mt-2 text-gray-300">At the end of this chapter, your app should behave exactly like the animation on the right. You can add new habits, and they appear on the main list instantly.</p>
+                                    </div>
+                                    <div class="mx-auto">
+                                        <div class="relative w-[250px] h-[500px] bg-black rounded-[30px] border-8 border-gray-700 shadow-2xl shadow-sky-900/20">
+                                            <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/v1752255682/chapter-3_mmo4t0.gif" alt="App animation showing adding a new habit" class="w-full h-full object-cover rounded-[22px]">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-8 flex flex-col md:flex-row items-center gap-6 bg-violet-900/20 border border-violet-700/50 rounded-lg p-6">
+                                    <div class="flex-shrink-0 text-violet-400">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="flex-grow text-center md:text-left">
+                                        <h4 class="text-lg font-semibold text-white">Download Chapter 3 Files</h4>
+                                        <p class="text-sm text-gray-400 mt-1">Get the complete source code for the project up to this point.</p>
+                                        <span class="font-code text-xs text-violet-300 bg-violet-900/50 px-2 py-1 rounded-full mt-2 inline-block">habit-tracker-chapter-3.7z</span>
+                                    </div>
+                                    <div class="flex-shrink-0 mt-4 md:mt-0">
+                                        <a href="assets/downloads/habit-tracker-chapter-3.7z" download="habit-tracker-chapter-3.7z" class="inline-flex items-center gap-2 bg-violet-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-violet-700 transition-colors transform hover:scale-105">
+                                            <span>Download</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                         </div>
+                    </section>
+
+                    <hr class="border-t-4 border-dashed border-gray-800 my-16">
+
+                    <!-- Chapter 04 -->
+                    <section>
+                         <h2 class="chapter-heading">Chapter 04: Data Persistence</h2>
+                         <div class="space-y-8">
+                            <div class="explanation-box"><p>Our app works well, but there's a huge problem: if you close the app, all your habits disappear! This is because they only exist in the phone's memory. In this chapter, we'll fix this by saving the habits to the device's storage, so the data persists between sessions.</p></div>
+                             <div>
+                                <h3 id="c4_1" class="lesson-heading">4.1: Add & Initialize GetStorage</h3>
+                                <p>We will use <span class="inspector-trigger" data-inspector-topic="getstorage">GetStorage</span>, a fast key-value storage library that's part of the GetX ecosystem.</p>
+                                <p>1. First, add it to your dependencies:</p>
+                                <div class="file-path">pubspec.yaml</div>
+                                <div class="code-block"><pre><code class="language-yaml">dependencies:
+  flutter:
+    sdk: flutter
+  get: ^4.6.6
+  get_storage: ^2.1.1 # Add this line</code></pre></div>
+                                <p>2. Next, initialize `GetStorage` in your `main` function before you run the app. This needs to be an `async` function now.</p>
+                                <div class="file-path">lib/main.dart</div>
+                                <div class="code-block"><pre><code class="language-dart">import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart'; // Import this
+import 'screens/main_screen.dart';
+
+// Make main async and initialize storage
+Future<void> main() async {
+  await GetStorage.init();
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
+      title: 'Habit Tracker',
+      theme: ThemeData.dark(),
+      home: const MainScreen(),
+    );
+  }
+}</code></pre></div>
+                            </div>
+                            <hr class="lesson-divider">
+                            <div>
+                                <h3 id="c4_2" class="lesson-heading">4.2: Prepare the Model for Storage</h3>
+                                <p>GetStorage saves data in a format similar to JSON (Key-Value pairs). We need to teach our `Habit` class how to convert itself into a storable format (<span class="inspector-trigger" data-inspector-topic="tojson">toJson</span>) and how to create itself from that stored format (<span class="inspector-trigger" data-inspector-topic="fromjson">fromJson</span>). This process is called <span class="inspector-trigger" data-inspector-topic="serialization">serialization</span>.</p>
+                                <div class="file-path">lib/models/habit.dart</div>
+                                <div class="code-block"><pre><code class="language-dart">class Habit {
+  final String name;
+  final String description;
+  bool isCompleted;
+
+  Habit({
+    required this.name,
+    required this.description,
+    this.isCompleted = false,
+  });
+
+  // Method to convert a Habit instance to a Map (storable format)
+  Map<String, dynamic> toJson() => {
+    'name': name,
+    'description': description,
+    'isCompleted': isCompleted,
+  };
+
+  // Factory constructor to create a Habit instance from a Map
+  factory Habit.fromJson(Map<String, dynamic> json) => Habit(
+    name: json['name'],
+    description: json['description'],
+    isCompleted: json['isCompleted'],
+  );
+}</code></pre></div>
+                            </div>
+                             <hr class="lesson-divider">
+                            <div>
+                                <h3 id="c4_3" class="lesson-heading">4.3: Update the HabitController</h3>
+                                <p>This is the final step. We'll update the controller to use `GetStorage`. It will now load habits from storage when it starts and automatically save the habit list whenever it changes.</p>
+                                <div class="file-path">lib/controllers/habit_controller.dart</div>
+                                <div class="code-block"><pre><code class="language-dart">import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import '../models/habit.dart';
+
+class HabitController extends GetxController {
+  var habits = <Habit>[].obs;
+  final box = GetStorage();
+
+  @override
+  void onInit() {
+    super.onInit();
+    
+    // Read the stored habits from the 'habits' key.
+    List? storedHabits = box.read<List>('habits');
+    
+    // If there are stored habits, parse them from JSON and load them.
+    if (storedHabits != null) {
+      habits.value = storedHabits.map((e) => Habit.fromJson(e)).toList();
+    }
+    
+    // The dummy data from Chapter 2 is no longer needed, as we now
+    // persist the user's actual data.
+
+    // Use a GetX worker called 'ever'. It listens to the 'habits' list.
+    // Every time the list is changed (add, remove, update), it saves
+    // the entire list to storage.
+    ever(habits, (_) {
+      box.write('habits', habits.toList().map((e) => e.toJson()).toList());
+    });
+  }
+
+  void addHabit(String name, String description) {
+    if (name.isEmpty) return;
+    final newHabit = Habit(name: name, description: description);
+    // When we add a habit here, the 'ever' worker will automatically save it.
+    habits.add(newHabit);
+  }
+
+  void toggleHabit(Habit habit) {
+    habit.isCompleted = !habit.isCompleted;
+    // When we toggle here, the 'ever' worker will also save the change.
+    habits.refresh();
+  }
+}</code></pre></div>
+                                <div class="rationale-box">
+                                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                                    <div>
+                                        <p class="title">Why use an `ever` worker?</p>
+                                        <p class="text">The <span class="inspector-trigger" data-inspector-topic="everworker">ever</span> worker from GetX is incredibly powerful. It triggers a callback function *every time* the reactive variable (`habits`) changes. By using it, we no longer need to manually call a "save" function inside `addHabit` and `toggleHabit`. The saving happens automatically in one central place, making our code cleaner and less error-prone.</p>
+                                    </div>
+                                </div>
+                                 <div class="milestone-box">
+                                    <p class="font-bold">Persistence Achieved!</p>
+                                    <p>Run the app. Add a new habit or toggle an existing one. Now, completely close the app from your device's recent apps list and reopen it. Your changes will still be there! Your app now has a memory.</p>
+                                </div>
                             </div>
                          </div>
                     </section>
@@ -695,6 +871,41 @@ reactiveCount++;</code></pre></div></div>
         <div id="getback" data-inspector-title="Get.back()"><div class="inspector-summary"><p><strong>Get.back()</strong> is the GetX method for closing the current screen and "popping" it off the navigation stack, returning the user to the previous screen. It's the counterpart to <code>Get.to()</code>.</p></div></div>
         <div id="getfind" data-inspector-title="Get.find()"><div class="inspector-summary"><p><strong>Get.find()</strong> is the GetX method used to find an already-created instance of a controller that was previously registered with <code>Get.put()</code>. It allows any widget, anywhere in the widget tree, to get access to the same controller instance without needing it to be passed down manually.</p></div></div>
         <div id="fab" data-inspector-title="FloatingActionButton"><div class="inspector-summary"><p>A <strong>FloatingActionButton (FAB)</strong> is a circular icon button that "floats" above the UI, typically in the bottom-right corner. It's used for a primary, promoted action on a screen, such as adding a new item.</p></div></div>
+        
+        <!-- NEW Inspector Content for Chapter 4 -->
+        <div id="getstorage" data-inspector-title="GetStorage">
+            <div class="inspector-summary">
+                <p><strong>GetStorage</strong> is a fast, extra-light, and synchronous key-value storage library. It's written entirely in Dart and integrates perfectly with the GetX ecosystem.</p>
+            </div>
+            <h4 class="inspector-section-heading">Why Use GetStorage?</h4>
+            <ul class="inspector-list">
+                <li><strong>Simplicity</strong>: The API is extremely simple: `box.write(key, value)` and `box.read(key)`.</li>
+                <li><strong>Performance</strong>: It's significantly faster than other key-value solutions like `shared_preferences`.</li>
+                <li><strong>No `async` needed</strong>: After initialization, all read/write operations are synchronous, which simplifies your code.</li>
+            </ul>
+        </div>
+        <div id="serialization" data-inspector-title="Serialization">
+            <div class="inspector-summary">
+                <p><strong>Serialization</strong> is the process of converting a complex data object (like our `Habit` class instance) into a format that can be easily stored or transmitted, and then reconstructed later. The most common format for this is JSON.</p>
+            </div>
+        </div>
+        <div id="tojson" data-inspector-title="toJson() method">
+            <div class="inspector-summary">
+                <p>The <strong>toJson()</strong> method is a convention used in Dart for serialization. Its job is to convert an instance of a class into a `Map<String, dynamic>`, which is a structure that can be easily encoded into a JSON string.</p>
+            </div>
+        </div>
+        <div id="fromjson" data-inspector-title="fromJson() factory">
+            <div class="inspector-summary">
+                <p>A <strong>fromJson()</strong> factory constructor is the reverse of `toJson()`. It takes a `Map<String, dynamic>` (decoded from JSON) and uses it to construct a new instance of the class, populating its properties with the map's values.</p>
+            </div>
+        </div>
+        <div id="everworker" data-inspector-title="The 'ever' Worker">
+            <div class="inspector-summary">
+                <p>The <strong>ever</strong> worker is a feature of GetX that listens to a reactive variable (an `.obs` variable) and executes a callback function <strong>every time</strong> that variable's value changes.</p>
+            </div>
+            <h4 class="inspector-section-heading">Why is it useful here?</h4>
+            <p class="text-gray-400">By using `ever(habits, ...)`, we create a single, reliable listener that automatically saves our entire list to storage whenever *any* change occurs (adding, removing, or updating a habit). This is much cleaner than adding a `box.write()` call in every single method that modifies the list.</p>
+        </div>
     </div>
 
     <script src="main.js"></script>
