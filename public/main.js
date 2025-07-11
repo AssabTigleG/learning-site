@@ -1,13 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
     /**
-     * Toggles the visibility of the mobile navigation menu.
+     * Toggles the visibility of the mobile progress navigator.
      */
     const initializeMobileMenu = () => {
         const menuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        if (menuButton && mobileMenu) {
-            menuButton.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
-        }
+        const navigator = document.getElementById('progress-navigator');
+        const overlay = document.getElementById('mobile-navigator-overlay');
+        
+        if (!menuButton || !navigator || !overlay) return;
+
+        const openMobileNavigator = () => {
+            navigator.classList.remove('-translate-x-full');
+            overlay.classList.remove('hidden');
+        };
+
+        const closeMobileNavigator = () => {
+            navigator.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+        };
+
+        menuButton.addEventListener('click', openMobileNavigator);
+        overlay.addEventListener('click', closeMobileNavigator);
+
+        // Make the close function globally accessible for other parts of the script
+        window.closeMobileNavigator = closeMobileNavigator;
     };
 
     /**
@@ -182,6 +198,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const completedLessons = getCompletedLessons();
             completedLessons.add(lessonId);
             setCompletedLessons(completedLessons);
+            
+            // Close mobile nav if it's open
+            if (window.closeMobileNavigator) window.closeMobileNavigator();
             
             setTimeout(updateProgress, 50);
         };
