@@ -17,12 +17,15 @@
         ::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #4B5563; }
 
-        /* Custom Styles for Tutorial Canvas */
-        .chapter-heading { @apply text-3xl font-bold text-sky-400 mb-2; }
-        .lesson-heading { @apply text-2xl font-semibold text-white mb-4 pt-16 -mt-16; } /* Padding/margin trick for anchor links */
+        /* ApexUI - Modern Tutorial Styles */
+        .chapter-heading { @apply text-4xl font-bold text-sky-400 mb-12; }
+        .lesson-heading { @apply text-xl font-semibold text-white mb-3 pt-20 -mt-20; } /* Padding/margin trick for anchor links */
+        .explanation-box { @apply bg-sky-900/20 border-l-4 border-sky-500 text-gray-300 p-4 my-4 rounded-r-lg; }
         .code-block { @apply font-code text-sm bg-black/50 border border-gray-700 rounded-lg p-4 my-4 overflow-x-auto; }
-        .explanation-box { @apply bg-gray-800 border-l-4 border-sky-500 text-gray-300 p-4 my-4 rounded-r-lg; }
         .file-path { @apply font-code text-sm text-gray-500 bg-gray-800 px-3 py-1 rounded-md border border-gray-700 my-2 inline-block; }
+        .final-product-container { @apply bg-gray-800/40 rounded-lg p-4 flex items-center justify-center min-h-[450px] my-6; }
+        .milestone-box { @apply mt-8 bg-emerald-900/30 border border-emerald-600/50 text-emerald-300 rounded-lg p-4; }
+        .lesson-divider { @apply border-t-2 border-dashed border-gray-800 my-8; }
     </style>
 </head>
 <body class="bg-gray-900 text-gray-100 antialiased h-screen overflow-hidden">
@@ -59,7 +62,7 @@
                     <div>
                         <h3 class="font-semibold text-sky-400 mb-2">Chapter 00: Kickstart</h3>
                         <ul class="space-y-2 border-l-2 border-gray-600 pl-4">
-                            <li><a href="#c0_1" class="text-gray-300 hover:text-white">0.1: The Final Product</a></li>
+                            <li><a href="#c0_1" class="text-gray-300 hover:text-white">0.1: Final Product</a></li>
                             <li><a href="#c0_2" class="text-gray-300 hover:text-white">0.2: What You Will Learn</a></li>
                             <li><a href="#c0_3" class="text-gray-300 hover:text-white">0.3: Project Creation</a></li>
                         </ul>
@@ -73,65 +76,73 @@
                             <li><a href="#c1_4" class="text-gray-300 hover:text-white">1.4: Update main.dart</a></li>
                         </ul>
                     </div>
-                    <div class="opacity-50">
-                        <h3 class="font-semibold text-sky-400 mb-2">Chapter 02: State (Coming Soon)</h3>
+                    <div>
+                        <h3 class="font-semibold text-sky-400 mb-2">Chapter 02: Reactive State</h3>
+                        <ul class="space-y-2 border-l-2 border-gray-600 pl-4">
+                            <li><a href="#c2_1" class="text-gray-300 hover:text-white">2.1: Add GetX Package</a></li>
+                            <li><a href="#c2_2" class="text-gray-300 hover:text-white">2.2: HabitController</a></li>
+                            <li><a href="#c2_3" class="text-gray-300 hover:text-white">2.3: Refactor Main Screen</a></li>
+                            <li><a href="#c2_4" class="text-gray-300 hover:text-white">2.4: Implement Toggle</a></li>
+                        </ul>
+                    </div>
+                     <div class="opacity-50">
+                        <h3 class="font-semibold text-sky-400 mb-2">Chapter 03: Forms (Coming Soon)</h3>
                     </div>
                 </nav>
             </aside>
 
             <!-- Right Pane: Instructional Canvas -->
             <main class="flex-1 overflow-y-auto p-8 md:p-12 bg-gray-900">
-                <div class="max-w-4xl mx-auto space-y-16">
+                <div class="max-w-4xl mx-auto">
                     <!-- Chapter 00 -->
                     <section>
                         <h2 class="chapter-heading">Chapter 00: Project Kickstart & Vision</h2>
-                        
-                        <h3 id="c0_1" class="lesson-heading">0.1: The Final Product</h3>
-                        <div class="explanation-box">
-                            <p>Welcome! In this project, we will build a beautiful, functional Habit Tracker app from scratch. Here's a preview of what you'll create.</p>
-                        </div>
-                        <img src="https://placehold.co/800x600/1F2937/38BDF8?text=Your-Finished-App.gif" alt="Final Habit Tracker App" class="rounded-lg border border-gray-700"/>
-
-                        <h3 id="c0_2" class="lesson-heading">0.2: What You Will Learn</h3>
-                        <ul class="list-disc list-inside text-gray-300 space-y-2">
-                            <li>Core Flutter concepts like Stateless vs. Stateful widgets.</li>
-                            <li>Building complex, reusable UI components.</li>
-                            <li>Working with Lists using <code class="font-code text-sm">ListView.builder</code>.</li>
-                            <li>Navigating between screens with <code class="font-code text-sm">Navigator</code>.</li>
-                            <li>Handling user input with Forms and Text Controllers.</li>
-                            <li>Basic state management principles.</li>
-                        </ul>
-
-                        <h3 id="c0_3" class="lesson-heading">0.3: Project Creation & Folder Setup</h3>
-                        <div class="explanation-box">
-                            <p>Good organization is key to a healthy project. First, create the Flutter project, then we'll set up our folders.</p>
-                        </div>
-                        <p>1. Run this command in your terminal to create the project:</p>
-                        <div class="code-block">
-                            <pre><code>flutter create habit_tracker</code></pre>
-                        </div>
-                        <p>2. Open the `habit_tracker` folder in your code editor. Inside the `lib` folder, create the following subfolders. This keeps our code organized by feature.</p>
-                         <div class="code-block">
-                            <pre><code>lib/
-├── models/         # For our data structures (like the Habit model)
+                        <div class="space-y-8">
+                            <div>
+                                <h3 id="c0_1" class="lesson-heading">0.1: The Final Product</h3>
+                                <div class="explanation-box"><p>Welcome! In this project, we will build a beautiful, functional Habit Tracker app from scratch. Here's a preview of what you'll create.</p></div>
+                                <div class="final-product-container"><img src="https://placehold.co/800x600/1F2937/38BDF8?text=Your-Finished-App.gif" alt="Final Habit Tracker App" class="rounded-lg shadow-2xl"/></div>
+                            </div>
+                            <hr class="lesson-divider">
+                            <div>
+                                <h3 id="c0_2" class="lesson-heading">0.2: What You Will Learn</h3>
+                                <ul class="list-disc list-inside text-gray-300 space-y-2">
+                                    <li>Building complex, reusable UI components.</li>
+                                    <li>Reactive state management with <span class="font-bold text-violet-300">GetX</span>.</li>
+                                    <li>Dependency injection with <code class="font-code text-sm">Get.put()</code>.</li>
+                                    <li>Creating dynamic lists with <code class="font-code text-sm">ListView.builder</code>.</li>
+                                    <li>Navigating between screens with <code class="font-code text-sm">Get.to()</code>.</li>
+                                </ul>
+                            </div>
+                            <hr class="lesson-divider">
+                            <div>
+                                <h3 id="c0_3" class="lesson-heading">0.3: Project Creation & Folder Setup</h3>
+                                <div class="explanation-box"><p>Good organization is key to a healthy project. First, create the Flutter project, then we'll set up our folders.</p></div>
+                                <p>1. Run this command in your terminal:</p>
+                                <div class="code-block"><pre><code>flutter create habit_tracker</code></pre></div>
+                                <p>2. Open the `habit_tracker` folder. Inside `lib`, create a `controllers` folder. Our structure is now:</p>
+                                <div class="code-block"><pre><code>lib/
+├── controllers/    # For our GetX controllers
+├── models/         # For our data structures
 ├── screens/        # For each full screen of our app
 ├── widgets/        # For small, reusable UI components
-└── main.dart</code></pre>
+└── main.dart</code></pre></div>
+                            </div>
                         </div>
                     </section>
-                    
+
+                    <hr class="border-t-4 border-dashed border-gray-800 my-16">
+
                     <!-- Chapter 01 -->
                     <section>
                         <h2 class="chapter-heading">Chapter 01: The Main Screen - A Static View</h2>
-                        <div class="explanation-box">
-                            <p>In this chapter, we will build the complete visual shell of the main screen. It won't do anything yet, but it will look correct. This "static-first" approach is a great way to build UIs.</p>
-                        </div>
-                        
-                        <h3 id="c1_1" class="lesson-heading">1.1: The Habit Model</h3>
-                        <p>Before we can display a habit, we need to define what a "habit" is in our code. This is our data model.</p>
-                        <div class="file-path">lib/models/habit.dart</div>
-                        <div class="code-block">
-<pre><code class="language-dart">class Habit {
+                        <div class="space-y-8">
+                            <div class="explanation-box"><p>In this chapter, we will build the visual shell of the main screen. It won't have any logic yet, but it will look correct. This "static-first" approach is a great way to build UIs.</p></div>
+                            <div>
+                                <h3 id="c1_1" class="lesson-heading">1.1: The Habit Model</h3>
+                                <p>First, define what a "habit" is in our code. This is our data model.</p>
+                                <div class="file-path">lib/models/habit.dart</div>
+                                <div class="code-block"><pre><code class="language-dart">class Habit {
   final String name;
   final String description;
   bool isCompleted;
@@ -141,24 +152,25 @@
     required this.description,
     this.isCompleted = false,
   });
-}
-</code></pre>
-                        </div>
-                        
-                        <h3 id="c1_2" class="lesson-heading">1.2: The HabitListItem Widget</h3>
-                        <p>Next, we'll create a dedicated, reusable widget to display a single habit in the list. This makes our code much cleaner.</p>
-                        <div class="file-path">lib/widgets/habit_list_item.dart</div>
-                        <div class="code-block">
-<pre><code class="language-dart">import 'package:flutter/material.dart';
+}</code></pre></div>
+                            </div>
+                            <hr class="lesson-divider">
+                            <div>
+                                <h3 id="c1_2" class="lesson-heading">1.2: The HabitListItem Widget</h3>
+                                <p>Next, we'll create a dedicated, reusable widget to display a single habit. It will need a function to call when the checkbox is tapped.</p>
+                                <div class="file-path">lib/widgets/habit_list_item.dart</div>
+                                <div class="code-block"><pre><code class="language-dart">import 'package:flutter/material.dart';
 
 class HabitListItem extends StatelessWidget {
   final String habitName;
   final bool isCompleted;
+  final Function(bool?)? onToggle;
 
   const HabitListItem({
     super.key,
     required this.habitName,
     required this.isCompleted,
+    required this.onToggle,
   });
 
   @override
@@ -167,22 +179,18 @@ class HabitListItem extends StatelessWidget {
       title: Text(habitName),
       leading: Checkbox(
         value: isCompleted,
-        onChanged: (value) {
-          // Logic will be added in a later chapter!
-        },
+        onChanged: onToggle,
       ),
     );
   }
-}
-</code></pre>
-                        </div>
-
-                        <h3 id="c1_3" class="lesson-heading">1.3: Assembling the Main Screen</h3>
-                        <p>Now we create the main screen itself, using our new `HabitListItem` widget in a `ListView`.</p>
-                        <div class="file-path">lib/screens/main_screen.dart</div>
-                        <div class="code-block">
-<pre><code class="language-dart">import 'package:flutter/material.dart';
-import '../widgets/habit_list_item.dart';
+}</code></pre></div>
+                            </div>
+                            <hr class="lesson-divider">
+                            <div>
+                                <h3 id="c1_3" class="lesson-heading">1.3: Assembling the Main Screen</h3>
+                                <p>Now we create the main screen itself. For now, it will be a simple `StatelessWidget`.</p>
+                                <div class="file-path">lib/screens/main_screen.dart</div>
+                                <div class="code-block"><pre><code class="language-dart">import 'package:flutter/material.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -192,32 +200,23 @@ class MainScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Habits'),
-        backgroundColor: Colors.grey[900],
       ),
-      body: ListView(
-        children: const [
-          HabitListItem(habitName: 'Read for 15 minutes', isCompleted: true),
-          HabitListItem(habitName: 'Go for a walk', isCompleted: false),
-          HabitListItem(habitName: 'Drink 8 glasses of water', isCompleted: false),
-        ],
-      ),
+      body: Center(child: Text("Habits will be loaded here!")),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Navigation will be added later!
-        },
+        onPressed: () {},
         child: const Icon(Icons.add),
       ),
     );
   }
-}
-</code></pre>
-                        </div>
-
-                        <h3 id="c1_4" class="lesson-heading">1.4: Update main.dart to Show Our Screen</h3>
-                        <p>Finally, we need to tell our app to show our new `MainScreen` when it launches, instead of the default Flutter counter app.</p>
-                        <div class="file-path">lib/main.dart</div>
-                         <div class="code-block">
-<pre><code class="language-dart">import 'package:flutter/material.dart';
+}</code></pre></div>
+                            </div>
+                            <hr class="lesson-divider">
+                            <div>
+                                <h3 id="c1_4" class="lesson-heading">1.4: Update main.dart to Show Our Screen</h3>
+                                <p>Finally, tell our app to show our new `MainScreen` on launch. We'll use `GetMaterialApp` instead of `MaterialApp` to enable GetX features.</p>
+                                <div class="file-path">lib/main.dart</div>
+                                <div class="code-block"><pre><code class="language-dart">import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'screens/main_screen.dart';
 
 void main() {
@@ -229,22 +228,130 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Habit Tracker',
-      theme: ThemeData.dark().copyWith(
-        primaryColor: Colors.blue,
-        scaffoldBackgroundColor: Colors.black,
-      ),
+      theme: ThemeData.dark(),
       home: const MainScreen(),
     );
   }
-}
-</code></pre>
+}</code></pre></div>
+                            </div>
                         </div>
-                        <div class="explanation-box">
-                            <p class="font-bold">Milestone Reached!</p>
-                            <p>Run the app now (<code class="font-code text-sm">flutter run</code>). You should see your static main screen with three hardcoded habits. Congratulations, you've built your first screen!</p>
-                        </div>
+                    </section>
+                    
+                    <hr class="border-t-4 border-dashed border-gray-800 my-16">
+
+                    <!-- Chapter 02 -->
+                    <section>
+                         <h2 class="chapter-heading">Chapter 02: Reactive State with GetX</h2>
+                         <div class="space-y-8">
+                            <div class="explanation-box"><p>This is where the magic happens! We'll introduce GetX to manage our app's state. This means our UI will automatically update when our data changes, without needing `StatefulWidget` or `setState()`.</p></div>
+                             <div>
+                                <h3 id="c2_1" class="lesson-heading">2.1: Add the GetX Package</h3>
+                                <p>Open your `pubspec.yaml` file and add `get` under dependencies. Then, run `flutter pub get` in your terminal.</p>
+                                <div class="file-path">pubspec.yaml</div>
+                                <div class="code-block"><pre><code class="language-yaml">dependencies:
+  flutter:
+    sdk: flutter
+  get: ^4.6.6 # Add this line
+  # ... other dependencies</code></pre></div>
+                            </div>
+                             <hr class="lesson-divider">
+                            <div>
+                                <h3 id="c2_2" class="lesson-heading">2.2: Create the HabitController</h3>
+                                <p>The Controller is the brain of our screen. It holds the data (the list of habits) and the logic to manipulate that data. Notice the <code class="font-code text-sm">.obs</code> - this makes our list "observable", so GetX can watch it for changes.</p>
+                                <div class="file-path">lib/controllers/habit_controller.dart</div>
+                                <div class="code-block"><pre><code class="language-dart">import 'package:get/get.dart';
+import '../models/habit.dart';
+
+class HabitController extends GetxController {
+  // .obs makes this list reactive.
+  var habits = <Habit>[].obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    // Load some dummy data when the controller is initialized
+    habits.addAll([
+      Habit(name: 'Read for 15 minutes', description: 'Expand the mind'),
+      Habit(name: 'Go for a walk', description: 'Good for the body', isCompleted: true),
+      Habit(name: 'Drink 8 glasses of water', description: 'Stay hydrated'),
+    ]);
+  }
+
+  void toggleHabit(Habit habit) {
+    habit.isCompleted = !habit.isCompleted;
+    habits.refresh(); // Tell GetX that an item inside the list has changed.
+  }
+}</code></pre></div>
+                            </div>
+                            <hr class="lesson-divider">
+                            <div>
+                                <h3 id="c2_3" class="lesson-heading">2.3: Refactor the Main Screen</h3>
+                                <p>We'll now connect our `MainScreen` to the `HabitController`. <code class="font-code text-sm">Get.put()</code> creates and registers our controller. The <code class="font-code text-sm">Obx</code> widget rebuilds its child whenever the `habits` list inside the controller changes.</p>
+                                <div class="file-path">lib/screens/main_screen.dart</div>
+                                <div class="code-block"><pre><code class="language-dart">import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../controllers/habit_controller.dart';
+import '../widgets/habit_list_item.dart';
+
+class MainScreen extends StatelessWidget {
+  const MainScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // Initialize our controller. GetX will manage its lifecycle.
+    final HabitController controller = Get.put(HabitController());
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('My Habits (GetX)'),
+      ),
+      // Obx listens to reactive variables in the controller and rebuilds on change.
+      body: Obx(() => ListView.builder(
+        itemCount: controller.habits.length,
+        itemBuilder: (context, index) {
+          final habit = controller.habits[index];
+          return HabitListItem(
+            habitName: habit.name,
+            isCompleted: habit.isCompleted,
+            onToggle: (value) {
+              // We will implement this in the next step!
+            },
+          );
+        },
+      )),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
+}</code></pre></div>
+                            </div>
+                            <hr class="lesson-divider">
+                            <div>
+                                <h3 id="c2_4" class="lesson-heading">2.4: Implement the Toggle Logic</h3>
+                                <p>The final step is to make the checkbox work. We simply call the `toggleHabit` method on our controller. GetX handles the rest!</p>
+                                <div class="file-path">lib/screens/main_screen.dart (Updated `itemBuilder`)</div>
+                                <div class="code-block"><pre><code class="language-dart">// Inside the ListView.builder's itemBuilder...
+itemBuilder: (context, index) {
+  final habit = controller.habits[index];
+  return HabitListItem(
+    habitName: habit.name,
+    isCompleted: habit.isCompleted,
+    onToggle: (value) {
+      // Simply call the method on the controller.
+      controller.toggleHabit(habit);
+    },
+  );
+},</code></pre></div>
+                                <div class="milestone-box">
+                                    <p class="font-bold">Milestone Reached!</p>
+                                    <p>Run the app again. The UI now loads its data from the controller. Best of all, when you tap a checkbox, the UI updates instantly and automatically. This is the power of reactive state management!</p>
+                                </div>
+                            </div>
+                         </div>
                     </section>
                 </div>
             </main>
