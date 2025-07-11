@@ -37,10 +37,23 @@
         
         /* Concept Inspector Styles */
         .inspector-trigger { @apply text-emerald-300 border-b border-dotted border-emerald-400/50 cursor-pointer transition-colors hover:text-emerald-200; }
+
+        /* -- NEW -- Improved Inspector Panel Styles */
+        .inspector-summary { @apply bg-gray-700/50 border border-gray-600 rounded-lg p-4 mb-6 text-gray-200 text-base leading-relaxed; }
+        .inspector-summary strong { @apply text-sky-300; }
+        .inspector-section-heading { @apply text-lg font-semibold text-sky-300 mt-6 mb-3 border-b-2 border-sky-800/50 pb-2; }
+        .inspector-list { @apply list-none space-y-3 text-gray-300 pl-1; }
+        .inspector-list li { @apply flex items-start; }
+        .inspector-list li::before { 
+            content: '✓';
+            @apply text-sky-400 mr-3 mt-1 text-sm font-bold flex-shrink-0;
+        }
+        .inspector-list strong { @apply text-white font-semibold; }
     </style>
 </head>
 <body class="bg-gray-900 text-gray-100 antialiased h-screen overflow-hidden">
 
+    <!-- The main page structure remains the same -->
     <div class="flex flex-col h-full">
         <!-- Header -->
         <header class="bg-gray-900/80 backdrop-blur-sm z-50 border-b border-gray-700/50 w-full flex-shrink-0">
@@ -82,12 +95,22 @@
                             <li><a href="#c2_2" class="text-gray-300 hover:text-white">2.2: Refactor Main Screen</a></li>
                         </ul>
                     </div>
+                    <div>
+                        <h3 class="font-semibold text-sky-400 mb-2">Chapter 03: Forms & Navigation</h3>
+                        <ul class="space-y-2 border-l-2 border-gray-600 pl-4">
+                            <li><a href="#c3_1" class="text-gray-300 hover:text-white">3.1: The Add/Edit Screen UI</a></li>
+                            <li><a href="#c3_2" class="text-gray-300 hover:text-white">3.2: Navigation with GetX</a></li>
+                            <li><a href="#c3_3" class="text-gray-300 hover:text-white">3.3: Capturing User Input</a></li>
+                            <li><a href="#c3_4" class="text-gray-300 hover:text-white">3.4: Adding a New Habit</a></li>
+                        </ul>
+                    </div>
                 </nav>
             </aside>
 
             <!-- Center Pane: Instructional Canvas -->
             <main id="main-content" class="flex-1 overflow-y-auto p-8 md:p-12 bg-gray-900 transition-all duration-300">
                 <div class="max-w-4xl mx-auto">
+                    <!-- Chapter content from previous step remains here... -->
                     <!-- Chapter 00 -->
                     <section>
                         <h2 class="chapter-heading">Chapter 00: Project Kickstart & Vision</h2>
@@ -317,7 +340,235 @@ class MainScreen extends StatelessWidget {
     );
   }
 }</code></pre></div>
-                                <div class="milestone-box"><p class="font-bold">Milestone Reached!</p><p>Run the app. The UI now loads its data from the controller and updates instantly when you tap a checkbox!</p></div>
+                                <div class="milestone-box"><p class="font-bold">Milestone Reached!</p><p>Run the app. The UI now loads its data from the controller and updates instantly when you tap a checkbox! This is the power of reactive programming!</p></div>
+                                <!-- Downloadable Resource Card -->
+                                <div class="mt-8 flex flex-col md:flex-row items-center gap-6 bg-violet-900/20 border border-violet-700/50 rounded-lg p-6">
+                                    <div class="flex-shrink-0 text-violet-400">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                        </svg>
+                                    </div>
+                                    <div class="flex-grow text-center md:text-left">
+                                        <h4 class="text-lg font-semibold text-white">Download Chapter 2 Files</h4>
+                                        <p class="text-sm text-gray-400 mt-1">Get the complete source code for the project up to this point.</p>
+                                        <span class="font-code text-xs text-violet-300 bg-violet-900/50 px-2 py-1 rounded-full mt-2 inline-block">habit-tracker-chapter-2.7z</span>
+                                    </div>
+                                    <div class="flex-shrink-0 mt-4 md:mt-0">
+                                        <a href="assets/downloads/habit-tracker-chapter-2.7z" download="habit-tracker-chapter-2.7z" class="inline-flex items-center gap-2 bg-violet-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-violet-700 transition-colors transform hover:scale-105">
+                                            <span>Download</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                         </div>
+                    </section>
+                    
+                    <hr class="border-t-4 border-dashed border-gray-800 my-16">
+
+                    <!-- Chapter 03 -->
+                    <section>
+                         <h2 class="chapter-heading">Chapter 03: Forms & Navigation</h2>
+                         <div class="space-y-8">
+                            <div class="explanation-box"><p>A static list is great, but apps need user input! In this chapter, we'll create a new screen to add habits, handle text input with forms, and use GetX to navigate between screens.</p></div>
+                             <div>
+                                <h3 id="c3_1" class="lesson-heading">3.1: The Add/Edit Screen UI</h3>
+                                <p>First, let's build the user interface for our new screen. We'll use a <span class="inspector-trigger" data-inspector-topic="scaffold">Scaffold</span> with a body containing <span class="inspector-trigger" data-inspector-topic="padding">Padding</span>, a <span class="inspector-trigger" data-inspector-topic="column">Column</span> to arrange widgets vertically, and an <span class="inspector-trigger" data-inspector-topic="elevatedbutton">ElevatedButton</span> to save the form.</p>
+                                <div class="file-path">lib/screens/add_edit_habit_screen.dart</div>
+                                <div class="code-block"><pre><code class="language-dart">import 'package:flutter/material.dart';
+
+class AddEditHabitScreen extends StatelessWidget {
+  const AddEditHabitScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Add New Habit'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            TextField(
+              decoration: const InputDecoration(labelText: 'Habit Name'),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              decoration: const InputDecoration(labelText: 'Description'),
+            ),
+            const SizedBox(height: 32),
+            ElevatedButton(
+              onPressed: () {},
+              child: const Text('Save Habit'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+</code></pre></div>
+                            </div>
+                            <hr class="lesson-divider">
+                            <div>
+                                <h3 id="c3_2" class="lesson-heading">3.2: Navigation with GetX</h3>
+                                <p>Now, let's make the <span class="inspector-trigger" data-inspector-topic="fab">FloatingActionButton</span> on the main screen navigate to our new screen. GetX makes this incredibly simple with <span class="inspector-trigger" data-inspector-topic="getto">Get.to()</span>.</p>
+                                <div class="file-path">lib/screens/main_screen.dart (update FAB)</div>
+                                <div class="code-block"><pre><code class="language-dart">import 'package:get/get.dart';
+import 'add_edit_habit_screen.dart';
+// ... other imports
+
+// In main_screen.dart, inside the Scaffold...
+floatingActionButton: FloatingActionButton(
+  onPressed: () {
+    // Navigate to the new screen
+    Get.to(() => const AddEditHabitScreen());
+  },
+  child: const Icon(Icons.add),
+),</code></pre></div>
+                                <div class="rationale-box">
+                                    <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                                    <div>
+                                        <p class="title">Why `Get.to()`?</p>
+                                        <p class="text">Normally in Flutter, navigation requires access to the `context`. GetX removes this dependency, allowing you to call `Get.to()` from anywhere in your code—even from within a controller—without needing to pass the context around. It's cleaner and more flexible.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="lesson-divider">
+                            <div>
+                                <h3 id="c3_3" class="lesson-heading">3.3: Capturing User Input</h3>
+                                <p>To get the text from the <span class="inspector-trigger" data-inspector-topic="textfield">TextField</span> widgets, we need to use a <span class="inspector-trigger" data-inspector-topic="texteditingcontroller">TextEditingController</span> for each one.</p>
+                                <div class="file-path">lib/screens/add_edit_habit_screen.dart (updated)</div>
+                                <div class="code-block"><pre><code class="language-dart">import 'package:flutter/material.dart';
+
+class AddEditHabitScreen extends StatelessWidget {
+  const AddEditHabitScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // Create controllers
+    final nameController = TextEditingController();
+    final descriptionController = TextEditingController();
+
+    return Scaffold(
+      appBar: AppBar(title: const Text('Add New Habit')),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: nameController, // Attach controller
+              decoration: const InputDecoration(labelText: 'Habit Name'),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: descriptionController, // Attach controller
+              decoration: const InputDecoration(labelText: 'Description'),
+            ),
+            const SizedBox(height: 32),
+            ElevatedButton(
+              onPressed: () {
+                // We will add save logic here
+                print(nameController.text);
+                print(descriptionController.text);
+              },
+              child: const Text('Save Habit'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+</code></pre></div>
+                                <div class="mt-8 grid md:grid-cols-2 gap-8 items-center">
+                                    <div>
+                                        <h4 class="text-lg font-bold text-sky-400">Verification Step: Debugging with `print()`</h4>
+                                        <p class="mt-2 text-gray-300">Run the app, fill out the form, and click "Save". In VS Code, check the "DEBUG CONSOLE" tab. You should see the text you entered printed out, confirming that your controllers are working correctly. This is a fundamental debugging skill.</p>
+                                    </div>
+                                    <div class="mx-auto">
+                                        <div class="relative w-[300px] h-[150px] bg-[#1e1e1e] rounded-lg border border-gray-700 shadow-xl overflow-hidden">
+                                            <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752252264/Habit_2_mg19rr.png" alt="Debug console output showing user input" class="w-full h-full object-cover">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                             <hr class="lesson-divider">
+                            <div>
+                                <h3 id="c3_4" class="lesson-heading">3.4: Adding a New Habit</h3>
+                                <p>Let's connect everything. We'll add a method to our `HabitController`, then use <span class="inspector-trigger" data-inspector-topic="getfind">Get.find()</span> in our form to get the controller instance. We'll call the new method inside the button's <span class="inspector-trigger" data-inspector-topic="onpressed">onPressed</span> event and use <span class="inspector-trigger" data-inspector-topic="getback">Get.back()</span> to return to the list.</p>
+                                <p>1. First, add the new method to the controller:</p>
+                                <div class="file-path">lib/controllers/habit_controller.dart (add method)</div>
+                                <div class="code-block"><pre><code class="language-dart">// Inside HabitController class
+void addHabit(String name, String description) {
+  if (name.isEmpty) {
+    // Optional: Show a snackbar or message if the name is empty
+    return;
+  }
+  final newHabit = Habit(
+    name: name,
+    description: description,
+  );
+  habits.add(newHabit);
+}</code></pre></div>
+                                <p>2. Now, update the `onPressed` in `AddEditHabitScreen` to use the controller and navigate back.</p>
+                                <div class="file-path">lib/screens/add_edit_habit_screen.dart (update button)</div>
+                                <div class="code-block"><pre><code class="language-dart">import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../controllers/habit_controller.dart';
+import '../models/habit.dart';
+
+class AddEditHabitScreen extends StatelessWidget {
+  const AddEditHabitScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final nameController = TextEditingController();
+    final descriptionController = TextEditingController();
+    // Find the existing controller instance created on the MainScreen
+    final HabitController controller = Get.find();
+
+    return Scaffold(
+      appBar: AppBar(title: const Text('Add New Habit')),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: nameController,
+              decoration: const InputDecoration(labelText: 'Habit Name'),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: descriptionController,
+              decoration: const InputDecoration(labelText: 'Description'),
+            ),
+            const SizedBox(height: 32),
+            ElevatedButton(
+              onPressed: () {
+                // Call the controller method
+                controller.addHabit(
+                  nameController.text,
+                  descriptionController.text,
+                );
+                // Go back to the previous screen
+                Get.back();
+              },
+              child: const Text('Save Habit'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}</code></pre></div>
+                                <div class="milestone-box">
+                                    <p class="font-bold">Full Loop Complete!</p>
+                                    <p>Run the app. You can now tap the '+' button, navigate to the new screen, enter a habit name and description, save it, and see it instantly appear on your main list. Congratulations!</p>
+                                </div>
                             </div>
                          </div>
                     </section>
@@ -342,26 +593,108 @@ class MainScreen extends StatelessWidget {
             <div id="modal-body" class="p-6 text-gray-300 overflow-y-auto"></div>
         </div>
     </div>
+
+    <!-- ###################################################### -->
+    <!-- ###  UPDATED HIDDEN CONTENT FOR INSPECTOR PANEL  ### -->
+    <!-- ###################################################### -->
     <div id="hidden-content" class="hidden">
         <div id="getx-explanation"><p><strong>GetX</strong> is a powerful, lightweight framework for Flutter that handles state management, dependency injection, and route management with minimal boilerplate code.</p></div>
-        <div id="pubspec" data-inspector-title="pubspec.yaml"><p>The <strong>pubspec.yaml</strong> file is the manifest for your Flutter project. It defines metadata like the project name and version, and most importantly, it lists all the external packages (dependencies) your project needs, like GetX.</p></div>
-        <div id="lib-folder" data-inspector-title="lib folder"><p>The <strong>lib</strong> (short for library) folder is where all your Dart code for the application lives. The execution of your app starts from the `main.dart` file inside this folder.</p></div>
-        <div id="dart-class" data-inspector-title="Dart Class"><p>A <strong>class</strong> is a blueprint for creating objects. Our `Habit` class defines that every habit object *must* have a name, description, and completion status. This enforces a consistent structure for our data.</p></div>
-        <div id="final" data-inspector-title="final keyword"><p>The <strong>final</strong> keyword declares a variable that can only be assigned a value once. It must be initialized when it's declared or in the class constructor. This is useful for properties that should not change after the object is created, promoting immutability and safer code.</p></div>
-        <div id="widget" data-inspector-title="Widget"><p>A <strong>Widget</strong> is the fundamental building block of all Flutter UIs. Everything you see on screen—a button, text, a list, even the padding around them—is a widget. You build complex screens by composing simple widgets together, like stacking LEGO bricks.</p></div>
-        <div id="statelesswidget" data-inspector-title="StatelessWidget"><p>A <strong>StatelessWidget</strong> is a widget that cannot change its own state once built. It's perfect for UI elements that are purely presentational and depend only on the configuration data passed into them from their parent.</p></div>
-        <div id="listtile" data-inspector-title="ListTile"><p>A <strong>ListTile</strong> is a convenient, pre-styled Material Design widget that creates a fixed-height row. It's commonly used in lists and typically contains text as well as leading or trailing icons, like a checkbox or an arrow.</p></div>
-        <div id="checkbox" data-inspector-title="Checkbox"><p>A <strong>Checkbox</strong> is a simple widget that allows the user to make a binary choice. It displays a small box that can be either checked or unchecked, representing a true/false value.</p></div>
-        <div id="scaffold" data-inspector-title="Scaffold"><p>A <strong>Scaffold</strong> widget provides a standard visual layout structure for a Material Design screen. It gives you APIs for showing app bars, drawers, floating action buttons, and a `body` for the main screen content. It's the foundation for almost every screen in a Flutter app.</p></div>
-        <div id="appbar" data-inspector-title="AppBar"><p>An <strong>AppBar</strong> is the toolbar that appears at the top of a screen, typically within a `Scaffold`. It usually contains the screen title, action buttons, and sometimes tabs.</p></div>
-        <div id="listview" data-inspector-title="ListView"><p>A <strong>ListView</strong> is a core widget that arranges its children sequentially in a scrollable list. The standard `ListView` constructor is best for a small, fixed number of children because it builds all of them at once.</p></div>
-        <div id="getmaterialapp" data-inspector-title="GetMaterialApp"><p><strong>GetMaterialApp</strong> is a replacement for Flutter's standard `MaterialApp`. It's the root widget of your app when using GetX. It provides all the same functionality but also sets up the routing and dependency injection systems that GetX needs to work.</p></div>
-        <div id="themedata" data-inspector-title="ThemeData"><p><strong>ThemeData</strong> is a class that holds the color and typography values for a theme. By defining a `ThemeData` at the top of your app (in `GetMaterialApp`), you can ensure all child widgets inherit the same visual styling, like colors and fonts, for a consistent look and feel.</p></div>
-        <div id="getxcontroller" data-inspector-title="GetxController"><p>A <strong>GetxController</strong> is a class from the GetX package designed to hold your business logic and state variables, separating them from your UI code. It has a lifecycle (like `onInit()` and `onClose()`) and is automatically managed by GetX's dependency injection system.</p></div>
-        <div id="getput" data-inspector-title="Get.put()"><p><strong>Get.put()</strong> is GetX's dependency injection method. It creates an instance of a controller (like `HabitController`) and registers it with GetX, making it available to all child widgets in the widget tree. GetX intelligently manages when to keep the controller in memory and when to dispose of it.</p></div>
-        <div id="listviewbuilder" data-inspector-title="ListView.builder"><p>The <strong>ListView.builder</strong> is a highly performant way to build lists. Unlike a standard `ListView`, it only creates the list items that are currently visible on screen. As the user scrolls, it recycles widgets, which is essential for long or infinite lists as it saves a tremendous amount of memory.</p></div>
-        <div id="obs" data-inspector-title=".obs"><p>The <strong>.obs</strong> is a GetX extension that turns any variable into a "reactive" or "observable" stream. When an `.obs` variable changes, any reactive widget (like `Obx`) that uses it will automatically rebuild, ensuring the UI is always in sync with the state.</p></div>
-        <div id="obx" data-inspector-title="Obx Widget"><p><strong>Obx</strong> is a GetX reactive widget that takes a function returning a widget. It automatically subscribes to any `.obs` variables used within that function. Whenever one of those variables changes, `Obx` efficiently rebuilds only itself, not the whole screen.</p></div>
+        
+        <div id="pubspec" data-inspector-title="pubspec.yaml">
+            <div class="inspector-summary">
+                <p>The <strong>pubspec.yaml</strong> file is the manifest for your Flutter project. It's the central configuration file that defines the project's metadata and dependencies.</p>
+            </div>
+            <h4 class="inspector-section-heading">Key Sections</h4>
+            <ul class="inspector-list">
+                <li><strong><code>name</code>, <code>description</code>, <code>version</code></strong>: Basic project metadata.</li>
+                <li><strong><code>environment</code></strong>: Specifies the compatible Dart SDK version.</li>
+                <li><strong><code>dependencies</code></strong>: Lists external packages your app needs to run (e.g., <code>get</code>, <code>http</code>).</li>
+                <li><strong><code>dev_dependencies</code></strong>: Lists packages only needed for development and testing (e.g., <code>flutter_lints</code>).</li>
+                <li><strong><code>flutter</code></strong>: Contains Flutter-specific configurations, like declaring assets (images, fonts).</li>
+            </ul>
+        </div>
+        <div id="lib-folder" data-inspector-title="The 'lib' Folder">
+            <div class="inspector-summary"><p>The <strong>lib</strong> (short for library) folder is the heart of your Flutter project. It's where all your Dart code for the application lives.</p></div>
+            <h4 class="inspector-section-heading">Key Files & Folders</h4>
+            <ul class="inspector-list">
+                <li><strong><code>main.dart</code></strong>: The entry point of your application. Execution starts here.</li>
+                <li><strong>Sub-folders (e.g., <code>screens</code>, <code>models</code>)</strong>: Used to organize your code by feature or type, making the project maintainable.</li>
+            </ul>
+        </div>
+        <div id="dart-class" data-inspector-title="Dart Class">
+            <div class="inspector-summary"><p>A <strong>class</strong> is a blueprint for creating objects. It bundles data (properties) and functions (methods) that operate on that data into a single, reusable unit.</p></div>
+            <h4 class="inspector-section-heading">Example</h4>
+            <div class="code-block"><pre><code>// Defines the blueprint for a 'Habit'
+class Habit {
+  // Properties (data)
+  final String name;
+  bool isCompleted;
+
+  // Constructor (how to create a Habit object)
+  Habit({required this.name, this.isCompleted = false});
+
+  // Method (function)
+  void toggle() {
+    isCompleted = !isCompleted;
+  }
+}</code></pre></div>
+        </div>
+        <div id="final" data-inspector-title="The 'final' Keyword">
+            <div class="inspector-summary"><p>The <strong>final</strong> keyword declares a variable that can only be assigned a value <strong>once</strong>. It must be initialized either when it's declared or in the class constructor.</p></div>
+            <h4 class="inspector-section-heading">Why Use 'final'?</h4>
+            <ul class="inspector-list">
+                <li><strong>Immutability</strong>: It helps create objects whose state cannot be changed after creation, leading to more predictable and less error-prone code.</li>
+                <li><strong>Safety</strong>: Prevents accidental reassignment of a variable that is intended to hold a constant value throughout the object's life.</li>
+            </ul>
+        </div>
+        <div id="statelesswidget" data-inspector-title="StatelessWidget">
+            <div class="inspector-summary"><p>A <strong>StatelessWidget</strong> is a widget that describes a part of the user interface which <strong>cannot change its own state</strong> once built. Its appearance is determined solely by the configuration passed into it from its parent.</p></div>
+            <h4 class="inspector-section-heading">When to Use</h4>
+            <ul class="inspector-list">
+                <li>For static content like an icon, a label, or a screen that just displays information.</li>
+                <li>When the widget only needs to be redrawn if its parent provides new data.</li>
+            </ul>
+        </div>
+        <div id="listtile" data-inspector-title="ListTile Widget">
+            <div class="inspector-summary"><p>A <strong>ListTile</strong> is a convenient, pre-styled Material Design widget that creates a fixed-height row. It's perfectly designed for use in lists.</p></div>
+            <h4 class="inspector-section-heading">Common Properties</h4>
+            <ul class="inspector-list">
+                <li><strong><code>leading</code></strong>: A widget to display before the title (e.g., an Icon or Checkbox).</li>
+                <li><strong><code>title</code></strong>: The primary content of the list tile, typically a Text widget.</li>
+                <li><strong><code>subtitle</code></strong>: Additional content displayed below the title.</li>
+                <li><strong><code>trailing</code></strong>: A widget to display after the title (e.g., an arrow icon).</li>
+                <li><strong><code>onTap</code></strong>: A function to call when the tile is tapped.</li>
+            </ul>
+        </div>
+        <div id="checkbox" data-inspector-title="Checkbox Widget"><div class="inspector-summary"><p>A <strong>Checkbox</strong> is a simple Material Design widget that allows the user to make a binary choice (true/false). It displays a small box that can be either checked or unchecked.</p></div><h4 class="inspector-section-heading">Key Properties</h4><ul class="inspector-list"><li><strong><code>value</code></strong>: A boolean (<code>true</code>/<code>false</code>) that determines if the box is checked.</li><li><strong><code>onChanged</code></strong>: A callback function that is triggered when the user taps the checkbox. It receives the new boolean value.</li></ul></div>
+        <div id="scaffold" data-inspector-title="Scaffold Widget"><div class="inspector-summary"><p>A <strong>Scaffold</strong> widget implements the basic Material Design visual layout structure. It provides a framework for adding common UI elements like AppBars, Drawers, and FloatingActionButtons.</p></div><h4 class="inspector-section-heading">Key Properties</h4><ul class="inspector-list"><li><strong><code>appBar</code></strong>: The horizontal bar displayed at the top of the screen.</li><li><strong><code>body</code></strong>: The primary content of the scaffold, displayed below the appBar.</li><li><strong><code>floatingActionButton</code></strong>: A button that "floats" over the body, often used for a primary action.</li><li><strong><code>drawer</code></strong>: A slide-in panel for navigation links.</li></ul></div>
+        <div id="appbar" data-inspector-title="AppBar Widget"><div class="inspector-summary"><p>An <strong>AppBar</strong> is the toolbar that appears at the top of a screen, typically within a <code>Scaffold</code>. It's used for branding, screen titles, and actions.</p></div><h4 class="inspector-section-heading">Key Properties</h4><ul class="inspector-list"><li><strong><code>title</code></strong>: The main widget displayed in the app bar, usually a <code>Text</code> widget.</li><li><strong><code>leading</code></strong>: A widget to display at the beginning of the app bar (often a back button or menu icon).</li><li><strong><code>actions</code></strong>: A list of widgets to display after the title (e.g., settings or search icons).</li></ul></div>
+        <div id="listview" data-inspector-title="ListView Widget"><div class="inspector-summary"><p>A <strong>ListView</strong> is a core widget that arranges its children sequentially in a scrollable list. The standard constructor is best for a small, fixed number of children because it builds all of them at once.</p></div><h4 class="inspector-section-heading">For long lists, use <code>ListView.builder</code></h4><p class="text-gray-400">For lists with many items, <strong><code>ListView.builder</code></strong> is much more performant because it only builds the items that are currently visible on screen.</p></div>
+        <div id="getmaterialapp" data-inspector-title="GetMaterialApp"><div class="inspector-summary"><p><strong>GetMaterialApp</strong> is GetX's replacement for Flutter's standard <code>MaterialApp</code>. It acts as the root of your application, enabling all of GetX's powerful features for routing, state, and dependency management.</p></div></div>
+        <div id="themedata" data-inspector-title="ThemeData"><div class="inspector-summary"><p><strong>ThemeData</strong> is a class that holds the color and typography values for a theme. Defining a <code>ThemeData</code> at the top of your app (in <code>GetMaterialApp</code>) ensures all child widgets inherit the same visual styling for a consistent look and feel.</p></div></div>
+        <div id="getxcontroller" data-inspector-title="GetxController"><div class="inspector-summary"><p>A <strong>GetxController</strong> is a class from GetX designed to separate your <strong>business logic</strong> and <strong>state variables</strong> from your UI code, promoting a clean architecture.</p></div><h4 class="inspector-section-heading">Core Features</h4><ul class="inspector-list"><li><strong>State Management</strong>: Holds reactive variables (e.g., <code>.obs</code>) that automatically update the UI.</li><li><strong>Lifecycle Methods</strong>: Provides methods like <code>onInit()</code> (setup) and <code>onClose()</code> (cleanup).</li><li><strong>Dependency Injection</strong>: Easily created and accessed using <code>Get.put()</code> and <code>Get.find()</code>.</li></ul></div>
+        <div id="getput" data-inspector-title="Get.put()"><div class="inspector-summary"><p><strong>Get.put()</strong> is GetX's primary dependency injection method. It creates an instance of a controller (like <code>HabitController</code>) and registers it with GetX, making it available to all child widgets in the widget tree.</p></div></div>
+        <div id="obs" data-inspector-title=".obs (Observable)"><div class="inspector-summary"><p>The <strong>.obs</strong> is a GetX extension that turns any variable into a "reactive" or "observable" stream. When an <code>.obs</code> variable's value changes, any reactive widget (like <code>Obx</code>) that uses it will automatically rebuild.</p></div><h4 class="inspector-section-heading">Example</h4><div class="code-block"><pre><code>// A normal integer
+var count = 0;
+
+// A reactive integer
+var reactiveCount = 0.obs;
+
+// To change the value
+reactiveCount.value = 1;
+// or simply
+reactiveCount++;</code></pre></div></div>
+        <div id="obx" data-inspector-title="Obx Widget"><div class="inspector-summary"><p><strong>Obx</strong> is a GetX reactive widget that takes a function returning a widget. It automatically subscribes to any <code>.obs</code> variables used within that function. Whenever one of those variables changes, <code>Obx</code> efficiently rebuilds only itself, not the whole screen.</p></div></div>
+        <div id="getto" data-inspector-title="Get.to()"><div class="inspector-summary"><p><strong>Get.to()</strong> is GetX's primary method for navigation. It pushes a new screen onto the navigation stack. It's simpler than Flutter's native <code>Navigator.push()</code> because it doesn't require the <code>BuildContext</code>.</p></div></div>
+        <div id="textfield" data-inspector-title="TextField Widget"><div class="inspector-summary"><p>A <strong>TextField</strong> is a fundamental widget that allows users to enter text via a keyboard. It's the primary building block for creating forms in Flutter.</p></div><h4 class="inspector-section-heading">Key Properties</h4><ul class="inspector-list"><li><strong><code>controller</code></strong>: A <code>TextEditingController</code> to manage the text.</li><li><strong><code>decoration</code></strong>: An <code>InputDecoration</code> to style the text field with labels, hints, and borders.</li></ul></div>
+        <div id="texteditingcontroller" data-inspector-title="TextEditingController"><div class="inspector-summary"><p>A <strong>TextEditingController</strong> is an object used to manage the text of a <code>TextField</code>. You attach a controller to a <code>TextField</code> to be able to read the text the user has entered (`controller.text`), set the text programmatically, or listen for changes.</p></div></div>
+        <div id="padding" data-inspector-title="Padding Widget"><div class="inspector-summary"><p>The <strong>Padding</strong> widget is a simple but essential layout widget. Its only job is to add space around its child widget, defined by an <code>EdgeInsets</code> value.</p></div></div>
+        <div id="column" data-inspector-title="Column Widget"><div class="inspector-summary"><p>The <strong>Column</strong> widget is a layout widget that arranges its children in a vertical array. It's one of the most common widgets for building UIs.</p></div></div>
+        <div id="elevatedbutton" data-inspector-title="ElevatedButton"><div class="inspector-summary"><p>An <strong>ElevatedButton</strong> is a Material Design button that appears "elevated" with a shadow. It's typically used for high-priority actions in your app, like "Save" or "Submit."</p></div></div>
+        <div id="onpressed" data-inspector-title="onPressed Callback"><div class="inspector-summary"><p>The <strong>onPressed</strong> property is a required callback function for most button widgets. It defines the code that will be executed when the user taps the button. If you pass <code>null</code> to <code>onPressed</code>, the button will be automatically disabled.</p></div></div>
+        <div id="getback" data-inspector-title="Get.back()"><div class="inspector-summary"><p><strong>Get.back()</strong> is the GetX method for closing the current screen and "popping" it off the navigation stack, returning the user to the previous screen. It's the counterpart to <code>Get.to()</code>.</p></div></div>
+        <div id="getfind" data-inspector-title="Get.find()"><div class="inspector-summary"><p><strong>Get.find()</strong> is the GetX method used to find an already-created instance of a controller that was previously registered with <code>Get.put()</code>. It allows any widget, anywhere in the widget tree, to get access to the same controller instance without needing it to be passed down manually.</p></div></div>
+        <div id="fab" data-inspector-title="FloatingActionButton"><div class="inspector-summary"><p>A <strong>FloatingActionButton (FAB)</strong> is a circular icon button that "floats" above the UI, typically in the bottom-right corner. It's used for a primary, promoted action on a screen, such as adding a new item.</p></div></div>
     </div>
 
     <script src="main.js"></script>
