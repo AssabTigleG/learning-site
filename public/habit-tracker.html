@@ -60,11 +60,20 @@
                     </div>
                     <div>
                         <h3 class="font-semibold text-sky-400 mb-2">Chapter 01: Main Screen</h3>
-                        <ul class="space-y-2 border-l-2 border-gray-600 pl-4"><li><a href="#c1_1" class="text-gray-300 hover:text-white">1.1: The Habit Model</a></li><li><a href="#c1_2" class="text-gray-300 hover:text-white">1.2: HabitListItem Widget</a></li><li><a href="#c1_3" class="text-gray-300 hover:text-white">1.3: Assembling the Screen</a></li><li><a href="#c1_4" class="text-gray-300 hover:text-white">1.4: Update main.dart</a></li></ul>
+                        <ul class="space-y-2 border-l-2 border-gray-600 pl-4">
+                            <li><a href="#c1_1" class="text-gray-300 hover:text-white">1.1: Add GetX Package</a></li>
+                            <li><a href="#c1_2" class="text-gray-300 hover:text-white">1.2: The Habit Model</a></li>
+                            <li><a href="#c1_3" class="text-gray-300 hover:text-white">1.3: HabitListItem Widget</a></li>
+                            <li><a href="#c1_4" class="text-gray-300 hover:text-white">1.4: Assembling the Screen</a></li>
+                            <li><a href="#c1_5" class="text-gray-300 hover:text-white">1.5: Update main.dart</a></li>
+                        </ul>
                     </div>
                     <div>
                         <h3 class="font-semibold text-sky-400 mb-2">Chapter 02: Reactive State</h3>
-                        <ul class="space-y-2 border-l-2 border-gray-600 pl-4"><li><a href="#c2_1" class="text-gray-300 hover:text-white">2.1: Add GetX Package</a></li><li><a href="#c2_2" class="text-gray-300 hover:text-white">2.2: HabitController</a></li><li><a href="#c2_3" class="text-gray-300 hover:text-white">2.3: Refactor Main Screen</a></li></ul>
+                        <ul class="space-y-2 border-l-2 border-gray-600 pl-4">
+                            <li><a href="#c2_1" class="text-gray-300 hover:text-white">2.1: HabitController</a></li>
+                            <li><a href="#c2_2" class="text-gray-300 hover:text-white">2.2: Refactor Main Screen</a></li>
+                        </ul>
                     </div>
                 </nav>
             </aside>
@@ -122,8 +131,19 @@
                         <h2 class="chapter-heading">Chapter 01: The Main Screen - A Static View</h2>
                         <div class="space-y-8">
                             <div class="explanation-box"><p>In this chapter, we will build the visual shell of the main screen. It won't have any logic yet, but it will look correct. This "static-first" approach is a great way to build UIs.</p></div>
+                             <div>
+                                <h3 id="c1_1" class="lesson-heading">1.1: Add the GetX Package</h3>
+                                <p>Open your `pubspec.yaml` file and add `get` under dependencies. We do this now because our `main.dart` file will use a widget from this package.</p>
+                                <div class="file-path">pubspec.yaml</div>
+                                <div class="code-block"><pre><code class="language-yaml">dependencies:
+  flutter:
+    sdk: flutter
+  get: ^4.6.6 # Add this line</code></pre></div>
+                                <p>After adding the line, run `flutter pub get` in your terminal to download and install the package.</p>
+                            </div>
+                            <hr class="lesson-divider">
                             <div>
-                                <h3 id="c1_1" class="lesson-heading">1.1: The Habit Model</h3>
+                                <h3 id="c1_2" class="lesson-heading">1.2: The Habit Model</h3>
                                 <p>First, define what a "habit" is in our code. This is our data model.</p>
                                 <div class="file-path">lib/models/habit.dart</div>
                                 <div class="code-block"><pre><code class="language-dart">class Habit {
@@ -139,15 +159,12 @@
 }</code></pre></div>
                                 <div class="rationale-box">
                                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
-                                    <div>
-                                        <p class="title">Why create a Model class?</p>
-                                        <p class="text">A Model defines the "shape" of our data. By creating a `Habit` class, we ensure that every habit in our app has a consistent structure. This prevents typos and makes our code self-documenting.</p>
-                                    </div>
+                                    <div><p class="title">Why create a Model class?</p><p class="text">A Model defines the "shape" of our data. By creating a `Habit` class, we ensure that every habit in our app has a consistent structure. This prevents typos and makes our code self-documenting.</p></div>
                                 </div>
                             </div>
                             <hr class="lesson-divider">
                             <div>
-                                <h3 id="c1_2" class="lesson-heading">1.2: The HabitListItem Widget</h3>
+                                <h3 id="c1_3" class="lesson-heading">1.3: The HabitListItem Widget</h3>
                                 <p>Next, we'll create a dedicated, reusable widget to display a single habit. It will need a function to call when the checkbox is tapped.</p>
                                 <div class="file-path">lib/widgets/habit_list_item.dart</div>
                                 <div class="code-block"><pre><code class="language-dart">import 'package:flutter/material.dart';
@@ -177,15 +194,12 @@ class HabitListItem extends StatelessWidget {
 }</code></pre></div>
                                 <div class="rationale-box">
                                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
-                                    <div>
-                                        <p class="title">Why build a separate Widget?</p>
-                                        <p class="text">This makes our code <strong>reusable</strong> (we can use this item anywhere), easier to read, and easier to debug. If there's a problem with how a habit looks, we know exactly which file to check!</p>
-                                    </div>
+                                    <div><p class="title">Why build a separate Widget?</p><p class="text">This makes our code <strong>reusable</strong> (we can use this item anywhere), easier to read, and easier to debug. If there's a problem with how a habit looks, we know exactly which file to check!</p></div>
                                 </div>
                             </div>
                             <hr class="lesson-divider">
                             <div>
-                                <h3 id="c1_3" class="lesson-heading">1.3: Assembling the Main Screen</h3>
+                                <h3 id="c1_4" class="lesson-heading">1.4: Assembling the Main Screen</h3>
                                 <p>Now we create the main screen itself, using our new widget in a hardcoded list. This is just to see our component on screen.</p>
                                 <div class="file-path">lib/screens/main_screen.dart</div>
                                 <div class="code-block"><pre><code class="language-dart">import 'package:flutter/material.dart';
@@ -216,7 +230,7 @@ class MainScreen extends StatelessWidget {
                             </div>
                             <hr class="lesson-divider">
                             <div>
-                                <h3 id="c1_4" class="lesson-heading">1.4: Update main.dart</h3>
+                                <h3 id="c1_5" class="lesson-heading">1.5: Update main.dart</h3>
                                 <p>Finally, tell our app to show our `MainScreen` on launch. We'll use `GetMaterialApp` to prepare for using GetX in the next chapter.</p>
                                 <div class="file-path">lib/main.dart</div>
                                 <div class="code-block"><pre><code class="language-dart">import 'package:flutter/material.dart';
@@ -255,17 +269,7 @@ class MyApp extends StatelessWidget {
                          <div class="space-y-8">
                             <div class="explanation-box"><p>This is where the magic happens! We'll introduce <span class="deep-dive-trigger" data-title="What is GetX?" data-content-id="getx-explanation">GetX</span> to manage our app's state. This means our UI will automatically update when our data changes, without needing `StatefulWidget` or `setState()`.</p></div>
                              <div>
-                                <h3 id="c2_1" class="lesson-heading">2.1: Add the GetX Package</h3>
-                                <p>Open your `pubspec.yaml` file and add `get` under dependencies. Then, run `flutter pub get` in your terminal.</p>
-                                <div class="file-path">pubspec.yaml</div>
-                                <div class="code-block"><pre><code class="language-yaml">dependencies:
-  flutter:
-    sdk: flutter
-  get: ^4.6.6 # Add this line</code></pre></div>
-                            </div>
-                             <hr class="lesson-divider">
-                            <div>
-                                <h3 id="c2_2" class="lesson-heading">2.2: Create the HabitController</h3>
+                                <h3 id="c2_1" class="lesson-heading">2.1: Create the HabitController</h3>
                                 <p>The Controller separates our logic from our UI. Notice the <span class="deep-dive-trigger" data-title="What does .obs do?" data-content-id="obs-explanation">.obs</span> - this makes our list "reactive."</p>
                                 <div class="file-path">lib/controllers/habit_controller.dart</div>
                                 <div class="code-block"><pre><code class="language-dart">import 'package:get/get.dart';
@@ -291,15 +295,12 @@ class HabitController extends GetxController {
 }</code></pre></div>
                                 <div class="rationale-box">
                                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
-                                    <div>
-                                        <p class="title">Why use a Controller?</p>
-                                        <p class="text">The Controller separates our <strong>business logic</strong> (what the app *does*) from our <strong>UI code</strong> (what it *looks like*). Our UI widgets become simple and "dumb"—their only job is to display data. This separation is crucial for building large, testable, and maintainable applications.</p>
-                                    </div>
+                                    <div><p class="title">Why use a Controller?</p><p class="text">The Controller separates our <strong>business logic</strong> (what the app *does*) from our <strong>UI code</strong> (what it *looks like*). Our UI widgets become simple and "dumb"—their only job is to display data. This separation is crucial for building large, testable, and maintainable applications.</p></div>
                                 </div>
                             </div>
                             <hr class="lesson-divider">
                             <div>
-                                <h3 id="c2_3" class="lesson-heading">2.3: Refactor the Main Screen</h3>
+                                <h3 id="c2_2" class="lesson-heading">2.2: Refactor the Main Screen</h3>
                                 <p>We'll now connect our `MainScreen` to the `HabitController`. <span class="deep-dive-trigger" data-title="What is Get.put()?" data-content-id="get-put-explanation">Get.put()</span> creates our controller. The <span class="deep-dive-trigger" data-title="What is Obx?" data-content-id="obx-explanation">Obx</span> widget rebuilds its child whenever the `habits` list changes.</p>
                                 <div class="file-path">lib/screens/main_screen.dart</div>
                                 <div class="code-block"><pre><code class="language-dart">import 'package:flutter/material.dart';
@@ -353,7 +354,6 @@ class MainScreen extends StatelessWidget {
             <div id="modal-body" class="p-6 text-gray-300 overflow-y-auto"></div>
         </div>
     </div>
-        <!-- Hidden Deep Dive Content -->
     <div id="hidden-content" class="hidden">
         <div id="getx-explanation">
             <p><strong>GetX</strong> is a powerful and lightweight framework for Flutter. It's more than just a state manager; it handles dependency injection, route management, and more.</p>
