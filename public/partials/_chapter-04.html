@@ -1,0 +1,134 @@
+<section>
+     <h2 class="chapter-heading">Chapter 04: Data Persistence</h2>
+     <div class="space-y-8">
+        <div class="explanation-box"><p>Our app works well, but there's a huge problem: if you close the app, all your habits disappear! This is because they only exist in the phone's memory. In this chapter, we'll fix this by saving the habits to the device's storage, so the data persists between sessions.</p></div>
+         <div>
+            <h3 id="c4_1" class="lesson-heading">4.1: Add & Initialize GetStorage</h3>
+            <p>We will use <span class="inspector-trigger" data-inspector-topic="getstorage">GetStorage</span>, a fast key-value storage library that's part of the GetX ecosystem.</p>
+            <p>1. First, add it to your dependencies:</p>
+            <div class="file-path">pubspec.yaml</div>
+            <div class="code-block"><pre><code class="language-yaml">dependencies:
+  flutter:
+    sdk: flutter
+  get: ^4.6.6
+  get_storage: ^2.1.1 # Add this line</code></pre></div>
+            <p>2. Next, initialize `GetStorage` in your `main` function before you run the app. This needs to be an <span class="inspector-trigger" data-inspector-topic="async-await">`async`</span> function now.</p>
+            <div class="file-path">lib/main.dart</div>
+            <div class="code-block"><pre><code class="language-dart">import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart'; // Import this
+import 'screens/main_screen.dart';
+
+// Make main async and initialize storage
+Future<void> main() <span class="inspector-trigger" data-inspector-topic="async-await">async</span> {
+  <span class="inspector-trigger" data-inspector-topic="async-await">await</span> GetStorage.init();
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
+      title: 'Habit Tracker',
+      theme: ThemeData.dark(),
+      home: const MainScreen(),
+    );
+  }
+}</code></pre></div>
+        </div>
+        <hr class="lesson-divider">
+        <div>
+            <h3 id="c4_2" class="lesson-heading">4.2: Prepare the Model for Storage</h3>
+            <p>GetStorage saves data in a key-value format. To make our `Habit` class compatible, we must teach it how to <span class="inspector-trigger" data-inspector-topic="serialization">serialize</span> itself into a storable <span class="inspector-trigger" data-inspector-topic="dart-map">Map</span> and how to deserialize itself from a map back into a `Habit` object. We do this by creating a <span class="inspector-trigger" data-inspector-topic="tojson">`toJson()`</span> method and a special <span class="inspector-trigger" data-inspector-topic="dart-factory">factory constructor</span> called <span class="inspector-trigger" data-inspector-topic="fromjson">`fromJson()`</span>.</p>
+            <div class="file-path">lib/models/habit.dart</div>
+            <div class="code-block"><pre><code class="language-dart">class Habit {
+  final String name;
+  final String description;
+  bool isCompleted;
+
+  Habit({
+    required this.name,
+    required this.description,
+    this.isCompleted = false,
+  });
+
+  // Method to convert a Habit instance to a Map (storable format)
+  Map<String, dynamic> <span class="inspector-trigger" data-inspector-topic="tojson">toJson</span>() => {
+    'name': name,
+    'description': description,
+    'isCompleted': isCompleted,
+  };
+
+  // Factory constructor to create a Habit instance from a Map
+  <span class="inspector-trigger" data-inspector-topic="dart-factory">factory</span> Habit.<span class="inspector-trigger" data-inspector-topic="fromjson">fromJson</span>(Map<String, dynamic> json) => Habit(
+    name: json['name'],
+    description: json['description'],
+    isCompleted: json['isCompleted'],
+  );
+}</code></pre></div>
+        </div>
+         <hr class="lesson-divider">
+        <div>
+            <h3 id="c4_3" class="lesson-heading">4.3: Update the HabitController</h3>
+            <p>This is the final step. We'll update the controller to use `GetStorage`. It will now load habits from storage when it starts and automatically save the habit list whenever it changes.</p>
+            <div class="file-path">lib/controllers/habit_controller.dart</div>
+            <div class="code-block"><pre><code class="language-dart">import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import '../models/habit.dart';
+
+class HabitController extends GetxController {
+  var habits = <Habit>[].obs;
+  final box = GetStorage();
+
+  @override
+  void onInit() {
+    super.onInit();
+    
+    // Read the stored habits from the 'habits' key.
+    List? storedHabits = box.read<List>('habits');
+    
+    // If there are stored habits, parse them from JSON and load them.
+    if (storedHabits != null) {
+      habits.value = storedHabits.map((e) => Habit.fromJson(e)).toList();
+    }
+    
+    // The dummy data from Chapter 2 is no longer needed, as we now
+    // persist the user's actual data.
+
+    // Use a GetX worker called 'ever'. It listens to the 'habits' list.
+    // Every time the list is changed (add, remove, update), it saves
+    // the entire list to storage.
+    <span class="inspector-trigger" data-inspector-topic="everworker">ever</span>(habits, (_) {
+      box.write('habits', habits.toList().map((e) => e.toJson()).toList());
+    });
+  }
+
+  void addHabit(String name, String description) {
+    if (name.isEmpty) return;
+    final newHabit = Habit(name: name, description: description);
+    // When we add a habit here, the 'ever' worker will automatically save it.
+    habits.add(newHabit);
+  }
+
+  void toggleHabit(Habit habit) {
+    habit.isCompleted = !habit.isCompleted;
+    // When we toggle here, the 'ever' worker will also save the change.
+    habits.refresh();
+  }
+}</code></pre></div>
+            <div class="rationale-box">
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                <div>
+                    <p class="title">Why use an `ever` worker?</p>
+                    <p class="text">The <span class="inspector-trigger" data-inspector-topic="everworker">ever</span> worker from GetX is incredibly powerful. It triggers a callback function *every time* the reactive variable (`habits`) changes. By using it, we no longer need to manually call a "save" function inside `addHabit` and `toggleHabit`. The saving happens automatically in one central place, making our code cleaner and less error-prone.</p>
+                </div>
+            </div>
+             <div class="milestone-box">
+                <p class="font-bold">Persistence Achieved!</p>
+                <p>Run the app. Add a new habit or toggle an existing one. Now, completely close the app from your device's recent apps list and reopen it. Your changes will still be there! Your app now has a memory.</p>
+            </div>
+        </div>
+     </div>
+</section>

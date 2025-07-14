@@ -1,0 +1,130 @@
+<section>
+    <h2 class="chapter-heading">Chapter 01: The Main Screen - A Static View</h2>
+    <div class="space-y-8">
+        <div>
+            <h3 id="c1_1" class="lesson-heading">1.1: Add the GetX Package</h3>
+            <p>Open your <span class="inspector-trigger" data-inspector-topic="pubspec">pubspec.yaml</span> file and add <span class="deep-dive-trigger" data-title="What is GetX?" data-content-id="getx-explanation">GetX</span> under dependencies.</p>
+            <div class="file-path">pubspec.yaml</div>
+            <div class="code-block"><pre><code class="language-yaml">dependencies:
+  flutter:
+    sdk: flutter
+  get: ^4.6.6</code></pre></div>
+        </div>
+        <hr class="lesson-divider">
+        <div>
+            <h3 id="c1_2" class="lesson-heading">1.2: The Habit Model</h3>
+            <p>This data model will be a <span class="inspector-trigger" data-inspector-topic="dart-class">class</span> with <span class="inspector-trigger" data-inspector-topic="final">final</span> properties.</p>
+            <div class="file-path">lib/models/habit.dart</div>
+            <div class="code-block"><pre><code class="language-dart">class Habit {
+  final String name;
+  final String description;
+  bool isCompleted;
+
+  Habit({
+    required this.name,
+    required this.description,
+    this.isCompleted = false,
+  });
+}</code></pre></div>
+        </div>
+        <hr class="lesson-divider">
+        <div>
+            <h3 id="c1_3" class="lesson-heading">1.3: The HabitListItem Widget</h3>
+            <p>We'll create a reusable <span class="inspector-trigger" data-inspector-topic="statelesswidget">StatelessWidget</span> that uses a <span class="inspector-trigger" data-inspector-topic="listtile">ListTile</span> and a <span class="inspector-trigger" data-inspector-topic="checkbox">Checkbox</span>.</p>
+            <div class="file-path">lib/widgets/habit_list_item.dart</div>
+            <div class="code-block"><pre><code class="language-dart">import 'package:flutter/material.dart';
+
+class HabitListItem extends StatelessWidget {
+  final String habitName;
+  final bool isCompleted;
+  final Function(bool?)? onToggle;
+
+  const HabitListItem({
+    <span class="inspector-trigger" data-inspector-topic="super-key">super.key</span>,
+    required this.habitName,
+    required this.isCompleted,
+    required this.onToggle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(habitName),
+      leading: Checkbox(
+        value: isCompleted,
+        onChanged: onToggle,
+      ),
+    );
+  }
+}</code></pre></div>
+        </div>
+        <hr class="lesson-divider">
+        <div>
+            <h3 id="c1_4" class="lesson-heading">1.4: Assembling the Main Screen</h3>
+            <p>Now create the main screen using a <span class="inspector-trigger" data-inspector-topic="scaffold">Scaffold</span>, <span class="inspector-trigger" data-inspector-topic="appbar">AppBar</span>, and <span class="inspector-trigger" data-inspector-topic="listview">ListView</span>.</p>
+            <div class="file-path">lib/screens/main_screen.dart</div>
+            <div class="code-block"><pre><code class="language-dart">import 'package:flutter/material.dart';
+import '../widgets/habit_list_item.dart';
+
+class MainScreen extends StatelessWidget {
+  const MainScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('My Habits'),
+      ),
+      body: ListView(
+        children: [
+          HabitListItem(habitName: 'Read for 15 minutes', isCompleted: true, onToggle: (val){}),
+          HabitListItem(habitName: 'Go for a walk', isCompleted: false, onToggle: (val){}),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
+}</code></pre></div>
+        </div>
+        <hr class="lesson-divider">
+        <div>
+            <h3 id="c1_5" class="lesson-heading">1.5: Update main.dart</h3>
+            <p>Tell our app to show `MainScreen` on launch. We'll use <span class="inspector-trigger" data-inspector-topic="getmaterialapp">GetMaterialApp</span> and define a <span class="inspector-trigger" data-inspector-topic="themedata">ThemeData</span>.</p>
+            <div class="file-path">lib/main.dart</div>
+            <div class="code-block"><pre><code class="language-dart">import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'screens/main_screen.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GetMaterialApp(
+      title: 'Habit Tracker',
+      theme: ThemeData.dark(),
+      home: const MainScreen(),
+    );
+  }
+}</code></pre></div>
+            <div class="mt-8 grid md:grid-cols-2 gap-8 items-center bg-gray-800/40 rounded-xl p-8 border border-gray-700">
+                <div>
+                    <h4 class="text-lg font-bold text-emerald-400">Static Milestone Complete!</h4>
+                    <p class="mt-2 text-gray-300">Run the app now. Your screen should look exactly like the visual target on the right. You have successfully built the static foundation of our app!</p>
+                </div>
+                <div class="mx-auto">
+                    <div class="relative w-[250px] h-[500px] bg-black rounded-[30px] border-8 border-gray-700 shadow-2xl shadow-sky-900/20">
+                        <img src="https://res.cloudinary.com/dmdrs0reo/image/upload/w_800,q_auto,f_auto/v1752230183/Habit_1_dbx3hy.png" alt="App screenshot at the end of Chapter 1" class="w-full h-full object-cover rounded-[22px]">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,90 @@
+<section>
+     <h2 class="chapter-heading">Chapter 02: Reactive State with GetX</h2>
+     <div class="space-y-8">
+        <div class="explanation-box"><p>We'll introduce <span class="deep-dive-trigger" data-title="What is GetX?" data-content-id="getx-explanation">GetX</span> to manage our app's state, replacing `StatefulWidget`.</p></div>
+         <div>
+            <h3 id="c2_1" class="lesson-heading">2.1: Create the HabitController</h3>
+            <p>The <span class="inspector-trigger" data-inspector-topic="getxcontroller">GetxController</span> separates logic from UI. The <span class="inspector-trigger" data-inspector-topic="obs">.obs</span> makes our list "reactive."</p>
+            <div class="file-path">lib/controllers/habit_controller.dart</div>
+            <div class="code-block"><pre><code class="language-dart">import 'package:get/get.dart';
+import '../models/habit.dart';
+
+class HabitController extends GetxController {
+  var habits = <Habit>[].obs;
+
+  @override
+  void <span class="inspector-trigger" data-inspector-topic="oninit">onInit</span>() {
+    super.onInit();
+    habits.addAll([
+      Habit(name: 'Read for 15 minutes', description: 'Expand the mind'),
+      Habit(name: 'Go for a walk', description: 'Good for the body', isCompleted: true),
+    ]);
+  }
+
+  void toggleHabit(Habit habit) {
+    habit.isCompleted = !habit.isCompleted;
+    habits.<span class="inspector-trigger" data-inspector-topic="refresh">refresh</span>();
+  }
+}</code></pre></div>
+        </div>
+        <hr class="lesson-divider">
+        <div>
+            <h3 id="c2_2" class="lesson-heading">2.2: Refactor the Main Screen</h3>
+            <p>We'll now connect our `MainScreen` to the `HabitController`. <span class="inspector-trigger" data-inspector-topic="getput">Get.put()</span> creates our controller. The <span class="inspector-trigger" data-inspector-topic="obx">Obx</span> widget rebuilds its child whenever the `habits` list changes.</p>
+            <div class="file-path">lib/screens/main_screen.dart</div>
+            <div class="code-block"><pre><code class="language-dart">import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../controllers/habit_controller.dart';
+import '../widgets/habit_list_item.dart';
+
+class MainScreen extends StatelessWidget {
+  const MainScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final HabitController controller = Get.put(HabitController());
+
+    return Scaffold(
+      appBar: AppBar(title: const Text('My Habits (GetX)')),
+      body: Obx(() => ListView.builder(
+        itemCount: controller.habits.length,
+        itemBuilder: (context, index) {
+          final habit = controller.habits[index];
+          return HabitListItem(
+            habitName: habit.name,
+            isCompleted: habit.isCompleted,
+            onToggle: (value) => controller.toggleHabit(habit),
+          );
+        },
+      )),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
+}</code></pre></div>
+            <div class="milestone-box"><p class="font-bold">Milestone Reached!</p><p>Run the app. The UI now loads its data from the controller and updates instantly when you tap a checkbox! This is the power of reactive programming!</p></div>
+            <div class="mt-8 flex flex-col md:flex-row items-center gap-6 bg-violet-900/20 border border-violet-700/50 rounded-lg p-6">
+                <div class="flex-shrink-0 text-violet-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                </div>
+                <div class="flex-grow text-center md:text-left">
+                    <h4 class="text-lg font-semibold text-white">Download Chapter 2 Files</h4>
+                    <p class="text-sm text-gray-400 mt-1">Get the complete source code for the project up to this point.</p>
+                    <span class="font-code text-xs text-violet-300 bg-violet-900/50 px-2 py-1 rounded-full mt-2 inline-block">habit-tracker-chapter-2.7z</span>
+                </div>
+                <div class="flex-shrink-0 mt-4 md:mt-0">
+                    <a href="assets/downloads/habit-tracker-chapter-2.7z" download="habit-tracker-chapter-2.7z" class="inline-flex items-center gap-2 bg-violet-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-violet-700 transition-colors transform hover:scale-105">
+                        <span>Download</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+     </div>
+</section>

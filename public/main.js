@@ -1,5 +1,35 @@
 document.addEventListener('DOMContentLoaded', () => {
     /**
+     * Dynamically loads HTML partials into elements with `data-include` attributes.
+     * @returns {Promise<void>} A promise that resolves when all partials are loaded.
+     */
+    const loadPartials = async () => {
+        const includeElements = document.querySelectorAll('[data-include]');
+        const fetchPromises = [];
+
+        includeElements.forEach(el => {
+            const filePath = el.getAttribute('data-include');
+            const fetchPromise = fetch(filePath)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Could not load partial: ${filePath}`);
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    el.innerHTML = html;
+                })
+                .catch(error => {
+                    el.innerHTML = `<p class="text-red-400">Error loading content: ${error.message}</p>`;
+                    console.error(error);
+                });
+            fetchPromises.push(fetchPromise);
+        });
+
+        await Promise.all(fetchPromises);
+    };
+
+    /**
      * Toggles the visibility of the mobile progress navigator.
      */
     const initializeMobileMenu = () => {
@@ -37,8 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const modalTitle = document.getElementById('modal-title');
         const modalBody = document.getElementById('modal-body');
         const closeModalButton = document.getElementById('close-modal-button');
-        const deepDiveTriggers = document.querySelectorAll('.deep-dive-trigger');
-
+        
         const openModal = (title, contentHTML) => {
             if (!modalContent || !modalTitle || !modalBody) return;
             modalTitle.textContent = title;
@@ -57,16 +86,21 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => modal.classList.add('hidden'), 300);
         };
 
-        deepDiveTriggers.forEach(trigger => {
-            trigger.addEventListener('click', (event) => {
-                event.preventDefault();
-                const title = trigger.dataset.title;
-                const contentId = trigger.dataset.contentId;
-                const contentEl = document.getElementById(contentId);
-                if (contentEl) openModal(title, contentEl.innerHTML);
+        // Use event delegation on a parent container
+        const mainContent = document.getElementById('main-content');
+        if (mainContent) {
+            mainContent.addEventListener('click', (event) => {
+                const trigger = event.target.closest('.deep-dive-trigger');
+                if (trigger) {
+                    event.preventDefault();
+                    const title = trigger.dataset.title;
+                    const contentId = trigger.dataset.contentId;
+                    const contentEl = document.getElementById(contentId);
+                    if (contentEl) openModal(title, contentEl.innerHTML);
+                }
             });
-        });
-
+        }
+        
         if (closeModalButton) closeModalButton.addEventListener('click', closeModal);
         modal.addEventListener('click', (event) => {
             if (event.target === modal) closeModal();
@@ -83,7 +117,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const inspectorTitle = document.getElementById('inspector-title');
         const inspectorBody = document.getElementById('inspector-body');
         const inspectorCloseButton = document.getElementById('inspector-close-button');
-        const inspectorTriggers = document.querySelectorAll('.inspector-trigger');
         const mainContent = document.getElementById('main-content');
 
         const openInspector = (topicId) => {
@@ -102,13 +135,16 @@ document.addEventListener('DOMContentLoaded', () => {
             mainContent.classList.remove('md:w-2/3', 'md:mr-[33.333333%]');
         };
 
-        inspectorTriggers.forEach(trigger => {
-            trigger.addEventListener('click', (event) => {
-                event.preventDefault();
-                const topicId = trigger.dataset.inspectorTopic;
-                openInspector(topicId);
+        if (mainContent) {
+            mainContent.addEventListener('click', (event) => {
+                const trigger = event.target.closest('.inspector-trigger');
+                if(trigger) {
+                    event.preventDefault();
+                    const topicId = trigger.dataset.inspectorTopic;
+                    openInspector(topicId);
+                }
             });
-        });
+        }
 
         if (inspectorCloseButton) inspectorCloseButton.addEventListener('click', closeInspector);
     };
@@ -262,9 +298,20 @@ document.addEventListener('DOMContentLoaded', () => {
         updateProgress();
     };
 
-    // Initialize all components
-    initializeMobileMenu();
-    initializeDeepDiveModal();
-    initializeInspectorPanel();
-    initializeProgressNavigator();
+    /**
+     * Main script execution flow.
+     */
+    const main = async () => {
+        // Load partials first, since other scripts depend on the full DOM.
+        await loadPartials();
+    
+        // Now that the DOM is complete, initialize all other components.
+        initializeMobileMenu();
+        initializeDeepDiveModal();
+        initializeInspectorPanel();
+        initializeProgressNavigator();
+    };
+
+    // Run the main async function.
+    main();
 });
