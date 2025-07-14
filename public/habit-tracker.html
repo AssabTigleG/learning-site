@@ -269,7 +269,7 @@ class HabitListItem extends StatelessWidget {
   final Function(bool?)? onToggle;
 
   const HabitListItem({
-    super.key,
+    <span class="inspector-trigger" data-inspector-topic="super-key">super.key</span>,
     required this.habitName,
     required this.isCompleted,
     required this.onToggle,
@@ -376,7 +376,7 @@ class HabitController extends GetxController {
   var habits = <Habit>[].obs;
 
   @override
-  void onInit() {
+  void <span class="inspector-trigger" data-inspector-topic="oninit">onInit</span>() {
     super.onInit();
     habits.addAll([
       Habit(name: 'Read for 15 minutes', description: 'Expand the mind'),
@@ -386,7 +386,7 @@ class HabitController extends GetxController {
 
   void toggleHabit(Habit habit) {
     habit.isCompleted = !habit.isCompleted;
-    habits.refresh();
+    habits.<span class="inspector-trigger" data-inspector-topic="refresh">refresh</span>();
   }
 }</code></pre></div>
                             </div>
@@ -481,7 +481,7 @@ class AddEditHabitScreen extends StatelessWidget {
             TextField(
               decoration: const InputDecoration(labelText: 'Habit Name'),
             ),
-            const SizedBox(height: 16),
+            const <span class="inspector-trigger" data-inspector-topic="sizedbox">SizedBox</span>(height: 16),
             TextField(
               decoration: const InputDecoration(labelText: 'Description'),
             ),
@@ -707,7 +707,7 @@ class AddEditHabitScreen extends StatelessWidget {
     sdk: flutter
   get: ^4.6.6
   get_storage: ^2.1.1 # Add this line</code></pre></div>
-                                <p>2. Next, initialize `GetStorage` in your `main` function before you run the app. This needs to be an `async` function now.</p>
+                                <p>2. Next, initialize `GetStorage` in your `main` function before you run the app. This needs to be an <span class="inspector-trigger" data-inspector-topic="async-await">`async`</span> function now.</p>
                                 <div class="file-path">lib/main.dart</div>
                                 <div class="code-block"><pre><code class="language-dart">import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -715,8 +715,8 @@ import 'package:get_storage/get_storage.dart'; // Import this
 import 'screens/main_screen.dart';
 
 // Make main async and initialize storage
-Future<void> main() async {
-  await GetStorage.init();
+Future<void> main() <span class="inspector-trigger" data-inspector-topic="async-await">async</span> {
+  <span class="inspector-trigger" data-inspector-topic="async-await">await</span> GetStorage.init();
   runApp(const MyApp());
 }
 
@@ -736,7 +736,7 @@ class MyApp extends StatelessWidget {
                             <hr class="lesson-divider">
                             <div>
                                 <h3 id="c4_2" class="lesson-heading">4.2: Prepare the Model for Storage</h3>
-                                <p>GetStorage saves data in a format similar to JSON (Key-Value pairs). We need to teach our `Habit` class how to convert itself into a storable format (<span class="inspector-trigger" data-inspector-topic="tojson">toJson</span>) and how to create itself from that stored format (<span class="inspector-trigger" data-inspector-topic="fromjson">fromJson</span>). This process is called <span class="inspector-trigger" data-inspector-topic="serialization">serialization</span>.</p>
+                                <p>GetStorage saves data in a key-value format. To make our `Habit` class compatible, we must teach it how to <span class="inspector-trigger" data-inspector-topic="serialization">serialize</span> itself into a storable <span class="inspector-trigger" data-inspector-topic="dart-map">Map</span> and how to deserialize itself from a map back into a `Habit` object. We do this by creating a <span class="inspector-trigger" data-inspector-topic="tojson">`toJson()`</span> method and a special <span class="inspector-trigger" data-inspector-topic="dart-factory">factory constructor</span> called <span class="inspector-trigger" data-inspector-topic="fromjson">`fromJson()`</span>.</p>
                                 <div class="file-path">lib/models/habit.dart</div>
                                 <div class="code-block"><pre><code class="language-dart">class Habit {
   final String name;
@@ -750,14 +750,14 @@ class MyApp extends StatelessWidget {
   });
 
   // Method to convert a Habit instance to a Map (storable format)
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> <span class="inspector-trigger" data-inspector-topic="tojson">toJson</span>() => {
     'name': name,
     'description': description,
     'isCompleted': isCompleted,
   };
 
   // Factory constructor to create a Habit instance from a Map
-  factory Habit.fromJson(Map<String, dynamic> json) => Habit(
+  <span class="inspector-trigger" data-inspector-topic="dart-factory">factory</span> Habit.<span class="inspector-trigger" data-inspector-topic="fromjson">fromJson</span>(Map<String, dynamic> json) => Habit(
     name: json['name'],
     description: json['description'],
     isCompleted: json['isCompleted'],
@@ -795,7 +795,7 @@ class HabitController extends GetxController {
     // Use a GetX worker called 'ever'. It listens to the 'habits' list.
     // Every time the list is changed (add, remove, update), it saves
     // the entire list to storage.
-    ever(habits, (_) {
+    <span class="inspector-trigger" data-inspector-topic="everworker">ever</span>(habits, (_) {
       box.write('habits', habits.toList().map((e) => e.toJson()).toList());
     });
   }
@@ -950,39 +950,54 @@ reactiveCount++;</code></pre></div></div>
         <div id="getback" data-inspector-title="Get.back()"><div class="inspector-summary"><p><strong>Get.back()</strong> is the GetX method for closing the current screen and "popping" it off the navigation stack, returning the user to the previous screen. It's the counterpart to <code>Get.to()</code>.</p></div></div>
         <div id="getfind" data-inspector-title="Get.find()"><div class="inspector-summary"><p><strong>Get.find()</strong> is the GetX method used to find an already-created instance of a controller that was previously registered with <code>Get.put()</code>. It allows any widget, anywhere in the widget tree, to get access to the same controller instance without needing it to be passed down manually.</p></div></div>
         <div id="fab" data-inspector-title="FloatingActionButton"><div class="inspector-summary"><p>A <strong>FloatingActionButton (FAB)</strong> is a circular icon button that "floats" above the UI, typically in the bottom-right corner. It's used for a primary, promoted action on a screen, such as adding a new item.</p></div></div>
+        <div id="getstorage" data-inspector-title="GetStorage"><div class="inspector-summary"><p><strong>GetStorage</strong> is a fast, extra-light, and synchronous key-value storage library. It's written entirely in Dart and integrates perfectly with the GetX ecosystem.</p></div><h4 class="inspector-section-heading">Why Use GetStorage?</h4><ul class="inspector-list"><li><strong>Simplicity</strong>: The API is extremely simple: `box.write(key, value)` and `box.read(key)`.</li><li><strong>Performance</strong>: It's significantly faster than other key-value solutions like `shared_preferences`.</li><li><strong>No `async` needed</strong>: After initialization, all read/write operations are synchronous, which simplifies your code.</li></ul></div>
+        <div id="serialization" data-inspector-title="Serialization"><div class="inspector-summary"><p><strong>Serialization</strong> is the process of converting a complex data object (like our `Habit` class instance) into a format that can be easily stored or transmitted, and then reconstructed later. The most common format for this is JSON.</p></div></div>
+        <div id="tojson" data-inspector-title="toJson() method"><div class="inspector-summary"><p>The <strong>toJson()</strong> method is a convention used in Dart for serialization. Its job is to convert an instance of a class into a `Map<String, dynamic>`, which is a structure that can be easily encoded into a JSON string.</p></div></div>
+        <div id="fromjson" data-inspector-title="fromJson() factory"><div class="inspector-summary"><p>A <strong>fromJson()</strong> factory constructor is the reverse of `toJson()`. It takes a `Map<String, dynamic>` (decoded from JSON) and uses it to construct a new instance of the class, populating its properties with the map's values.</p></div></div>
+        <div id="everworker" data-inspector-title="The 'ever' Worker"><div class="inspector-summary"><p>The <strong>ever</strong> worker is a feature of GetX that listens to a reactive variable (an `.obs` variable) and executes a callback function <strong>every time</strong> that variable's value changes.</p></div><h4 class="inspector-section-heading">Why is it useful here?</h4><p class="text-gray-400">By using `ever(habits, ...)`, we create a single, reliable listener that automatically saves our entire list to storage whenever *any* change occurs (adding, removing, or updating a habit). This is much cleaner than adding a `box.write()` call in every single method that modifies the list.</p></div>
         
-        <div id="getstorage" data-inspector-title="GetStorage">
-            <div class="inspector-summary">
-                <p><strong>GetStorage</strong> is a fast, extra-light, and synchronous key-value storage library. It's written entirely in Dart and integrates perfectly with the GetX ecosystem.</p>
-            </div>
-            <h4 class="inspector-section-heading">Why Use GetStorage?</h4>
+        <!-- NEW CONTENT -->
+        <div id="dart-map" data-inspector-title="Dart Map">
+            <div class="inspector-summary"><p>A <strong>Map</strong> is a collection of key-value pairs. Each key in a map must be unique. It's Dart's equivalent of a dictionary or hash table in other languages, and it's the perfect structure for representing JSON data.</p></div>
+            <h4 class="inspector-section-heading">Syntax</h4><ul class="inspector-list"><li><strong>Declaration</strong>: A map is declared using curly braces <code>{}</code>.</li><li><strong>Example</strong>: <code>var myMap = {'name': 'Alice', 'age': 30};</code></li><li><strong>Type Annotation</strong>: We often use <code>Map<String, dynamic></code> for JSON, meaning the keys are always strings, but the values can be of any type (String, int, bool, etc.).</li></ul>
+        </div>
+        <div id="dart-factory" data-inspector-title="Factory Constructor">
+            <div class="inspector-summary"><p>A <strong>factory constructor</strong> is a special type of constructor that gives you more control over the object creation process. Unlike a normal constructor, a factory constructor <strong>does not always create a new instance</strong> of its class.</p></div>
+            <h4 class="inspector-section-heading">Key Use Cases</h4><ul class="inspector-list"><li><strong>Returning a cached instance</strong>: It can return an existing instance from a cache instead of creating a new one.</li><li><strong>Returning a subtype instance</strong>: It can decide to return an instance of a subclass.</li><li><strong>Complex initialization logic</strong>: It's perfect for creating an instance from a different data structure, like a Map. This is why we use it for `fromJson`, as it allows us to parse the map and return a fully-formed `Habit` object.</li></ul>
+        </div>
+        <div id="super-key" data-inspector-title="super.key">
+            <div class="inspector-summary"><p><strong>`super.key`</strong> is a modern Dart feature that forwards a widget's `Key` to its parent class constructor (`super`). A <strong>Key</strong> is an object used by Flutter's engine to identify and differentiate widgets.</p></div>
+            <h4 class="inspector-section-heading">Why are Keys important?</h4><ul class="inspector-list"><li><strong>State Preservation</strong>: When widgets in a list are reordered, deleted, or added, Flutter uses keys to understand which widget is which, ensuring the correct state is preserved.</li><li><strong>Performance</strong>: Using keys helps Flutter's diffing algorithm to be more efficient when updating the UI. While not always necessary for simple static lists, it's a critical best practice, especially for lists that can change.</li></ul>
+        </div>
+        <div id="sizedbox" data-inspector-title="SizedBox Widget">
+            <div class="inspector-summary"><p>A <strong>SizedBox</strong> is a simple but highly efficient widget whose only purpose is to create a box with a specified size. It is most commonly used to create fixed-size gaps or spacing between other widgets.</p></div><h4 class="inspector-section-heading">Why use SizedBox?</h4><ul class="inspector-list"><li><strong>Performance</strong>: It's more performant than using other layout widgets like `Padding` or `Container` just to create space, as it's a very simple `const` widget with no complex painting or layout calculations.</li><li><strong>Clarity</strong>: Using `const SizedBox(height: 16)` is very clear and explicitly communicates the intent of creating vertical space.</li></ul>
+        </div>
+        <div id="async-await" data-inspector-title="async / await">
+            <div class="inspector-summary"><p><strong>`async`</strong> and <strong>`await`</strong> are keywords that provide a declarative way to handle asynchronous operations in Dart. They help you write code that looks synchronous but works asynchronously, avoiding complex callback chains (often called "callback hell").</p></div>
+            <h4 class="inspector-section-heading">How they work</h4>
             <ul class="inspector-list">
-                <li><strong>Simplicity</strong>: The API is extremely simple: `box.write(key, value)` and `box.read(key)`.</li>
-                <li><strong>Performance</strong>: It's significantly faster than other key-value solutions like `shared_preferences`.</li>
-                <li><strong>No `async` needed</strong>: After initialization, all read/write operations are synchronous, which simplifies your code.</li>
+                <li><strong><code>async</code></strong>: You mark a function body with the `async` keyword to indicate that it is asynchronous. This allows you to use `await` inside it.</li>
+                <li><strong><code>Future</code></strong>: Asynchronous functions immediately return a `Future`, which is a promise of a value to be delivered later.</li>
+                <li><strong><code>await</code></strong>: You use `await` in front of a call to an async function. It pauses execution of the current function *until the `Future` completes* and returns its result. In our case, `await GetStorage.init()` pauses the `main` function until the storage is fully initialized before trying to run the app.</li>
             </ul>
         </div>
-        <div id="serialization" data-inspector-title="Serialization">
-            <div class="inspector-summary">
-                <p><strong>Serialization</strong> is the process of converting a complex data object (like our `Habit` class instance) into a format that can be easily stored or transmitted, and then reconstructed later. The most common format for this is JSON.</p>
-            </div>
+        <div id="oninit" data-inspector-title="onInit() Lifecycle Method">
+            <div class="inspector-summary"><p><strong>`onInit()`</strong> is a lifecycle method provided by `GetxController`. It is called automatically by GetX right after the controller is allocated in memory and registered by `Get.put()`.</p></div>
+            <h4 class="inspector-section-heading">When to use it</h4>
+            <ul class="inspector-list">
+                <li><strong>Initialization Tasks</strong>: It's the perfect place to perform setup logic for your controller.</li>
+                <li><strong>Loading Data</strong>: Fetching initial data from a database, local storage (`GetStorage`), or an API.</li>
+                <li><strong>Setting up Listeners</strong>: Initializing workers like `ever()` or other subscriptions that need to exist for the lifetime of the controller.</li>
+            </ul>
         </div>
-        <div id="tojson" data-inspector-title="toJson() method">
-            <div class="inspector-summary">
-                <p>The <strong>toJson()</strong> method is a convention used in Dart for serialization. Its job is to convert an instance of a class into a `Map<String, dynamic>`, which is a structure that can be easily encoded into a JSON string.</p>
-            </div>
-        </div>
-        <div id="fromjson" data-inspector-title="fromJson() factory">
-            <div class="inspector-summary">
-                <p>A <strong>fromJson()</strong> factory constructor is the reverse of `toJson()`. It takes a `Map<String, dynamic>` (decoded from JSON) and uses it to construct a new instance of the class, populating its properties with the map's values.</p>
-            </div>
-        </div>
-        <div id="everworker" data-inspector-title="The 'ever' Worker">
-            <div class="inspector-summary">
-                <p>The <strong>ever</strong> worker is a feature of GetX that listens to a reactive variable (an `.obs` variable) and executes a callback function <strong>every time</strong> that variable's value changes.</p>
-            </div>
-            <h4 class="inspector-section-heading">Why is it useful here?</h4>
-            <p class="text-gray-400">By using `ever(habits, ...)`, we create a single, reliable listener that automatically saves our entire list to storage whenever *any* change occurs (adding, removing, or updating a habit). This is much cleaner than adding a `box.write()` call in every single method that modifies the list.</p>
+        <div id="refresh" data-inspector-title="refresh()">
+            <div class="inspector-summary"><p>The <strong>`refresh()`</strong> method is a way to manually force a reactive variable in GetX to update and notify its listeners (like the `Obx` widget).</p></div>
+            <h4 class="inspector-section-heading">Why is it needed here?</h4>
+            <ul class="inspector-list">
+                <li><strong>Complex Object Changes</strong>: When you have a list of objects (like `var habits = <Habit>[].obs`), GetX's reactive system can detect when you add or remove items from the list (`habits.add(...)`).</li>
+                <li><strong>Internal Property Changes</strong>: However, it cannot automatically detect changes to a property *inside* one of the objects in the list (e.g., `habit.isCompleted = true`). The list itself hasn't changed, only a property of one of its items.</li>
+                <li><strong>Forcing an Update</strong>: Calling `habits.refresh()` tells GetX: "Hey, something deep inside the `habits` list has changed. Please notify all widgets listening to this list so they can rebuild with the new data."</li>
+            </ul>
         </div>
     </div>
 
