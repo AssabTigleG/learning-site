@@ -164,14 +164,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const overallProgressBar = document.getElementById('overall-progress-bar');
         const resetButton = document.getElementById('reset-progress-button');
         
-        // --- Icon Definitions ---
         const statusIcons = {
             completed: `<path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="1.5" stroke="currentColor"/>`,
             active: `<path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="1.5" stroke="currentColor" />`,
             upcoming: `<path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="1.5" stroke="currentColor"/>`
         };
 
-        // --- Local Storage Management ---
         const getCompletedLessons = () => {
             const data = localStorage.getItem(PROJECT_ID);
             return data ? new Set(JSON.parse(data)) : new Set();
@@ -181,7 +179,6 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem(PROJECT_ID, JSON.stringify(Array.from(completedSet)));
         };
 
-        // --- Core UI Update Function ---
         const updateProgress = () => {
             const completedLessons = getCompletedLessons();
             const activeLessonId = window.location.hash.substring(1);
@@ -225,7 +222,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if(overallProgressBar) overallProgressBar.style.width = `${overallPercentage}%`;
         };
         
-        // --- Event Handlers & Observers ---
         const handleLessonClick = (event) => {
             const lessonLink = event.target.closest('a');
             if (!lessonLink) return;
@@ -235,7 +231,6 @@ document.addEventListener('DOMContentLoaded', () => {
             completedLessons.add(lessonId);
             setCompletedLessons(completedLessons);
             
-            // Close mobile nav if it's open
             if (window.closeMobileNavigator) window.closeMobileNavigator();
             
             setTimeout(updateProgress, 50);
@@ -245,9 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const isConfirmed = window.confirm("Are you sure you want to reset all your progress for this project? This cannot be undone.");
             if (isConfirmed) {
                 localStorage.removeItem(PROJECT_ID);
-                window.location.hash = ''; // Go to top of page
-                // We don't need to call updateProgress() here because the hashchange event will fire and call it.
-                // If the hash is already empty, we call it manually.
+                window.location.hash = '';
                 if (window.location.hash === '') {
                     updateProgress();
                 }
@@ -294,7 +287,6 @@ document.addEventListener('DOMContentLoaded', () => {
         
         window.addEventListener('hashchange', updateProgress);
         
-        // Initial load
         updateProgress();
     };
 

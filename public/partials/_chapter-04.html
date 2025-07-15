@@ -119,15 +119,35 @@ class HabitController extends GetxController {
   }
 }</code></pre></div>
             <div class="rationale-box">
-                <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
-                <div>
-                    <p class="title">Why use an `ever` worker?</p>
-                    <p class="text">The <span class="inspector-trigger" data-inspector-topic="everworker">ever</span> worker from GetX is incredibly powerful. It triggers a callback function *every time* the reactive variable (`habits`) changes. By using it, we no longer need to manually call a "save" function inside `addHabit` and `toggleHabit`. The saving happens automatically in one central place, making our code cleaner and less error-prone.</p>
-                </div>
-            </div>
+    
+    <div>
+        <p class="title">Why use an `ever` worker?</p>
+        <p class="text">The <span class="inspector-trigger" data-inspector-topic="everworker">ever</span> worker from GetX is incredibly powerful. It triggers a callback function *every time* the reactive variable (`habits`) changes. By using it, we no longer need to manually call a "save" function inside `addHabit` and `toggleHabit`. The saving happens automatically in one central place, making our code cleaner and less error-prone.</p>
+    </div>
+</div>
              <div class="milestone-box">
                 <p class="font-bold">Persistence Achieved!</p>
                 <p>Run the app. Add a new habit or toggle an existing one. Now, completely close the app from your device's recent apps list and reopen it. Your changes will still be there! Your app now has a memory.</p>
+            </div>
+            <div class="mt-8 flex flex-col md:flex-row items-center gap-6 bg-violet-900/20 border border-violet-700/50 rounded-lg p-6">
+                <div class="flex-shrink-0 text-violet-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                    </svg>
+                </div>
+                <div class="flex-grow text-center md:text-left">
+                    <h4 class="text-lg font-semibold text-white">Download Chapter 4 Files</h4>
+                    <p class="text-sm text-gray-400 mt-1">Get the complete source code for the project up to this point.</p>
+                    <span class="font-code text-xs text-violet-300 bg-violet-900/50 px-2 py-1 rounded-full mt-2 inline-block">habit-tracker-chapter-4.7z</span>
+                </div>
+                <div class="flex-shrink-0 mt-4 md:mt-0">
+                    <a href="assets/downloads/habit-tracker-chapter-4.7z" download="habit-tracker-chapter-4.7z" class="inline-flex items-center gap-2 bg-violet-600 text-white font-semibold py-2 px-5 rounded-lg hover:bg-violet-700 transition-colors transform hover:scale-105">
+                        <span>Download</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                </div>
             </div>
         </div>
      </div>
