@@ -181,6 +181,22 @@
                                 <li class="lesson-item" data-lesson-id="c4_3"><a href="#c4_3"><svg class="lesson-status-icon" fill="none" viewBox="0 0 24 24"></svg><span class="lesson-title">4.3: Update Controller</span></a></li>
                             </ul>
                         </li>
+                        <!-- Chapter 05 -->
+                        <li class="chapter-item" data-chapter-id="5">
+                            <button class="chapter-header">
+                                <div class="chapter-icon-wrapper">
+                                    <svg class="progress-ring" viewBox="0 0 36 36"><circle class="progress-ring-bg" stroke-width="2" fill="none" cx="18" cy="18" r="16"></circle><circle class="progress-ring-fg" stroke-width="2" fill="none" cx="18" cy="18" r="16" stroke-dasharray="100.53" stroke-dashoffset="100.53"></circle></svg>
+                                    <svg class="chapter-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" /></svg>
+                                </div>
+                                <h3 class="chapter-title">05: The Data Refactor</h3>
+                                <svg class="chapter-chevron" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+                            </button>
+                            <ul class="lesson-list">
+                                <li class="lesson-item" data-lesson-id="c5_1"><a href="#c5_1"><svg class="lesson-status-icon" fill="none" viewBox="0 0 24 24"></svg><span class="lesson-title">5.1: The Model Change</span></a></li>
+                                <li class="lesson-item" data-lesson-id="c5_2"><a href="#c5_2"><svg class="lesson-status-icon" fill="none" viewBox="0 0 24 24"></svg><span class="lesson-title">5.2: Updating Serialization</span></a></li>
+                                <li class="lesson-item" data-lesson-id="c5_3"><a href="#c5_3"><svg class="lesson-status-icon" fill="none" viewBox="0 0 24 24"></svg><span class="lesson-title">5.3: Refactoring Core Logic</span></a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </nav>
                 <div class="p-4 mt-auto border-t border-gray-700/60 space-y-2">
@@ -197,7 +213,7 @@
 
             <!-- Center Pane: Instructional Canvas -->
             <main id="main-content" class="flex-1 overflow-y-auto p-8 md:p-12 bg-gray-900 transition-all duration-300">
-                <div class="max-w-4xl mx-auto">
+<div class="max-w-4xl mx-auto">
                     <!-- Dynamic Content placeholder -->
                     <div data-include="partials/_chapter-00.html"></div>
                     <hr class="border-t-4 border-dashed border-gray-800 my-16">
@@ -208,6 +224,8 @@
                     <div data-include="partials/_chapter-03.html"></div>
                     <hr class="border-t-4 border-dashed border-gray-800 my-16">
                     <div data-include="partials/_chapter-04.html"></div>
+                    <hr class="border-t-4 border-dashed border-gray-800 my-16">
+                    <div data-include="partials/_chapter-05.html"></div>
                 </div>
             </main>
 
@@ -337,7 +355,13 @@ reactiveCount++;</code></pre></div></div>
         <div id="fromjson" data-inspector-title="fromJson() factory"><div class="inspector-summary"><p>A <strong>fromJson()</strong> factory constructor is the reverse of `toJson()`. It takes a `Map<String, dynamic>` (decoded from JSON) and uses it to construct a new instance of the class, populating its properties with the map's values.</p></div></div>
         <div id="everworker" data-inspector-title="The 'ever' Worker"><div class="inspector-summary"><p>The <strong>ever</strong> worker is a feature of GetX that listens to a reactive variable (an `.obs` variable) and executes a callback function <strong>every time</strong> that variable's value changes.</p></div><h4 class="inspector-section-heading">Why is it useful here?</h4><p class="text-gray-400">By using `ever(habits, ...)`, we create a single, reliable listener that automatically saves our entire list to storage whenever *any* change occurs (adding, removing, or updating a habit). This is much cleaner than adding a `box.write()` call in every single method that modifies the list.</p></div>
         
-        <!-- NEW CONTENT -->
+        <!-- NEW CONTENT for Chapter 5 -->
+        <div id="iso8601" data-inspector-title="ISO 8601 Strings"><div class="inspector-summary"><p><strong>ISO 8601</strong> is an international standard for representing dates and times as strings. Using a standard format like this ensures that dates can be reliably saved and loaded across different systems without ambiguity.</p></div><h4 class="inspector-section-heading">Example</h4><p class="text-gray-400">A Dart `DateTime` object might be converted to an ISO 8601 string like: <code>"2025-07-15T10:30:00.000"</code>. Dart's built-in `toIso8601String()` and `DateTime.parse()` methods make this conversion process simple.</p></div>
+        <div id="datetime-parse" data-inspector-title="DateTime.parse()"><div class="inspector-summary"><p>The <strong>`DateTime.parse()`</strong> method is a constructor that creates a `DateTime` object by parsing a string that is formatted according to the ISO 8601 standard. It's the essential counterpart to `toIso8601String()` when you need to deserialize saved date data.</p></div></div>
+        <div id="list-any" data-inspector-title="The .any() method"><div class="inspector-summary"><p>The <strong>`any()`</strong> method is a powerful function available on all Lists (and other Iterables) in Dart. It checks if at least one element in the collection satisfies a given condition.</p></div><h4 class="inspector-section-heading">How it works</h4><p class="text-gray-400">It loops through the list and returns `true` as soon as it finds an element for which your test function returns `true`. If it gets to the end of the list without finding such an element, it returns `false`. It's highly efficient for checking for existence.</p></div>
+        <div id="date-comparison" data-inspector-title="Comparing Dates in Dart"><div class="inspector-summary"><p>A `DateTime` object contains information down to the microsecond. Directly comparing two `DateTime` objects with `==` (e.g., `date1 == date2`) will only be `true` if they are the exact same instance or have the exact same time down to the microsecond. To check if two `DateTime` objects fall on the same calendar day, you must compare their <strong><code>year</code></strong>, <strong><code>month</code></strong>, and <strong><code>day</code></strong> properties individually.</p></div></div>
+
+        <!-- OLD CONTENT (KEEPING FOR REFERENCE, NOT IN FINAL OUTPUT) -->
         <div id="dart-map" data-inspector-title="Dart Map">
             <div class="inspector-summary"><p>A <strong>Map</strong> is a collection of key-value pairs. Each key in a map must be unique. It's Dart's equivalent of a dictionary or hash table in other languages, and it's the perfect structure for representing JSON data.</p></div>
             <h4 class="inspector-section-heading">Syntax</h4><ul class="inspector-list"><li><strong>Declaration</strong>: A map is declared using curly braces <code>{}</code>.</li><li><strong>Example</strong>: <code>var myMap = {'name': 'Alice', 'age': 30};</code></li><li><strong>Type Annotation</strong>: We often use <code>Map<String, dynamic></code> for JSON, meaning the keys are always strings, but the values can be of any type (String, int, bool, etc.).</li></ul>
