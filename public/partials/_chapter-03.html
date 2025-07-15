@@ -21,11 +21,11 @@ class AddEditHabitScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            TextField(
+            <span class="inspector-trigger" data-inspector-topic="textfield">TextField</span>(
               decoration: const InputDecoration(labelText: 'Habit Name'),
             ),
             const <span class="inspector-trigger" data-inspector-topic="sizedbox">SizedBox</span>(height: 16),
-            TextField(
+            <span class="inspector-trigger" data-inspector-topic="textfield">TextField</span>(
               decoration: const InputDecoration(labelText: 'Description'),
             ),
             const SizedBox(height: 32),
@@ -51,8 +51,8 @@ import 'add_edit_habit_screen.dart';
 // ... other imports
 
 // In main_screen.dart, inside the Scaffold...
-floatingActionButton: FloatingActionButton(
-  onPressed: () {
+floatingActionButton: <span class="inspector-trigger" data-inspector-topic="fab">FloatingActionButton</span>(
+  <span class="inspector-trigger" data-inspector-topic="onpressed">onPressed</span>: () {
     // Navigate to the new screen
     Get.to(() => const AddEditHabitScreen());
   },
@@ -159,9 +159,9 @@ class AddEditHabitScreen extends StatelessWidget {
     final nameController = TextEditingController();
     final descriptionController = TextEditingController();
     // Find the existing controller instance created on the MainScreen
-    final HabitController controller = Get.find();
+    final HabitController controller = <span class="inspector-trigger" data-inspector-topic="getfind">Get.find</span>();
 
-    return Scaffold(
+    return <span class="inspector-trigger" data-inspector-topic="scaffold">Scaffold</span>(
       appBar: AppBar(title: const Text('Add New Habit')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -177,7 +177,7 @@ class AddEditHabitScreen extends StatelessWidget {
               decoration: const InputDecoration(labelText: 'Description'),
             ),
             const SizedBox(height: 32),
-            ElevatedButton(
+            <span class="inspector-trigger" data-inspector-topic="elevatedbutton">ElevatedButton</span>(
               onPressed: () {
                 // Call the controller method
                 controller.addHabit(
@@ -185,7 +185,7 @@ class AddEditHabitScreen extends StatelessWidget {
                   descriptionController.text,
                 );
                 // Go back to the previous screen
-                Get.back();
+                <span class="inspector-trigger" data-inspector-topic="getback">Get.back</span>();
               },
               child: const Text('Save Habit'),
             ),

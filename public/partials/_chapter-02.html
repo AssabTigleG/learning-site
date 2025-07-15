@@ -46,7 +46,7 @@ class MainScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text('My Habits (GetX)')),
-      body: Obx(() => ListView.builder(
+      body: Obx(() => <span class="inspector-trigger" data-inspector-topic="listview">ListView.builder</span>(
         itemCount: controller.habits.length,
         itemBuilder: (context, index) {
           final habit = controller.habits[index];

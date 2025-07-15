@@ -1,0 +1,183 @@
+<section>
+    <h2 class="chapter-heading">Chapter 05: The Critical Data Refactor</h2>
+    <div class="space-y-8">
+        <div class="explanation-box">
+            <p>Welcome to a pivotal chapter! To track streaks and view a history calendar, a simple `true`/`false` status isn't enough. We need to know exactly *which days* a habit was completed. This requires a fundamental change to our `Habit` model. We will replace the `bool isCompleted` with a `List<DateTime>` to store a history of completions. This is a crucial lesson in how software evolves as new features are required.</p>
+        </div>
+        <div>
+            <h3 id="c5_1" class="lesson-heading">5.1: The Model Change</h3>
+            <p>Let's start by editing our data blueprint. We will remove the `isCompleted` property and add `completedDates`. We'll also update the constructor to handle this new list, making sure it defaults to an empty list if none is provided.</p>
+            <div class="file-path">lib/models/habit.dart</div>
+            <div class="code-block"><pre><code class="language-dart">class <span class="inspector-trigger" data-inspector-topic="dart-class">Habit</span> {
+  <span class="inspector-trigger" data-inspector-topic="final">final</span> String name;
+  <span class="inspector-trigger" data-inspector-topic="final">final</span> String description;
+  // bool isCompleted; // This is being removed
+  List<DateTime> completedDates; // This is the new property
+
+  <span class="inspector-trigger" data-inspector-topic="dart-class">Habit</span>({
+    required this.name,
+    required this.description,
+    // this.isCompleted = false, // This is being removed
+    List<DateTime>? completedDates, // The constructor now accepts a list of dates
+  }) : this.completedDates = completedDates ?? []; // Initialize to empty list if null
+
+  // toJson and fromJson methods will be updated next...
+  <span class="inspector-trigger" data-inspector-topic="dart-map">Map</span><String, dynamic> <span class="inspector-trigger" data-inspector-topic="tojson">toJson</span>() => {
+    'name': name,
+    'description': description,
+    'isCompleted': isCompleted, // This will cause an error for now!
+  };
+
+  <span class="inspector-trigger" data-inspector-topic="dart-factory">factory</span> <span class="inspector-trigger" data-inspector-topic="dart-class">Habit</span>.<span class="inspector-trigger" data-inspector-topic="fromjson">fromJson</span>(<span class="inspector-trigger" data-inspector-topic="dart-map">Map</span><String, dynamic> json) => <span class="inspector-trigger" data-inspector-topic="dart-class">Habit</span>(
+    name: json['name'],
+    description: json['description'],
+    isCompleted: json['isCompleted'], // This will also cause an error!
+  );
+}</code></pre></div>
+            <div class="rationale-box">
+                <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                <div>
+                    <p class="title">Why ": this.completedDates = completedDates ?? []"?</p>
+                    <p class="text">This is an initializer list. It runs before the constructor's body. The `??` is the "null-aware" operator. It means: "if the `completedDates` variable passed to the constructor is `null`, then use an empty list (`[]`) instead." This prevents errors from trying to use a list that doesn't exist.</p>
+                </div>
+            </div>
+        </div>
+        <hr class="lesson-divider">
+        <div>
+            <h3 id="c5_2" class="lesson-heading">5.2: Updating Serialization</h3>
+            <p>Our app will break if we run it now, because `GetStorage` doesn't know how to save a `List<DateTime>`. We need to teach our `toJson` and `fromJson` methods how to handle this. We'll convert each `DateTime` to a standard string format (<span class="inspector-trigger" data-inspector-topic="iso8601">ISO 8601</span>) when saving, and parse that string back into a `DateTime` object when loading.</p>
+            <div class="file-path">lib/models/habit.dart (fully updated)</div>
+            <div class="code-block"><pre><code class="language-dart">class <span class="inspector-trigger" data-inspector-topic="dart-class">Habit</span> {
+  <span class="inspector-trigger" data-inspector-topic="final">final</span> String name;
+  <span class="inspector-trigger" data-inspector-topic="final">final</span> String description;
+  List<DateTime> completedDates;
+
+  <span class="inspector-trigger" data-inspector-topic="dart-class">Habit</span>({
+    required this.name,
+    required this.description,
+    List<DateTime>? completedDates,
+  }) : this.completedDates = completedDates ?? [];
+
+  // Method to convert a Habit instance to a Map
+  <span class="inspector-trigger" data-inspector-topic="dart-map">Map</span><String, dynamic> <span class="inspector-trigger" data-inspector-topic="tojson">toJson</span>() => {
+    'name': name,
+    'description': description,
+    // Convert DateTime objects to ISO 8601 strings before saving
+    'completedDates': completedDates.map((date) => date.toIso8601String()).toList(),
+  };
+
+  // Factory constructor to create a Habit instance from a Map
+  <span class="inspector-trigger" data-inspector-topic="dart-factory">factory</span> <span class="inspector-trigger" data-inspector-topic="dart-class">Habit</span>.<span class="inspector-trigger" data-inspector-topic="fromjson">fromJson</span>(<span class="inspector-trigger" data-inspector-topic="dart-map">Map</span><String, dynamic> json) => <span class="inspector-trigger" data-inspector-topic="dart-class">Habit</span>(
+    name: json['name'],
+    description: json['description'],
+    // Parse the saved strings back into DateTime objects
+    completedDates: (json['completedDates'] as List)
+      .map((dateString) => <span class="inspector-trigger" data-inspector-topic="datetime-parse">DateTime.parse</span>(dateString))
+      .toList(),
+  );
+}</code></pre></div>
+        </div>
+        <hr class="lesson-divider">
+        <div>
+            <h3 id="c5_3" class="lesson-heading">5.3: Refactoring Core Logic</h3>
+            <p>With our model updated, we must now update the code that uses it. This involves three key changes:</p>
+            <p>1. A new helper method in our `Habit` model to easily check if a habit is completed *today*.</p>
+            <p>2. Updating the `toggleHabit` method in our controller to add/remove dates instead of flipping a boolean.</p>
+            <p>3. Updating the `MainScreen` to use our new helper method to determine if the checkbox should be ticked.</p>
+            
+            <p class="mt-4">First, add this helper method inside the `Habit` class in <strong>lib/models/habit.dart</strong>:</p>
+            <div class="code-block"><pre><code class="language-dart">// Add this inside the Habit class
+bool isCompletedToday() {
+  final today = DateTime.now();
+  return completedDates.<span class="inspector-trigger" data-inspector-topic="list-any">any</span>((date) =>
+    <span class="inspector-trigger" data-inspector-topic="date-comparison">date.year == today.year &&
+    date.month == today.month &&
+    date.day == today.day</span>
+  );
+}</code></pre></div>
+            
+            <p class="mt-4">Next, update the `toggleHabit` method in <strong>lib/controllers/habit_controller.dart</strong>:</p>
+            <div class="code-block"><pre><code class="language-dart">// In HabitController
+void toggleHabit(<span class="inspector-trigger" data-inspector-topic="dart-class">Habit</span> habit) {
+  final today = DateTime.now();
+  // We use a "clean" date with time removed to prevent timezone issues
+  final todayDate = DateTime(today.year, today.month, today.day);
+
+  if (habit.isCompletedToday()) {
+    // If it is completed, remove all entries for today
+    habit.completedDates.removeWhere((date) =>
+      date.year == todayDate.year &&
+      date.month == todayDate.month &&
+      date.day == todayDate.day);
+  } else {
+    // If not completed, add an entry for today
+    habit.completedDates.add(todayDate);
+  }
+  // Refresh the UI
+  habits.<span class="inspector-trigger" data-inspector-topic="refresh">refresh</span>();
+}</code></pre></div>
+
+            <p class="mt-4">Finally, update the `ListView.builder` in <strong>lib/screens/main_screen.dart</strong> to use the new method:</p>
+            <div class="code-block"><pre><code class="language-dart">// In MainScreen's build method
+// ...
+body: <span class="inspector-trigger" data-inspector-topic="obx">Obx</span>(() => <span class="inspector-trigger" data-inspector-topic="listview">ListView.builder</span>(
+  itemCount: controller.habits.length,
+  itemBuilder: (context, index) {
+    final <span class="inspector-trigger" data-inspector-topic="dart-class">Habit</span> habit = controller.habits[index];
+    return HabitListItem(
+      habitName: habit.name,
+      // Use our new helper method here!
+      isCompleted: habit.isCompletedToday(),
+      onToggle: (value) => controller.toggleHabit(habit),
+    );
+  },
+)),
+//...</code></pre></div>
+
+            <div class="milestone-box">
+                <p class="font-bold">Architectural Milestone Complete!</p>
+                <p>Run the app now. It should look and behave almost exactly as before, but underneath you've performed a major upgrade! The app now tracks a full history of completions, which is the foundation for all the exciting features we'll build next. This kind of refactoring is a critical skill for any developer.</p>
+            </div>
+            
+            <div class="mt-8 bg-gray-800/40 rounded-xl p-6 border border-gray-700">
+                <h4 class="text-lg font-bold text-sky-400 text-center mb-4">Under the Hood: How Your Data is Stored</h4>
+                <p class="text-center text-gray-400 mb-6 max-w-2xl mx-auto">
+                    Although the app's UI looks the same, the data saved to the device's storage has fundamentally changed. This is what `GetStorage` sees now:
+                </p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Before Column -->
+                    <div>
+                        <h5 class="font-semibold text-white text-center mb-2">Before (Chapter 4)</h5>
+                        <div class="code-block text-xs">
+<pre><code>[
+  {
+    "name": "Go for a walk",
+    "description": "Good for the body",
+    "isCompleted": true
+  }
+]</code></pre>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2 text-center">Only stores if the habit was completed, not *when*.</p>
+                    </div>
+                    <!-- After Column -->
+                    <div>
+                        <h5 class="font-semibold text-white text-center mb-2">After (Chapter 5)</h5>
+                        <div class="code-block text-xs">
+<pre><code>[
+  {
+    "name": "Go for a walk",
+    "description": "Good for the body",
+    "completedDates": [
+      "2025-07-15T12:00:00.000",
+      "2025-07-16T12:00:00.000"
+    ]
+  }
+]</code></pre>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2 text-center">Stores a complete history of every completion day.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
