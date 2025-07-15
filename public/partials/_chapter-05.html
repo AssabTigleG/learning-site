@@ -8,13 +8,13 @@
             <h3 id="c5_1" class="lesson-heading">5.1: The Model Change</h3>
             <p>Let's start by editing our data blueprint. We will remove the `isCompleted` property and add `completedDates`. We'll also update the constructor to handle this new list, making sure it defaults to an empty list if none is provided.</p>
             <div class="file-path">lib/models/habit.dart</div>
-            <div class="code-block"><pre><code class="language-dart">class Habit {
-  final String name;
-  final String description;
+            <div class="code-block"><pre><code class="language-dart">class <span class="inspector-trigger" data-inspector-topic="dart-class">Habit</span> {
+  <span class="inspector-trigger" data-inspector-topic="final">final</span> String name;
+  <span class="inspector-trigger" data-inspector-topic="final">final</span> String description;
   // bool isCompleted; // This is being removed
   List<DateTime> completedDates; // This is the new property
 
-  Habit({
+  <span class="inspector-trigger" data-inspector-topic="dart-class">Habit</span>({
     required this.name,
     required this.description,
     // this.isCompleted = false, // This is being removed
@@ -22,13 +22,13 @@
   }) : this.completedDates = completedDates ?? []; // Initialize to empty list if null
 
   // toJson and fromJson methods will be updated next...
-  Map<String, dynamic> toJson() => {
+  <span class="inspector-trigger" data-inspector-topic="dart-map">Map</span><String, dynamic> <span class="inspector-trigger" data-inspector-topic="tojson">toJson</span>() => {
     'name': name,
     'description': description,
     'isCompleted': isCompleted, // This will cause an error for now!
   };
 
-  factory Habit.fromJson(Map<String, dynamic> json) => Habit(
+  <span class="inspector-trigger" data-inspector-topic="dart-factory">factory</span> <span class="inspector-trigger" data-inspector-topic="dart-class">Habit</span>.<span class="inspector-trigger" data-inspector-topic="fromjson">fromJson</span>(<span class="inspector-trigger" data-inspector-topic="dart-map">Map</span><String, dynamic> json) => <span class="inspector-trigger" data-inspector-topic="dart-class">Habit</span>(
     name: json['name'],
     description: json['description'],
     isCompleted: json['isCompleted'], // This will also cause an error!
@@ -47,19 +47,19 @@
             <h3 id="c5_2" class="lesson-heading">5.2: Updating Serialization</h3>
             <p>Our app will break if we run it now, because `GetStorage` doesn't know how to save a `List<DateTime>`. We need to teach our `toJson` and `fromJson` methods how to handle this. We'll convert each `DateTime` to a standard string format (<span class="inspector-trigger" data-inspector-topic="iso8601">ISO 8601</span>) when saving, and parse that string back into a `DateTime` object when loading.</p>
             <div class="file-path">lib/models/habit.dart (fully updated)</div>
-            <div class="code-block"><pre><code class="language-dart">class Habit {
-  final String name;
-  final String description;
+            <div class="code-block"><pre><code class="language-dart">class <span class="inspector-trigger" data-inspector-topic="dart-class">Habit</span> {
+  <span class="inspector-trigger" data-inspector-topic="final">final</span> String name;
+  <span class="inspector-trigger" data-inspector-topic="final">final</span> String description;
   List<DateTime> completedDates;
 
-  Habit({
+  <span class="inspector-trigger" data-inspector-topic="dart-class">Habit</span>({
     required this.name,
     required this.description,
     List<DateTime>? completedDates,
   }) : this.completedDates = completedDates ?? [];
 
   // Method to convert a Habit instance to a Map
-  Map<String, dynamic> toJson() => {
+  <span class="inspector-trigger" data-inspector-topic="dart-map">Map</span><String, dynamic> <span class="inspector-trigger" data-inspector-topic="tojson">toJson</span>() => {
     'name': name,
     'description': description,
     // Convert DateTime objects to ISO 8601 strings before saving
@@ -67,7 +67,7 @@
   };
 
   // Factory constructor to create a Habit instance from a Map
-  factory Habit.fromJson(Map<String, dynamic> json) => Habit(
+  <span class="inspector-trigger" data-inspector-topic="dart-factory">factory</span> <span class="inspector-trigger" data-inspector-topic="dart-class">Habit</span>.<span class="inspector-trigger" data-inspector-topic="fromjson">fromJson</span>(<span class="inspector-trigger" data-inspector-topic="dart-map">Map</span><String, dynamic> json) => <span class="inspector-trigger" data-inspector-topic="dart-class">Habit</span>(
     name: json['name'],
     description: json['description'],
     // Parse the saved strings back into DateTime objects
@@ -98,7 +98,7 @@ bool isCompletedToday() {
             
             <p class="mt-4">Next, update the `toggleHabit` method in <strong>lib/controllers/habit_controller.dart</strong>:</p>
             <div class="code-block"><pre><code class="language-dart">// In HabitController
-void toggleHabit(Habit habit) {
+void toggleHabit(<span class="inspector-trigger" data-inspector-topic="dart-class">Habit</span> habit) {
   final today = DateTime.now();
   // We use a "clean" date with time removed to prevent timezone issues
   final todayDate = DateTime(today.year, today.month, today.day);
@@ -114,16 +114,16 @@ void toggleHabit(Habit habit) {
     habit.completedDates.add(todayDate);
   }
   // Refresh the UI
-  habits.refresh();
+  habits.<span class="inspector-trigger" data-inspector-topic="refresh">refresh</span>();
 }</code></pre></div>
 
             <p class="mt-4">Finally, update the `ListView.builder` in <strong>lib/screens/main_screen.dart</strong> to use the new method:</p>
             <div class="code-block"><pre><code class="language-dart">// In MainScreen's build method
 // ...
-body: Obx(() => ListView.builder(
+body: <span class="inspector-trigger" data-inspector-topic="obx">Obx</span>(() => <span class="inspector-trigger" data-inspector-topic="listview">ListView.builder</span>(
   itemCount: controller.habits.length,
   itemBuilder: (context, index) {
-    final habit = controller.habits[index];
+    final <span class="inspector-trigger" data-inspector-topic="dart-class">Habit</span> habit = controller.habits[index];
     return HabitListItem(
       habitName: habit.name,
       // Use our new helper method here!
