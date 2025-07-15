@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return <span class="inspector-trigger" data-inspector-topic="getmaterialapp">GetMaterialApp</span>(
       title: 'Habit Tracker',
       theme: ThemeData.dark(),
       home: const MainScreen(),
@@ -83,7 +83,7 @@ class HabitController extends GetxController {
   final box = GetStorage();
 
   @override
-  void onInit() {
+  void <span class="inspector-trigger" data-inspector-topic="oninit">onInit</span>() {
     super.onInit();
     
     // Read the stored habits from the 'habits' key.
@@ -115,7 +115,7 @@ class HabitController extends GetxController {
   void toggleHabit(Habit habit) {
     habit.isCompleted = !habit.isCompleted;
     // When we toggle here, the 'ever' worker will also save the change.
-    habits.refresh();
+    habits.<span class="inspector-trigger" data-inspector-topic="refresh">refresh</span>();
   }
 }</code></pre></div>
             <div class="rationale-box">
